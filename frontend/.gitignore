@@ -1,0 +1,93 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.cname
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+/src/environments/environment.ts
+/src/environments/environment.prod.ts
+!src/environments/environment.example.ts
+
+# Logs
+*.log
+logs/
+
+# Compiled JavaScript
+*.js.map
+*.js
+!src/**/*.js
+!e2e/**/*.js
+!karma.conf.js
+!protractor.conf.js
+
+# Compiled TypeScript
+*.d.ts
+!src/**/*.d.ts
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# Cache
+.angular/
+.cache/
+.parcel-cache/
+
+# Local env files
+.env
+.env.local
+.env.*.local
+
+# Testing
+/coverage
+.nyc_output/
+
+# Build
+build/
+dist/
+out/
