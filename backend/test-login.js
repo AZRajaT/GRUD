@@ -10,8 +10,8 @@ const testLogin = async () => {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/freshcart');
     console.log('Connected to MongoDB\n');
 
-    const username = 'admin';
-    const password = 'admin123';
+    const username = 'azhagu';
+    const password = 'azhagu123';
 
     console.log('=== TESTING LOGIN ===');
     console.log('Username:', username);
