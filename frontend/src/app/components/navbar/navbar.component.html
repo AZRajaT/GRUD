@@ -1,0 +1,241 @@
+<!-- Clean Minimal Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top" style="background: white; border-bottom: 1px solid #E5E7EB; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+  <div class="container">
+    <!-- Logo -->
+    <app-logo size="medium"></app-logo>
+
+    <!-- Search Bar (Hidden on mobile, shown on md+) -->
+    <div class="d-none d-md-flex flex-grow-1 mx-4" style="max-width: 500px;">
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0" style="border-color: #E5E7EB;">
+          <i class="bi bi-search text-secondary"></i>
+        </span>
+        <input 
+          type="text" 
+          class="form-control border-start-0" 
+          placeholder="Search groceries..."
+          style="border-color: #E5E7EB;"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()">
+      </div>
+    </div>
+
+    <!-- Right Side Actions -->
+    <div class="d-flex align-items-center gap-3">
+      <!-- Admin Login Button -->
+      <a 
+        routerLink="/admin/login" 
+        class="btn d-flex align-items-center gap-2 d-none d-sm-flex"
+        style="background: #02579b; color: white; border-radius: 8px; font-weight: 500; font-size: 14px; padding: 8px 16px; text-decoration: none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        Admin Login
+      </a>
+
+      <!-- Search Toggle (Mobile only) -->
+      <button 
+        class="btn btn-link text-dark d-md-none p-1" 
+        (click)="toggleMobileSearch()"
+        style="text-decoration: none;">
+        <i class="bi bi-search fs-5"></i>
+      </button>
+
+      <!-- Cart -->
+      <a 
+        routerLink="/cart" 
+        class="btn btn-link text-dark position-relative p-1"
+        style="text-decoration: none;">
+        <i class="bi bi-cart3 fs-5"></i>
+        @if (cartCount() > 0) {
+          <span 
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: #FF8A3D; font-size: 0.65rem; min-width: 18px; height: 18px;">
+            {{ cartCount() }}
+          </span>
+        }
+      </a>
+
+      <!-- Mobile Menu Toggle -->
+      <button
+        class="btn btn-link text-dark d-lg-none p-1"
+        (click)="toggleMobileMenu()"
+        style="text-decoration: none;">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+    </div>
+
+    <!-- Desktop Navigation Links -->
+    <div class="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center gap-3">
+        <li class="nav-item">
+          <a
+            class="nav-link fw-medium"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}"
+            style="color: #374151;">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link fw-medium"
+            routerLink="/products"
+            routerLinkActive="active"
+            style="color: #374151;">
+            Products
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link fw-medium"
+            routerLink="/contact"
+            routerLinkActive="active"
+            style="color: #374151;">
+            Contact
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="https://wa.me/918870378977"
+            target="_blank"
+            class="btn btn-sm"
+            style="background: #FF8A3D; color: white; border-radius: 0.5rem; font-weight: 500;">
+            <i class="bi bi-whatsapp me-1"></i>Order
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Mobile Search (Expandable) -->
+  @if (isMobileSearchOpen) {
+    <div class="d-md-none border-top p-3" style="background: #F9FAFB;">
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0" style="border-color: #E5E7EB;">
+          <i class="bi bi-search text-secondary"></i>
+        </span>
+        <input 
+          type="text" 
+          class="form-control border-start-0" 
+          placeholder="Search groceries..."
+          style="border-color: #E5E7EB;"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          #mobileSearchInput>
+        <button class="btn" style="background: #FF8A3D; color: white;" (click)="onSearch()">Search</button>
+      </div>
+    </div>
+  }
+
+  <!-- Mobile Menu (Expandable) -->
+  @if (isMobileMenuOpen) {
+    <div class="d-lg-none border-top" style="background: white;">
+      <div class="p-3">
+        <ul class="navbar-nav gap-2">
+          <li class="nav-item">
+            <a
+              class="nav-link py-2"
+              routerLink="/"
+              (click)="closeMobileMenu()"
+              style="color: #374151;">
+              <i class="bi bi-house-door me-2"></i>Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link py-2"
+              routerLink="/products"
+              (click)="closeMobileMenu()"
+              style="color: #374151;">
+              <i class="bi bi-shop me-2"></i>Products
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link py-2"
+              routerLink="/contact"
+              (click)="closeMobileMenu()"
+              style="color: #374151;">
+              <i class="bi bi-telephone me-2"></i>Contact
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link py-2"
+              routerLink="/cart"
+              (click)="closeMobileMenu()"
+              style="color: #374151;">
+              <i class="bi bi-cart3 me-2"></i>Cart
+              @if (cartCount() > 0) {
+                <span class="badge ms-2" style="background: #FF8A3D;">{{ cartCount() }}</span>
+              }
+            </a>
+          </li>
+          <li class="nav-item pt-2 border-top">
+            <a
+              routerLink="/admin/login"
+              class="nav-link py-2"
+              style="color: #02579b; font-weight: 600;"
+              (click)="closeMobileMenu()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              Admin Login
+            </a>
+          </li>
+          <li class="nav-item pt-2">
+            <a
+              href="https://wa.me/918870378977"
+              target="_blank"
+              class="btn w-100"
+              style="background: #FF8A3D; color: white; font-weight: 500;"
+              (click)="closeMobileMenu()">
+              <i class="bi bi-whatsapp me-2"></i>Order on WhatsApp
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  }
+</nav>
+
+<!-- Category Navigation Bar -->
+<div class="d-none d-md-block border-bottom" style="background: white;">
+  <div class="container">
+    <div class="d-flex align-items-center gap-4 py-2 overflow-auto" style="white-space: nowrap;">
+      <a routerLink="/products" [queryParams]="{category: 'all'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem; font-weight: 500;">
+        All Products
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'rice'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
+        Rice
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'dal'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
+        Dal
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'oil'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
+        Oil & Ghee
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'masala'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
+        Masalas
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'kits'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
+        Grocery Kits
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .nav-link.active {
+    color: #FF8A3D !important;
+    font-weight: 600;
+  }
+  
+  .nav-link:hover {
+    color: #FF8A3D !important;
+  }
+</style>

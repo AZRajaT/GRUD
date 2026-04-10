@@ -1,0 +1,127 @@
+<!-- Clean Minimal Cart Page -->
+<section class="py-4" style="background: #F9FAFB; min-height: 100vh;">
+  <div class="container" style="max-width: 1000px;">
+    <!-- Header -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+      <div>
+        <h1 class="fw-bold mb-1" style="font-size: 1.75rem; color: #111827;">Shopping Cart</h1>
+        <p class="mb-0" style="color: #6B7280;">{{ cartCount() }} item(s)</p>
+      </div>
+      @if (cartItems().length > 0) {
+        <button (click)="clearCart()" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-trash me-1"></i>Clear Cart
+        </button>
+      }
+    </div>
+
+    @if (cartItems().length > 0) {
+      <div class="row g-4">
+        <!-- Cart Items -->
+        <div class="col-lg-8">
+          <div class="bg-white rounded-4 p-4" style="border: 1px solid #E5E7EB;">
+            <h6 class="fw-semibold mb-4 pb-3 border-bottom" style="color: #374151;">
+              Cart Items ({{ cartCount() }})
+            </h6>
+            
+            @for (item of cartItems(); track item.product._id) {
+              <div class="d-flex gap-3 py-3 border-bottom" style="border-color: #E5E7EB !important;">
+                <!-- Product Image -->
+                <div class="flex-shrink-0 d-flex align-items-center justify-content-center rounded-3" style="width: 80px; height: 80px; background: #F9FAFB;">
+                  @if (item.product.imageUrl && item.product._id && !imageErrors[item.product._id]) {
+                    <img [src]="item.product.imageUrl" [alt]="item.product.name" style="max-width: 100%; max-height: 100%; object-fit: contain;" (error)="onImageError(item.product._id)" />
+                  } @else {
+                    <div class="d-flex align-items-center justify-content-center" style="color: #9CA3AF;">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                    </div>
+                  }
+                </div>
+
+                <!-- Product Info -->
+                <div class="flex-grow-1 min-w-0">
+                  <h6 class="fw-semibold text-truncate mb-1" style="color: #374151;">{{ item.product.name }}</h6>
+                  <p class="small mb-1" style="color: #6B7280;">{{ item.product.unit || '1 unit' }}</p>
+                  <p class="fw-bold mb-2" style="color: #FF8A3D;">₹{{ item.product.price }}</p>
+                  
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center border rounded-3" style="background: #F9FAFB; border-color: #E5E7EB !important;">
+                      <button (click)="updateQuantity(item.product._id, -1)" class="btn btn-sm p-1 px-2" style="background: transparent; border: none; border-right: 1px solid #E5E7EB; color: #374151;">
+                        <i class="bi bi-dash"></i>
+                      </button>
+                      <span class="px-3 small fw-semibold" style="min-width: 3rem; text-align: center; color: #374151;">{{ item.quantity }}</span>
+                      <button (click)="updateQuantity(item.product._id, 1)" class="btn btn-sm p-1 px-2" style="background: transparent; border: none; border-left: 1px solid #E5E7EB; color: #374151;">
+                        <i class="bi bi-plus"></i>
+                      </button>
+                    </div>
+                    <button (click)="removeItem(item.product._id)" class="btn btn-link small p-0 text-decoration-none" style="color: #9CA3AF;">Delete</button>
+                  </div>
+                </div>
+
+                <div class="text-end flex-shrink-0">
+                  <p class="fw-bold mb-0" style="color: #FF8A3D;">₹{{ item.product.price * item.quantity }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+          <div class="sticky-top" style="top: 90px;">
+            <div class="bg-white rounded-4 p-4 mb-3" style="border: 1px solid #E5E7EB;">
+              <h5 class="fw-bold mb-3" style="color: #374151;">Order Summary</h5>
+              <div class="mb-3">
+                <div class="d-flex justify-content-between mb-2" style="color: #6B7280;">
+                  <span>Items ({{ cartCount() }})</span>
+                  <span>₹{{ cartTotal() }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2" style="color: #6B7280;">
+                  <span>Delivery</span>
+                  <span style="color: #10B981;">FREE</span>
+                </div>
+              </div>
+              <div class="border-top pt-3 mb-3" style="border-color: #E5E7EB !important;">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="fw-semibold">Total</span>
+                  <span class="fw-bold" style="color: #FF8A3D; font-size: 1.25rem;">₹{{ cartTotal() }}</span>
+                </div>
+              </div>
+              <a routerLink="/checkout" class="btn w-100 mb-2" style="background: #FF8A3D; color: white; border-radius: 0.5rem; font-weight: 500; padding: 0.75rem;">Proceed to Checkout</a>
+              <a href="https://wa.me/918870378977?text={{ getWhatsAppMessage() }}" target="_blank" class="btn btn-outline-secondary w-100" style="border-radius: 0.5rem; font-weight: 500; padding: 0.75rem;">
+                <i class="bi bi-whatsapp me-2"></i>Order via WhatsApp
+              </a>
+            </div>
+            <div class="bg-white rounded-4 p-3 text-center" style="border: 1px solid #E5E7EB;">
+              <div class="row g-2">
+                <div class="col-4">
+                  <i class="bi bi-shield-check fs-4" style="color: #10B981;"></i>
+                  <p class="small mb-0 mt-1" style="color: #6B7280; font-size: 0.7rem;">Secure</p>
+                </div>
+                <div class="col-4">
+                  <i class="bi bi-truck fs-4" style="color: #3B82F6;"></i>
+                  <p class="small mb-0 mt-1" style="color: #6B7280; font-size: 0.7rem;">Free Delivery</p>
+                </div>
+                <div class="col-4">
+                  <i class="bi bi-arrow-counterclockwise fs-4" style="color: #6B7280;"></i>
+                  <p class="small mb-0 mt-1" style="color: #6B7280; font-size: 0.7rem;">Easy Returns</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="bg-white rounded-4 p-5 text-center" style="border: 1px solid #E5E7EB;">
+        <div class="mb-4 d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 100px; height: 100px; background: #FFF0E5;">
+          <span style="font-size: 3rem;">🛒</span>
+        </div>
+        <h3 class="fw-bold mb-2" style="color: #374151;">Your cart is empty</h3>
+        <p class="mb-4" style="color: #6B7280;">Add some groceries and authentic masalas to get started!</p>
+        <a routerLink="/products" class="btn" style="background: #FF8A3D; color: white; border-radius: 0.5rem; font-weight: 500; padding: 0.75rem 2rem;">Continue Shopping</a>
+      </div>
+    }
+  </div>
+</section>

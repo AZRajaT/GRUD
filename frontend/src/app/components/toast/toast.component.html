@@ -1,0 +1,13 @@
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+  @for (toast of toasts(); track toast.id) {
+    <div class="mm-toast alert d-flex align-items-start gap-3 p-3 mb-2 animate-slide-up shadow-lg {{ getAlertClass(toast.type) }}" style="min-width: 300px; max-width: 400px; border-radius: 0.75rem;">
+      <span class="fs-5">{{ iconMap[toast.type] }}</span>
+      <p class="flex-grow-1 mb-0 small fw-medium">{{ toast.message }}</p>
+      <button
+        (click)="closeToast(toast.id)"
+        class="btn-close small p-0 ms-2"
+        style="font-size: 0.5rem;">
+      </button>
+    </div>
+  }
+</div>

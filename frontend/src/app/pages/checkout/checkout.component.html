@@ -1,0 +1,452 @@
+<section class="min-h-screen bg-gradient-to-b from-white to-background py-6 md:py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8 animate-fade-in">
+      <nav class="flex items-center gap-2 text-sm text-text-secondary mb-4">
+        <a routerLink="/cart" class="hover:text-primary-500 transition-colors">Cart</a>
+        <i class="bi bi-chevron-right text-xs"></i>
+        <span class="text-text-primary font-medium">Checkout</span>
+      </nav>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-semibold uppercase tracking-wide mb-2">
+            <i class="bi bi-bag-check"></i>
+            Complete Order
+          </span>
+          <h1 class="text-3xl md:text-4xl font-bold font-montserrat text-text-primary">Checkout</h1>
+          <p class="text-text-secondary mt-1">Enter your details for a seamless delivery experience</p>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-text-secondary bg-white px-4 py-2 rounded-xl shadow-soft">
+          <i class="bi bi-shield-check text-brand-green"></i>
+          <span>Secure Checkout</span>
+        </div>
+      </div>
+    </div>
+
+    @if (!isOrderPlaced) {
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+        <!-- Left Column: Forms -->
+        <div class="lg:col-span-7 space-y-6">
+          <!-- Customer Details Card -->
+          <div class="bg-white rounded-2xl shadow-card border border-border overflow-hidden animate-slide-up">
+            <div class="bg-gradient-to-r from-primary-50 to-white px-6 py-4 border-b border-border">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary-500 flex items-center justify-center text-white shadow-glow">
+                  <i class="bi bi-person-fill text-lg"></i>
+                </div>
+                <div>
+                  <h2 class="font-semibold text-text-primary font-montserrat">Customer Details</h2>
+                  <p class="text-xs text-text-secondary">Required for order confirmation</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <form (ngSubmit)="placeOrder()" class="space-y-5">
+                <!-- Name Field -->
+                <div class="form-group">
+                  <label class="block text-sm font-medium text-text-primary mb-2">
+                    Full Name <span class="text-error">*</span>
+                  </label>
+                  <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary">
+                      <i class="bi bi-person"></i>
+                    </span>
+                    <input
+                      type="text"
+                      [(ngModel)]="customer.name"
+                      name="name"
+                      required
+                      (blur)="validateField('name')"
+                      placeholder="Enter your full name"
+                      class="w-full pl-11 pr-4 py-3 bg-gray-50 border-2 border-transparent rounded-xl focus:border-primary-400 focus:bg-white focus:outline-none transition-all duration-200 placeholder:text-gray-400"
+                      [class.border-error]="validationErrors['name']"
+                      [class.bg-red-50]="validationErrors['name']">
+                  </div>
+                  @if (validationErrors['name']) {
+                    <p class="mt-1 text-xs text-error flex items-center gap-1">
+                      <i class="bi bi-exclamation-circle"></i>
+                      Please enter your full name
+                    </p>
+                  }
+                </div>
+
+                <!-- Phone Field -->
+                <div class="form-group">
+                  <label class="block text-sm font-medium text-text-primary mb-2">
+                    Phone Number <span class="text-error">*</span>
+                  </label>
+                  <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary">
+                      <i class="bi bi-telephone"></i>
+                    </span>
+                    <input
+                      type="tel"
+                      [(ngModel)]="customer.phone"
+                      name="phone"
+                      required
+                      maxlength="10"
+                      (blur)="validateField('phone')"
+                      (input)="onPhoneInput($event)"
+                      placeholder="Enter your phone number"
+                      class="w-full pl-11 pr-4 py-3 bg-gray-50 border-2 border-transparent rounded-xl focus:border-primary-400 focus:bg-white focus:outline-none transition-all duration-200 placeholder:text-gray-400"
+                      [class.border-error]="validationErrors['phone']"
+                      [class.bg-red-50]="validationErrors['phone']">
+                  </div>
+                  @if (validationErrors['phone']) {
+                    <p class="mt-1 text-xs text-error flex items-center gap-1">
+                      <i class="bi bi-exclamation-circle"></i>
+                      Please enter a valid 10-digit phone number
+                    </p>
+                  }
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Delivery Location Card with Google Maps -->
+          <div class="bg-white rounded-2xl shadow-card border border-border overflow-hidden animate-slide-up" style="animation-delay: 0.1s;">
+            <div class="bg-gradient-to-r from-brand-green/10 to-white px-6 py-4 border-b border-border">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-green flex items-center justify-center text-white shadow-lg">
+                  <i class="bi bi-geo-alt-fill text-lg"></i>
+                </div>
+                <div>
+                  <h2 class="font-semibold text-text-primary font-montserrat">Delivery Location</h2>
+                  <p class="text-xs text-text-secondary">Select or search your delivery address</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <app-location-picker (locationSelected)="onLocationSelected($event)"></app-location-picker>
+              
+              <!-- Address Details -->
+              <div class="mt-4 space-y-4">
+                <div class="form-group">
+                  <label class="block text-sm font-medium text-text-primary mb-2">
+                    Complete Address <span class="text-error">*</span>
+                  </label>
+                  <div class="relative">
+                    <span class="absolute left-4 top-3 text-text-secondary">
+                      <i class="bi bi-house-door"></i>
+                    </span>
+                    <textarea
+                      [(ngModel)]="customer.address"
+                      name="address"
+                      required
+                      rows="2"
+                      (blur)="validateField('address')"
+                      placeholder="Enter your complete delivery address"
+                      class="w-full pl-11 pr-4 py-3 bg-gray-50 border-2 border-transparent rounded-xl focus:border-primary-400 focus:bg-white focus:outline-none transition-all duration-200 placeholder:text-gray-400 resize-none"
+                      [class.border-error]="validationErrors['address']"
+                      [class.bg-red-50]="validationErrors['address']"></textarea>
+                  </div>
+                  @if (validationErrors['address']) {
+                    <p class="mt-1 text-xs text-error flex items-center gap-1">
+                      <i class="bi bi-exclamation-circle"></i>
+                      Please enter your complete address
+                    </p>
+                  }
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <!-- Apartment Name -->
+                  <div class="form-group">
+                    <label class="block text-sm font-medium text-text-primary mb-2">
+                      Apartment/Society <span class="text-error">*</span>
+                    </label>
+                    <div class="relative">
+                      <span class="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary">
+                        <i class="bi bi-building"></i>
+                      </span>
+                      <input
+                        type="text"
+                        [(ngModel)]="customer.apartmentName"
+                        name="apartmentName"
+                        required
+                        (blur)="validateField('apartmentName')"
+                        placeholder="e.g., Green Valley"
+                        class="w-full pl-11 pr-4 py-3 bg-gray-50 border-2 border-transparent rounded-xl focus:border-primary-400 focus:bg-white focus:outline-none transition-all duration-200 placeholder:text-gray-400"
+                        [class.border-error]="validationErrors['apartmentName']"
+                        [class.bg-red-50]="validationErrors['apartmentName']">
+                    </div>
+                    @if (validationErrors['apartmentName']) {
+                      <p class="mt-1 text-xs text-error flex items-center gap-1">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Required
+                      </p>
+                    }
+                  </div>
+
+                  <!-- Flat Number -->
+                  <div class="form-group">
+                    <label class="block text-sm font-medium text-text-primary mb-2">
+                      Flat/House No. <span class="text-error">*</span>
+                    </label>
+                    <div class="relative">
+                      <span class="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary">
+                        <i class="bi bi-door-open"></i>
+                      </span>
+                      <input
+                        type="text"
+                        [(ngModel)]="customer.flatNumber"
+                        name="flatNumber"
+                        required
+                        (blur)="validateField('flatNumber')"
+                        placeholder="e.g., 101, A-Block"
+                        class="w-full pl-11 pr-4 py-3 bg-gray-50 border-2 border-transparent rounded-xl focus:border-primary-400 focus:bg-white focus:outline-none transition-all duration-200 placeholder:text-gray-400"
+                        [class.border-error]="validationErrors['flatNumber']"
+                        [class.bg-red-50]="validationErrors['flatNumber']">
+                    </div>
+                    @if (validationErrors['flatNumber']) {
+                      <p class="mt-1 text-xs text-error flex items-center gap-1">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Required
+                      </p>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Order Summary -->
+        <div class="lg:col-span-5">
+          <div class="sticky top-24 space-y-6">
+            <!-- Order Summary Card -->
+            <div class="bg-white rounded-2xl shadow-card border border-border overflow-hidden animate-slide-up" style="animation-delay: 0.2s;">
+              <div class="bg-gradient-to-r from-primary-50 to-white px-6 py-4 border-b border-border">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-primary-400 flex items-center justify-center text-white shadow-lg">
+                    <i class="bi bi-receipt text-lg"></i>
+                  </div>
+                  <div>
+                    <h2 class="font-semibold text-text-primary font-montserrat">Order Summary</h2>
+                    <p class="text-xs text-text-secondary">{{ cartItems().length }} item(s)</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="p-6">
+                <!-- Cart Items -->
+                <div class="space-y-3 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
+                  @for (item of cartItems(); track item.product._id) {
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-primary-50 transition-colors duration-200">
+                      <!-- Product Image -->
+                      <div class="w-14 h-14 rounded-lg bg-white flex items-center justify-center overflow-hidden shadow-sm flex-shrink-0">
+                        @if (item.product.imageUrl && item.product._id && !imageErrors[item.product._id]) {
+                          <img 
+                            [src]="item.product.imageUrl" 
+                            [alt]="item.product.name" 
+                            class="w-full h-full object-cover"
+                            (error)="onImageError(item.product._id)">
+                        } @else {
+                          <div class="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                            <i class="bi bi-image text-primary-400 text-xl"></i>
+                          </div>
+                        }
+                      </div>
+                      
+                      <!-- Product Info -->
+                      <div class="flex-1 min-w-0">
+                        <h4 class="font-medium text-text-primary text-sm truncate">{{ item.product.name }}</h4>
+                        <p class="text-xs text-text-secondary">Qty: {{ item.quantity }}</p>
+                      </div>
+                      
+                      <!-- Price -->
+                      <div class="text-right">
+                        <p class="font-semibold text-text-primary">₹{{ item.product.price * item.quantity }}</p>
+                        <p class="text-xs text-text-secondary">₹{{ item.product.price }} each</p>
+                      </div>
+                    </div>
+                  }
+                </div>
+
+                <!-- Divider -->
+                <div class="my-4 border-t border-border"></div>
+
+                <!-- Pricing Breakdown -->
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between text-text-secondary">
+                    <span>Subtotal</span>
+                    <span class="font-medium">₹{{ cartTotal() }}</span>
+                  </div>
+                  <div class="flex justify-between text-text-secondary">
+                    <span>Delivery Fee</span>
+                    <span class="text-brand-green font-medium">FREE</span>
+                  </div>
+                  <div class="flex justify-between text-text-secondary">
+                    <span>Tax</span>
+                    <span class="font-medium">₹0</span>
+                  </div>
+                </div>
+
+                <!-- Total -->
+                <div class="mt-4 pt-4 border-t-2 border-dashed border-border">
+                  <div class="flex justify-between items-center">
+                    <span class="font-semibold text-text-primary text-lg">Total Amount</span>
+                    <span class="font-bold text-primary-500 text-2xl">₹{{ cartTotal() }}</span>
+                  </div>
+                </div>
+
+                <!-- Progress Indicator -->
+                <div class="mt-4">
+                  <div class="flex items-center gap-2 text-xs">
+                    <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-brand-orange to-brand-green rounded-full transition-all duration-500"
+                           [style.width.%]="getFormProgress()"></div>
+                    </div>
+                    <span class="text-text-secondary font-medium">{{ getFormProgress() }}% completed</span>
+                  </div>
+                </div>
+
+                <!-- Place Order Button -->
+                <button
+                  (click)="placeOrder()"
+                  [disabled]="!isFormValid() || isProcessing"
+                  class="w-full mt-5 py-4 px-6 rounded-xl font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0"
+                  [class.bg-gradient-to-r]="isFormValid() && !isProcessing"
+                  [class.from-brand-green]="isFormValid() && !isProcessing"
+                  [class.to-brand-green-dark]="isFormValid() && !isProcessing"
+                  [class.bg-gray-300]="!isFormValid() || isProcessing"
+                  [class.cursor-not-allowed]="!isFormValid() || isProcessing">
+                  @if (isProcessing) {
+                    <i class="bi bi-arrow-repeat animate-spin"></i>
+                    <span>Processing...</span>
+                  } @else {
+                    <i class="bi bi-whatsapp text-xl"></i>
+                    <span>{{ isFormValid() ? 'Place Order on WhatsApp' : 'Complete all fields' }}</span>
+                  }
+                </button>
+
+                <!-- Security Note -->
+                <div class="mt-4 flex items-center justify-center gap-2 text-xs text-text-secondary">
+                  <i class="bi bi-shield-lock text-brand-green"></i>
+                  <span>Your order will be securely sent via WhatsApp</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="grid grid-cols-3 gap-3 animate-slide-up" style="animation-delay: 0.3s;">
+              <div class="bg-white rounded-xl p-3 text-center shadow-soft border border-border hover:shadow-md transition-shadow">
+                <div class="w-10 h-10 mx-auto rounded-full bg-success/10 flex items-center justify-center mb-2">
+                  <i class="bi bi-shield-check text-success text-lg"></i>
+                </div>
+                <p class="text-xs font-medium text-text-primary">Secure</p>
+              </div>
+              <div class="bg-white rounded-xl p-3 text-center shadow-soft border border-border hover:shadow-md transition-shadow">
+                <div class="w-10 h-10 mx-auto rounded-full bg-primary-100 flex items-center justify-center mb-2">
+                  <i class="bi bi-truck text-primary-500 text-lg"></i>
+                </div>
+                <p class="text-xs font-medium text-text-primary">Fast Delivery</p>
+              </div>
+              <div class="bg-white rounded-xl p-3 text-center shadow-soft border border-border hover:shadow-md transition-shadow">
+                <div class="w-10 h-10 mx-auto rounded-full bg-brand-green/10 flex items-center justify-center mb-2">
+                  <i class="bi bi-whatsapp text-brand-green text-lg"></i>
+                </div>
+                <p class="text-xs font-medium text-text-primary">24/7 Support</p>
+              </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="bg-gradient-to-r from-primary-50 to-white rounded-xl p-4 border border-primary-100 animate-slide-up" style="animation-delay: 0.4s;">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white flex-shrink-0">
+                  <i class="bi bi-question-lg text-sm"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-text-primary text-sm">Need Help?</h4>
+                  <p class="text-xs text-text-secondary mt-1">Having trouble placing your order? Contact us on WhatsApp for assistance.</p>
+                  <a href="https://wa.me/918870378977" target="_blank" class="inline-flex items-center gap-1 text-xs text-brand-green font-medium mt-2 hover:underline">
+                    <i class="bi bi-whatsapp"></i>
+                    Chat with us
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Order Success State -->
+      <div class="max-w-2xl mx-auto animate-fade-in">
+        <div class="bg-white rounded-3xl shadow-premium border border-border overflow-hidden">
+          <div class="bg-gradient-to-r from-brand-green to-brand-green-dark p-8 text-center">
+            <div class="w-24 h-24 mx-auto rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center animate-float mb-4">
+              <i class="bi bi-check-circle-fill text-white text-5xl"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-white font-montserrat">Order Placed!</h2>
+            <p class="text-white/90 mt-2">Your order has been sent successfully</p>
+          </div>
+          
+          <div class="p-8 text-center">
+            <div class="mb-6">
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-green/10 text-brand-green font-medium">
+                <i class="bi bi-whatsapp"></i>
+                <span>Sent via WhatsApp</span>
+              </div>
+            </div>
+            
+            <p class="text-text-secondary mb-6">
+              Thank you for shopping with <strong class="text-primary-500">AROW Mart</strong>! 
+              Your order details have been sent to our team. We'll contact you shortly to confirm your order.
+            </p>
+
+            <!-- Order Details Summary -->
+            <div class="bg-gray-50 rounded-2xl p-5 mb-6 text-left">
+              <h3 class="font-semibold text-text-primary mb-3">Order Summary</h3>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-text-secondary">Total Items</span>
+                  <span class="font-medium">{{ orderSummary.itemCount }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-text-secondary">Total Amount</span>
+                  <span class="font-bold text-primary-500">₹{{ orderSummary.totalAmount }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-text-secondary">Customer</span>
+                  <span class="font-medium">{{ customer.name }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-text-secondary">Phone</span>
+                  <span class="font-medium">{{ customer.phone }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+              <a routerLink="/products" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-500 text-white font-semibold rounded-xl hover:bg-primary-600 transition-colors">
+                <i class="bi bi-shop"></i>
+                Continue Shopping
+              </a>
+              <a href="https://wa.me/918870378977" target="_blank" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-green text-white font-semibold rounded-xl hover:bg-brand-green-dark transition-colors">
+                <i class="bi bi-whatsapp"></i>
+                Chat on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Custom Scrollbar Styles -->
+<style>
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+</style>

@@ -1,0 +1,316 @@
+<!-- AROW MART Homepage -->
+<section class="py-3" style="background: var(--ng-background);">
+  <div class="container">
+    <!-- Hero Banner - AROW MART -->
+    <div class="hero-banner rounded-4 overflow-hidden mb-4 position-relative">
+      <!-- Background Image Slider -->
+      <div class="hero-slider">
+        <div class="slide active" style="background-image: url('assets/images/gods.jpeg');"></div>
+        <!-- <div class="slide" style="background-image: url('assets/images/wheat.jpeg');"></div>
+        <div class="slide" style="background-image: url('assets/images/sakthisambar.jpeg');"></div> -->
+        <div class="slide-overlay"></div>
+      </div>
+      <div class="p-4 p-lg-5 text-center position-relative z-2">
+        <h1 class="arow-heading mb-2" style="font-size: 2.5rem; letter-spacing: 2px;">
+          AROW MART
+        </h1>
+        <p class="arow-subheading mb-3" style="font-size: 1.25rem;">
+          Fresh Groceries at <span class="arow-highlight">Your Doorstep</span>
+        </p>
+        <div class="d-flex justify-content-center gap-3 mb-4">
+          <a routerLink="/products" class="btn btn-arow">
+            Shop Now
+          </a>
+          <a routerLink="/products" class="btn btn-outline-light fw-semibold">
+            Browse All
+          </a>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center gap-4 mt-4">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-lightning-fill text-warning fs-5"></i>
+            <span class="text-white fw-semibold">2-3 Hours Delivery</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-leaf-fill text-success fs-5"></i>
+            <span class="text-white fw-semibold">Eco-Friendly</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-shield-check-fill text-info fs-5"></i>
+            <span class="text-white fw-semibold">Quality Guaranteed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Category Access -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-3">
+        <a routerLink="/products" [queryParams]="{category: 'rice'}" class="text-decoration-none">
+          <div class="bg-white p-3 rounded shadow-sm text-center h-100 amazon-category-card">
+            <div class="d-flex align-items-center justify-content-center mb-1">
+              <img src="assets/images/riceandgrains.jpeg" alt="Rice & Grains" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+            </div>
+              <!-- <div style="height: 60px;" class="d-flex align-items-center justify-content-center mb-1">
+              <img src="assets/images/riceandgrains.jpeg" alt="Rice & Grains" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+            </div> -->
+            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text);">Rice & Grains</h6>
+            <p class="small text-secondary mb-0">Basmati, Sona Masoori</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a routerLink="/products" [queryParams]="{category: 'dal'}" class="text-decoration-none">
+          <div class="bg-white p-3 rounded shadow-sm text-center h-100 amazon-category-card">
+             <div class="d-flex align-items-center justify-content-center mb-1">
+              <img src="assets/images/dalandpulses.jpeg" alt="Dal & Pulses" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+            </div>
+            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text);">Dal & Pulses</h6>
+            <p class="small text-secondary mb-0">Toor, Moong, Masoor</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a routerLink="/products" [queryParams]="{category: 'masala'}" class="text-decoration-none">
+          <div class="bg-white p-3 rounded shadow-sm text-center h-100 amazon-category-card">
+         <div class="d-flex align-items-center justify-content-center mb-1">
+              <img src="assets/images/masalas.jpeg" alt="Masalas" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+            </div>
+            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text);">Masalas</h6>
+            <p class="small text-secondary mb-0">Spices & Blends</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a routerLink="/products" [queryParams]="{category: 'oil'}" class="text-decoration-none">
+          <div class="bg-white p-3 rounded shadow-sm text-center h-100 amazon-category-card">
+             <div class="d-flex align-items-center justify-content-center mb-1">
+              <img src="assets/images/oilandghee.jpeg" alt="Masalas" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+            </div>
+            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text);">Oils & Ghee</h6>
+            <p class="small text-secondary mb-0">Pure & Healthy</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Popular Products Section -->
+    <div class="bg-white p-4 rounded shadow-sm mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold h4 mb-0" style="color: var(--amazon-text);">Popular Products</h2>
+        <a routerLink="/products" class="text-decoration-none" style="color: var(--amazon-link);">See all</a>
+      </div>
+      
+      <div class="row g-3">
+        @for (product of popularProducts; track product._id) {
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="amazon-home-product h-100">
+              <a [routerLink]="['/products']" class="text-decoration-none">
+                <div class="bg-light d-flex align-items-center justify-content-center rounded mb-2" style="aspect-ratio: 1;">
+                  @if (product.imageUrl && product._id && !imageErrors[product._id]) {
+                    <img [src]="product.imageUrl" [alt]="product.name" class="kit-image" (error)="onImageError(product._id)" />
+                  } @else {
+                    <div class="d-flex align-items-center justify-content-center" style="color: #9CA3AF;">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                    </div>
+                  }
+                </div>
+                <h6 class="fw-medium text-truncate mb-1" style="color: var(--amazon-link); font-size: 0.9rem;">
+                  {{ product.name }}
+                </h6>
+                <p class="small text-secondary mb-1 text-truncate" style="font-size: 0.75rem;">
+                  {{ product.description }}
+                </p>
+                <p class="fw-bold mb-0" style="color: #B12704;">₹{{ product.price }}</p>
+              </a>
+              <button 
+                (click)="addToCart(product)"
+                class="btn w-100 mt-2 amazon-add-btn">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Grocery Kits Banner -->
+    <div class="bg-white p-4 rounded shadow-sm mb-4">
+      <h2 class="fw-bold h4 mb-4" style="color: var(--amazon-text);">Grocery Kits</h2>
+      <div class="row g-3">
+        @for (kit of groceryKits; track kit._id) {
+          <div class="col-md-4">
+            <div class="border rounded p-3 h-100 amazon-kit-card">
+              <div class="d-flex align-items-start gap-3">
+                <div class="bg-light d-flex align-items-center justify-content-center rounded flex-shrink-0" style="width: 80px; height: 80px;">
+                  @if (kit.imageUrl && kit._id && !kitImageErrors[kit._id]) {
+                    <img [src]="kit.imageUrl" [alt]="kit.name" style="max-width: 100%; max-height: 100%; object-fit: contain;" (error)="onKitImageError(kit._id)" />
+                  } @else {
+                    <span style="font-size: 3rem;">📦</span>
+                  }
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="fw-bold mb-1" style="color: var(--amazon-text);">{{ kit.name }}</h6>
+                  <p class="small text-secondary mb-2" style="font-size: 0.8rem;">{{ kit.description }}</p>
+                  <p class="fw-bold mb-2" style="color: #B12704; font-size: 1.2rem;">₹{{ kit.price }}</p>
+                  <button 
+                    (click)="addToCart(kit)"
+                    class="btn btn-sm w-100 amazon-add-btn">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Why Choose Us -->
+    <div class="bg-white p-4 rounded shadow-sm">
+      <h2 class="fw-bold h4 mb-4 text-center" style="color: var(--amazon-text);">Why Shop With Us</h2>
+      <div class="row g-4 text-center">
+        <div class="col-6 col-md-3">
+          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
+            <i class="bi bi-truck fs-4 text-primary"></i>
+          </div>
+          <h6 class="fw-semibold mb-1">Free Delivery</h6>
+          <p class="small text-secondary mb-0">On orders above ₹500</p>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
+            <i class="bi bi-shield-check fs-4 text-success"></i>
+          </div>
+          <h6 class="fw-semibold mb-1">Quality Assured</h6>
+          <p class="small text-secondary mb-0">100% genuine products</p>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
+            <i class="bi bi-whatsapp fs-4 text-success"></i>
+          </div>
+          <h6 class="fw-semibold mb-1">WhatsApp Order</h6>
+          <p class="small text-secondary mb-0">Quick & easy ordering</p>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
+            <i class="bi bi-cash-stack fs-4 text-warning"></i>
+          </div>
+          <h6 class="fw-semibold mb-1">Best Prices</h6>
+          <p class="small text-secondary mb-0">Competitive rates</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .amazon-hero-btn {
+    background: linear-gradient(to bottom, #FFD814, #F7CA00);
+    border: 1px solid #FCD200;
+    border-radius: 8px;
+    color: #0F1111;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.15s ease;
+  }
+
+  .amazon-hero-btn:hover {
+    background: linear-gradient(to bottom, #F7CA00, #F0B800);
+    border-color: #F7CA00;
+    color: #0F1111;
+  }
+
+  .amazon-category-card {
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .amazon-category-card:hover {
+    border-color: #c0c0c0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+  }
+
+  .amazon-home-product {
+    transition: all 0.2s ease;
+    background: white;
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid #E5E7EB;
+  }
+
+  .amazon-home-product:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .kit-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .amazon-add-btn {
+    background: linear-gradient(to bottom, #FFD814, #F7CA00);
+    border: 1px solid #FCD200;
+    border-radius: 8px;
+    color: #0F1111;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.5rem;
+    transition: all 0.15s ease;
+  }
+
+  .amazon-add-btn:hover {
+    background: linear-gradient(to bottom, #F7CA00, #F0B800);
+    border-color: #F7CA00;
+  }
+
+  .amazon-kit-card {
+    transition: all 0.2s ease;
+  }
+
+  .amazon-kit-card:hover {
+    border-color: var(--amazon-button);
+    box-shadow: 0 4px 8px rgba(255, 216, 20, 0.2);
+  }
+
+  /* Hero Background Slider */
+  .hero-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .hero-slider .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .hero-slider .slide.active {
+    opacity: 1;
+  }
+
+  .hero-slider .slide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(2, 87, 155, 0.85) 0%, rgba(2, 136, 209, 0.8) 100%);
+    z-index: 1;
+  }
+</style>
