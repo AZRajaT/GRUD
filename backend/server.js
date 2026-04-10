@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const authRoutes = require('./routes/auth.routes');
 const productRoutes = require('./routes/product.routes');
+const groceryKitRoutes = require('./routes/groceryKit.routes');
 
 const app = express();
 
@@ -25,6 +26,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/freshcart
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/kits', groceryKitRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

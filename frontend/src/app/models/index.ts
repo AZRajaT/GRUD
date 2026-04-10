@@ -26,12 +26,47 @@ export interface CustomerDetails {
   flatNumber: string;
 }
 
+export interface KitItem {
+  product: Product;
+  quantity: number;
+}
+
 export interface GroceryKit {
   _id?: string;
   name: string;
   price: number;
+  originalPrice?: number;
   imageUrl?: string;
-  description: string;
-  items: string[];
+  description?: string;
+  items: KitItem[];
+  category?: string;
+  isActive?: boolean;
   popular?: boolean;
+  totalItems?: number;
+  savingsPercent?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface KitsPagination {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+}
+
+export interface KitsResponse {
+  success: boolean;
+  data: {
+    kits: GroceryKit[];
+    pagination: KitsPagination;
+  };
+}
+
+export interface KitResponse {
+  success: boolean;
+  data: {
+    kit: GroceryKit;
+  };
+  message?: string;
 }

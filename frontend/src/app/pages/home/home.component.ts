@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Product, GroceryKit } from '../../models';
+import { Product, GroceryKit, KitItem } from '../../models';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
 import { ProductService } from '../../services/product.service';
+import { GroceryKitService } from '../../services/grocery-kit.service';
 
 @Component({
   selector: 'app-home',
@@ -26,42 +27,36 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentSlide = 0;
   private slideInterval: any;
   
-  groceryKits: GroceryKit[] = [
-    {
-      _id: 'kit-1',
-      name: '₹999 Starter Kit',
-      price: 999,
-      description: 'Perfect for bachelors & individuals',
-      items: ['Rice 2kg', 'Toor Dal 1kg', 'Sunflower Oil 1L', 'Salt 1kg', 'Sugar 1kg', 'Tea 250g', 'Basic Masalas Set'],
-      popular: false
-    },
-    {
-      _id: 'kit-2',
-      name: '₹1999 Family Kit',
-      price: 1999,
-      description: 'Ideal for families of 3-4 members',
-      items: ['Basmati Rice 5kg', 'Toor Dal 2kg', 'Moong Dal 1kg', 'Groundnut Oil 2L', 'Pure Ghee 250g', 'Salt 2kg', 'Sugar 2kg', 'Complete Masala Box', 'Wheat Atta 5kg'],
-      popular: true
-    },
-    {
-      _id: 'kit-3',
-      name: '₹2999 Premium Kit',
-      price: 2999,
-      description: 'Ultimate pack with organic & premium items',
-      items: ['Premium Basmati Rice 5kg', 'Organic Toor Dal 2kg', 'Cold Pressed Oil 1L', 'Pure Cow Ghee 500g', 'Rock Salt 2kg', 'Jaggery 1kg', 'Premium Spices Collection', 'Dry Fruits Mix 250g'],
-      popular: false
-    }
-  ];
+  groceryKits: GroceryKit[] = [];
+  isLoadingKits = false;
 
   constructor(
     private cartService: CartService,
     private toastService: ToastService,
-    private productService: ProductService
+    private productService: ProductService,
+    private groceryKitService: GroceryKitService
   ) {}
 
   ngOnInit(): void {
     this.loadPopularProducts();
+    this.loadPopularKits();
     this.startHeroSlider();
+  }
+
+  loadPopularKits(): void {
+    this.isLoadingKits = true;
+    this.groceryKitService.getPopularKits().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.groceryKits = response.data.kits;
+        }
+        this.isLoadingKits = false;
+      },
+      error: (err) => {
+        console.error('Error loading popular kits:', err);
+        this.isLoadingKits = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -108,9 +103,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   addToCart(product: Product | GroceryKit): void {
-    const prod = product as Product;
-    this.cartService.addToCart(prod, 1);
-    this.toastService.show(`${product.name} added to cart!`);
+    // Check if it's a kit by looking for items array
+    if ('items' in product && Array.isArray(product.items) && product.items.length > 0 && typeof product.items[0] !== 'string') {
+      // It's a kit - expand and add all items
+      const kit = product as GroceryKit;
+      kit.items.forEach((item: KitItem) => {
+        this.cartService.addToCart(item.product, item.quantity);
+      });
+      this.toastService.show(`${kit.name} kit added to cart! (${kit.items.length} items)`);
+    } else {
+      // It's a regular product
+      const prod = product as Product;
+      this.cartService.addToCart(prod, 1);
+      this.toastService.show(`${prod.name} added to cart!`);
+    }
   }
 
   onImageError(productId: string): void {

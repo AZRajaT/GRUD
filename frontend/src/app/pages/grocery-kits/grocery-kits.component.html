@@ -1,0 +1,191 @@
+<!-- Grocery Kits Hero Section -->
+<section class="grocery-kits-hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <i class="bi bi-box-seam"></i>
+        Grocery Kits
+      </h1>
+      <p class="hero-subtitle">
+        Curated combos of essential items at special prices. Perfect for monthly shopping or gifting!
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Grocery Kits Grid -->
+<section class="grocery-kits-section">
+  <div class="container">
+    <!-- Loading State -->
+    @if (loading()) {
+      <div class="loading-state">
+        <div class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+        <p>Loading amazing kits for you...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (error()) {
+      <div class="error-state">
+        <i class="bi bi-exclamation-circle"></i>
+        <p>{{ error() }}</p>
+        <button class="btn-retry" (click)="loadKits()">Try Again</button>
+      </div>
+    }
+
+    <!-- Kits Grid -->
+    @if (!loading() && !error()) {
+      <div class="kits-grid">
+        @for (kit of kits(); track trackByKitId($index, kit)) {
+          <div class="kit-card" [class.expanded]="expandedKitId() === kit._id">
+            <!-- Popular Badge -->
+            @if (kit.popular) {
+              <div class="popular-badge">
+                <i class="bi bi-fire"></i>
+                Popular
+              </div>
+            }
+
+            <!-- Kit Image -->
+            <div class="kit-image">
+              <img [src]="getImageUrl(kit)" [alt]="kit.name" loading="lazy">
+              @if (calculateSavings(kit) > 0) {
+                <div class="savings-badge">
+                  Save ₹{{ calculateSavings(kit) }}
+                </div>
+              }
+            </div>
+
+            <!-- Kit Content -->
+            <div class="kit-content">
+              <h3 class="kit-name">{{ kit.name }}</h3>
+              <p class="kit-description">{{ kit.description }}</p>
+
+              <!-- Kit Items Preview -->
+              <div class="kit-items-preview">
+                <span class="items-count">
+                  <i class="bi bi-basket"></i>
+                  {{ calculateTotalItems(kit) }} items
+                </span>
+              </div>
+
+              <!-- Price Section -->
+              <div class="kit-price-section">
+                <div class="price-main">
+                  <span class="current-price">₹{{ kit.price }}</span>
+                  @if (kit.originalPrice && kit.originalPrice > kit.price) {
+                    <span class="original-price">₹{{ kit.originalPrice }}</span>
+                  }
+                </div>
+                @if (calculateSavings(kit) > 0) {
+                  <span class="discount-badge">
+                    {{ ((kit.originalPrice! - kit.price) / kit.originalPrice! * 100) | number:'1.0-0' }}% OFF
+                  </span>
+                }
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="kit-actions">
+                <button
+                  class="btn-view-details"
+                  (click)="toggleKitDetails(kit._id!)"
+                  [class.active]="expandedKitId() === kit._id">
+                  <i class="bi" [class.bi-chevron-down]="expandedKitId() !== kit._id" [class.bi-chevron-up]="expandedKitId() === kit._id"></i>
+                  {{ expandedKitId() === kit._id ? 'Hide Details' : 'View Items' }}
+                </button>
+
+                <button
+                  class="btn-add-cart"
+                  (click)="addKitToCart(kit)"
+                  [disabled]="addingToCart() === kit._id">
+                  @if (addingToCart() === kit._id) {
+                    <i class="bi bi-check-circle"></i>
+                    Added!
+                  } @else {
+                    <i class="bi bi-cart-plus"></i>
+                    Add to Cart
+                  }
+                </button>
+              </div>
+
+              <!-- Expanded Items List -->
+              @if (expandedKitId() === kit._id) {
+                <div class="kit-items-list">
+                  <div class="items-header">
+                    <h4>What's Inside</h4>
+                  </div>
+                  <ul class="items-list">
+                    @for (item of kit.items; track item.product._id) {
+                      <li class="item-row">
+                        <div class="item-info">
+                          <img
+                            [src]="item.product.imageUrl || '/assets/images/product-placeholder.jpg'"
+                            [alt]="item.product.name"
+                            class="item-image">
+                          <div class="item-details">
+                            <span class="item-name">{{ item.product.name }}</span>
+                            <span class="item-price">₹{{ item.product.price }}</span>
+                          </div>
+                        </div>
+                        <span class="item-quantity">× {{ item.quantity }}</span>
+                      </li>
+                    }
+                  </ul>
+                  <div class="kit-total">
+                    <span>Total Value:</span>
+                    <span class="total-value">
+                      @if (kit.originalPrice) {
+                        ₹{{ kit.originalPrice }}
+                      } @else {
+                        ₹{{ calculateKitTotalValue(kit) }}
+                      }
+                    </span>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Empty State -->
+      @if (kits().length === 0) {
+        <div class="empty-state">
+          <i class="bi bi-box"></i>
+          <h3>No Grocery Kits Available</h3>
+          <p>Check back soon for amazing combo deals!</p>
+        </div>
+      }
+
+      <!-- Pagination -->
+      @if (totalPages() > 1) {
+        <div class="pagination">
+          <button
+            class="btn-page"
+            [disabled]="currentPage() === 1"
+            (click)="changePage(currentPage() - 1)">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+
+          @for (page of [].constructor(totalPages()); let idx = $index; track idx) {
+            <button
+              class="btn-page"
+              [class.active]="currentPage() === idx + 1"
+              (click)="changePage(idx + 1)">
+              {{ idx + 1 }}
+            </button>
+          }
+
+          <button
+            class="btn-page"
+            [disabled]="currentPage() === totalPages()"
+            (click)="changePage(currentPage() + 1)">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      }
+    }
+  </div>
+</section>

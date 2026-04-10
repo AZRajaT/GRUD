@@ -21,6 +21,10 @@ export const routes: Routes = [
     path: 'contact',
     loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent)
   },
+  {
+    path: 'kits',
+    loadComponent: () => import('./pages/grocery-kits/grocery-kits.component').then(m => m.GroceryKitsComponent)
+  },
   // Admin Routes
   {
     path: 'admin/login',
@@ -51,6 +55,18 @@ export const routes: Routes = [
       {
         path: 'products/edit/:id',
         loadComponent: () => import('./pages/admin/products/product-form.component').then(m => m.ProductFormComponent)
+      },
+      {
+        path: 'kits',
+        loadComponent: () => import('./pages/admin/kits/kit-list.component').then(m => m.KitListComponent)
+      },
+      {
+        path: 'kits/add',
+        loadComponent: () => import('./pages/admin/kits/kit-form.component').then(m => m.KitFormComponent)
+      },
+      {
+        path: 'kits/edit/:id',
+        loadComponent: () => import('./pages/admin/kits/kit-form.component').then(m => m.KitFormComponent)
       }
     ]
   },
