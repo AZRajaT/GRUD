@@ -40,7 +40,7 @@
           (click)="selectCategory(category.id)"
           class="btn btn-sm"
           [style]="selectedCategory === category.id ? 
-            'background: #FF8A3D; color: white; border-radius: 2rem; font-weight: 500; padding: 10px 18px; border: none; font-size: clamp(0.85rem, 2.2vw, 0.9rem); flex-shrink: 0; min-height: 44px;' : 
+            'background: rgb(255, 138, 61); color: white; border-radius: 2rem; font-weight: 500; padding: 10px 18px; border: none; font-size: clamp(0.85rem, 2.2vw, 0.9rem); flex-shrink: 0; min-height: 44px; box-shadow: 0 2px 6px rgba(255, 138, 61, 0.3);' : 
             'background: white; color: #6B7280; border-radius: 2rem; font-weight: 500; padding: 10px 18px; border: 1px solid #E5E7EB; font-size: clamp(0.85rem, 2.2vw, 0.9rem); flex-shrink: 0; min-height: 44px;'">
           {{ category.name }}
         </button>
@@ -50,7 +50,7 @@
     <!-- Loading State -->
     @if (isLoading) {
       <div class="text-center py-5">
-        <div class="spinner-border mb-3" style="color: #FF8A3D; width: clamp(2.5rem, 8vw, 3rem); height: clamp(2.5rem, 8vw, 3rem);" role="status">
+        <div class="spinner-border mb-3" style="color: rgb(255, 138, 61); width: clamp(2.5rem, 8vw, 3rem); height: clamp(2.5rem, 8vw, 3rem);" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
         <p style="color: #6B7280; font-size: clamp(0.875rem, 2vw, 1rem);">Loading products...</p>
@@ -101,7 +101,7 @@
                     {{ product.name }}
                   </h5>
                   <p class="small mb-1 d-none d-sm-block" style="color: #9CA3AF; font-size: 0.75rem;">{{ product.unit || '1 unit' }}</p>
-                  <p class="fw-bold mb-2" style="color: #FF8A3D; font-size: clamp(0.95rem, 2.5vw, 1.1rem);">₹{{ product.price }}</p>
+                  <p class="fw-bold mb-2" style="color: rgb(255, 138, 61); font-size: clamp(0.95rem, 2.5vw, 1.1rem);">₹{{ product.price }}</p>
                 </a>
                 
                 <!-- Add to Cart Button -->
@@ -109,7 +109,9 @@
                   <button 
                     (click)="addToCart(product)"
                     class="btn w-100 mt-auto"
-                    style="background: #FF8A3D; color: white; border-radius: 0.5rem; font-weight: 500; padding: 10px 8px; font-size: clamp(0.8rem, 2vw, 0.875rem); min-height: 40px;">
+                    style="background: rgb(255, 138, 61); color: white; border: none; border-radius: 0.5rem; font-weight: 600; padding: 10px 8px; font-size: clamp(0.8rem, 2vw, 0.875rem); min-height: 40px; box-shadow: 0 2px 6px rgba(255, 138, 61, 0.3); transition: all 0.15s ease;"
+                    onmouseover="this.style.boxShadow='0 4px 10px rgba(255, 138, 61, 0.45)'; this.style.filter='brightness(1.05)';"
+                    onmouseout="this.style.boxShadow='0 2px 6px rgba(255, 138, 61, 0.3)'; this.style.filter='none';">
                     Add to Cart
                   </button>
                 } @else {
@@ -143,7 +145,9 @@
         <button 
           (click)="selectCategory('all'); setSearchQuery('')"
           class="btn"
-          style="background: #FF8A3D; color: white; border-radius: 0.5rem; font-weight: 500; padding: 12px 24px; font-size: clamp(0.875rem, 2vw, 1rem); min-height: 44px;">
+          style="background: rgb(255, 138, 61); color: white; border: none; border-radius: 0.5rem; font-weight: 600; padding: 12px 24px; font-size: clamp(0.875rem, 2vw, 1rem); min-height: 44px; box-shadow: 0 2px 6px rgba(255, 138, 61, 0.3); transition: all 0.15s ease;"
+          onmouseover="this.style.boxShadow='0 4px 10px rgba(255, 138, 61, 0.45)'; this.style.filter='brightness(1.05)';"
+          onmouseout="this.style.boxShadow='0 2px 6px rgba(255, 138, 61, 0.3)'; this.style.filter='none';">
           Clear Filters
         </button>
       </div>

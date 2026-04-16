@@ -27,7 +27,7 @@
         </div>
         <div class="d-flex flex-wrap justify-content-center gap-2 gap-sm-4 mt-4">
           <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-lightning-fill text-warning" style="font-size: clamp(1rem, 3vw, 1.25rem);"></i>
+            <i class="bi bi-lightning-fill" style="font-size: clamp(1rem, 3vw, 1.25rem); color: rgb(255, 138, 61);"></i>
             <span class="text-white fw-semibold" style="font-size: clamp(0.75rem, 2vw, 0.9rem);">2-3 Hours Delivery</span>
           </div>
           <div class="d-flex align-items-center gap-2">
@@ -195,7 +195,7 @@
         </div>
         <div class="col-6 col-md-3">
           <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: clamp(48px, 10vw, 60px); height: clamp(48px, 10vw, 60px);">
-            <i class="bi bi-cash-stack text-warning" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
+            <i class="bi bi-cash-stack" style="font-size: clamp(1.25rem, 3vw, 1.5rem); color: rgb(255, 138, 61);"></i>
           </div>
           <h6 class="fw-semibold mb-1" style="font-size: clamp(0.8rem, 2vw, 1rem);">Best Prices</h6>
           <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Competitive rates</p>
@@ -206,20 +206,48 @@
 </section>
 
 <style>
-  .amazon-hero-btn {
-    background: linear-gradient(to bottom, #FFD814, #F7CA00);
-    border: 1px solid #FCD200;
+  /* AROW Brand Button - Consistent rgb(255, 138, 61) */
+  .btn-arow {
+    background: rgb(255, 138, 61);
+    border: none;
     border-radius: 8px;
-    color: #0F1111;
-    font-weight: 500;
+    color: white;
+    font-weight: 600;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 8px rgba(255, 138, 61, 0.35);
+  }
+
+  .btn-arow:hover {
+    background: rgb(255, 138, 61);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 138, 61, 0.5);
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+  }
+
+  /* Highlight text with rgb(255, 138, 61) accent */
+  .arow-highlight {
+    color: rgb(255, 138, 61);
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .amazon-hero-btn {
+    background: rgb(255, 138, 61);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
     padding: 0.75rem 1.5rem;
     transition: all 0.15s ease;
+    box-shadow: 0 2px 8px rgba(255, 138, 61, 0.35);
   }
 
   .amazon-hero-btn:hover {
-    background: linear-gradient(to bottom, #F7CA00, #F0B800);
-    border-color: #F7CA00;
-    color: #0F1111;
+    background: rgb(255, 138, 61);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 138, 61, 0.5);
+    filter: brightness(1.05);
   }
 
   .amazon-category-card {
@@ -253,19 +281,21 @@
   }
 
   .amazon-add-btn {
-    background: linear-gradient(to bottom, #FFD814, #F7CA00);
-    border: 1px solid #FCD200;
+    background: rgb(255, 138, 61);
+    border: none;
     border-radius: 8px;
-    color: #0F1111;
+    color: white;
     font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 600;
     padding: 0.5rem;
     transition: all 0.15s ease;
+    box-shadow: 0 2px 6px rgba(255, 138, 61, 0.3);
   }
 
   .amazon-add-btn:hover {
-    background: linear-gradient(to bottom, #F7CA00, #F0B800);
-    border-color: #F7CA00;
+    background: rgb(255, 138, 61);
+    box-shadow: 0 4px 10px rgba(255, 138, 61, 0.45);
+    filter: brightness(1.05);
   }
 
   .amazon-kit-card {
@@ -273,8 +303,8 @@
   }
 
   .amazon-kit-card:hover {
-    border-color: var(--amazon-button);
-    box-shadow: 0 4px 8px rgba(255, 216, 20, 0.2);
+    border-color: rgb(255, 138, 61);
+    box-shadow: 0 4px 8px rgba(255, 138, 61, 0.25);
   }
 
   /* Hero Background Slider */

@@ -17,25 +17,25 @@ import { RouterLink } from '@angular/router';
   imports: [CommonModule, RouterLink],
   template: `
     @if (clickable) {
-      <a 
-        routerLink="/" 
+      <a
+        routerLink="/"
         class="logo-link"
         [class]="'logo-size-' + size"
         [style.--logo-height.px]="getHeight()"
         aria-label="AROW Mart Home">
-        <img 
-          src="assets/images/NammaBasket logo.png" 
+        <img
+          src="assets/images/logo.png"
           alt="AROW Mart Logo"
           class="logo-img"
           (error)="onImageError($event)">
       </a>
     } @else {
-      <div 
+      <div
         class="logo-container"
         [class]="'logo-size-' + size"
         [style.--logo-height.px]="getHeight()">
-        <img 
-          src="assets/images/NammaBasket logo.png" 
+        <img
+          src="assets/images/logo.png"
           alt="AROW Mart Logo"
           class="logo-img"
           (error)="onImageError($event)">

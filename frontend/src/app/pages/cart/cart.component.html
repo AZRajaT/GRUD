@@ -44,7 +44,7 @@
                 <div class="flex-grow-1 min-w-0">
                   <h6 class="fw-semibold text-truncate mb-1" style="color: #374151; font-size: clamp(0.875rem, 2.5vw, 1rem);">{{ item.product.name }}</h6>
                   <p class="small mb-1 d-none d-sm-block" style="color: #6B7280; font-size: 0.75rem;">{{ item.product.unit || '1 unit' }}</p>
-                  <p class="fw-bold mb-2" style="color: #FF8A3D; font-size: clamp(0.9rem, 2vw, 1rem);">₹{{ item.product.price }}</p>
+                  <p class="fw-bold mb-2" style="color: rgb(255, 138, 61); font-size: clamp(0.9rem, 2vw, 1rem);">₹{{ item.product.price }}</p>
                   
                   <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap">
                     <div class="d-flex align-items-center border rounded-3" style="background: #F9FAFB; border-color: #E5E7EB !important;">
@@ -56,12 +56,12 @@
                         <i class="bi bi-plus" style="font-size: 0.875rem;"></i>
                       </button>
                     </div>
-                    <button (click)="removeItem(item.product._id)" class="btn btn-link small p-0 text-decoration-none" style="color: #9CA3AF; font-size: clamp(0.75rem, 2vw, 0.875rem);">Delete</button>
+                    <button (click)="removeItem(item.product._id)" class="btn btn-link small p-0 text-decoration-none" style="color: #bc1e09; font-size: clamp(0.75rem, 2vw, 0.875rem);">Delete</button>
                   </div>
                 </div>
 
                 <div class="text-end flex-shrink-0 d-none d-sm-block">
-                  <p class="fw-bold mb-0" style="color: #FF8A3D; font-size: clamp(0.9rem, 2vw, 1rem);">₹{{ item.product.price * item.quantity }}</p>
+                  <p class="fw-bold mb-0" style="color: rgb(255, 138, 61); font-size: clamp(0.9rem, 2vw, 1rem);">₹{{ item.product.price * item.quantity }}</p>
                 </div>
               </div>
             }
@@ -86,13 +86,13 @@
               <div class="border-top pt-3 mb-3" style="border-color: #E5E7EB !important;">
                 <div class="d-flex justify-content-between align-items-center">
                   <span class="fw-semibold" style="font-size: clamp(0.9rem, 2vw, 1rem);">Total</span>
-                  <span class="fw-bold" style="color: #FF8A3D; font-size: clamp(1.1rem, 3vw, 1.25rem);">₹{{ cartTotal() }}</span>
+                  <span class="fw-bold" style="color: rgb(255, 138, 61); font-size: clamp(1.1rem, 3vw, 1.25rem);">₹{{ cartTotal() }}</span>
                 </div>
               </div>
-              <a routerLink="/checkout" class="btn w-100 mb-2" style="background: #FF8A3D; color: white; border-radius: 0.5rem; font-weight: 500; padding: 12px; font-size: clamp(0.875rem, 2vw, 1rem);">Proceed to Checkout</a>
-              <a href="https://wa.me/918870378977?text={{ getWhatsAppMessage() }}" target="_blank" class="btn btn-outline-secondary w-100" style="border-radius: 0.5rem; font-weight: 500; padding: 12px; font-size: clamp(0.875rem, 2vw, 1rem);">
+              <a routerLink="/checkout" class="btn w-100 mb-2" style="background: rgb(255, 138, 61); color: white; border: none; border-radius: 0.5rem; font-weight: 600; padding: 12px; font-size: clamp(0.875rem, 2vw, 1rem); box-shadow: 0 2px 8px rgba(255, 138, 61, 0.35); transition: all 0.15s ease;" onmouseover="this.style.boxShadow='0 4px 12px rgba(255, 138, 61, 0.5)'; this.style.filter='brightness(1.05)';" onmouseout="this.style.boxShadow='0 2px 8px rgba(255, 138, 61, 0.35)'; this.style.filter='none';">Proceed to Checkout</a>
+              <!-- <a href="https://wa.me/918870378977?text={{ getWhatsAppMessage() }}" target="_blank" class="btn btn-outline-secondary w-100" style="border-radius: 0.5rem; font-weight: 500; padding: 12px; font-size: clamp(0.875rem, 2vw, 1rem);">
                 <i class="bi bi-whatsapp me-2"></i>Order via WhatsApp
-              </a>
+              </a> -->
             </div>
             <div class="bg-white rounded-3 rounded-md-4 p-3 text-center d-none d-lg-block" style="border: 1px solid #E5E7EB;">
               <div class="row g-2">
@@ -120,7 +120,7 @@
         </div>
         <h3 class="fw-bold mb-2" style="color: #374151; font-size: clamp(1.1rem, 3vw, 1.5rem);">Your cart is empty</h3>
         <p class="mb-4" style="color: #6B7280; font-size: clamp(0.875rem, 2vw, 1rem);">Add some groceries and authentic masalas to get started!</p>
-        <a routerLink="/products" class="btn" style="background: #FF8A3D; color: white; border-radius: 0.5rem; font-weight: 500; padding: 12px 32px; font-size: clamp(0.875rem, 2vw, 1rem);">Continue Shopping</a>
+        <a routerLink="/products" class="btn" style="background: rgb(255, 138, 61); color: white; border: none; border-radius: 0.5rem; font-weight: 600; padding: 12px 32px; font-size: clamp(0.875rem, 2vw, 1rem); box-shadow: 0 2px 8px rgba(255, 138, 61, 0.35); transition: all 0.15s ease;" onmouseover="this.style.boxShadow='0 4px 12px rgba(255, 138, 61, 0.5)'; this.style.filter='brightness(1.05)';" onmouseout="this.style.boxShadow='0 2px 8px rgba(255, 138, 61, 0.35)'; this.style.filter='none';">Continue Shopping</a>
       </div>
     }
   </div>
