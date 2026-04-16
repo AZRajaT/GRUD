@@ -10,97 +10,94 @@
         <div class="slide" style="background-image: url('assets/images/sakthisambar.jpeg');"></div> -->
         <div class="slide-overlay"></div>
       </div>
-      <div class="p-4 p-lg-5 text-center position-relative z-2">
-        <h1 class="arow-heading mb-2" style="font-size: 2.5rem; letter-spacing: 2px;">
+      <div class="p-3 p-sm-4 p-lg-5 text-center position-relative z-2">
+        <h1 class="arow-heading mb-2" style="font-size: clamp(1.5rem, 5vw, 2.5rem); letter-spacing: 2px;">
           AROW MART
         </h1>
-        <p class="arow-subheading mb-3" style="font-size: 1.25rem;">
+        <p class="arow-subheading mb-3" style="font-size: clamp(1rem, 3vw, 1.25rem);">
           Fresh Groceries at <span class="arow-highlight">Your Doorstep</span>
         </p>
-        <div class="d-flex justify-content-center gap-3 mb-4">
-          <a routerLink="/products" class="btn btn-arow">
+        <div class="d-flex flex-wrap justify-content-center gap-2 gap-sm-3 mb-4">
+          <a routerLink="/products" class="btn btn-arow" style="font-size: clamp(0.875rem, 2vw, 1rem); padding: 10px 20px;">
             Shop Now
           </a>
-          <a routerLink="/products" class="btn btn-outline-light fw-semibold">
+          <a routerLink="/products" class="btn btn-outline-light fw-semibold" style="font-size: clamp(0.875rem, 2vw, 1rem); padding: 10px 20px;">
             Browse All
           </a>
         </div>
-        <div class="d-flex flex-wrap justify-content-center gap-4 mt-4">
+        <div class="d-flex flex-wrap justify-content-center gap-2 gap-sm-4 mt-4">
           <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-lightning-fill text-warning fs-5"></i>
-            <span class="text-white fw-semibold">2-3 Hours Delivery</span>
+            <i class="bi bi-lightning-fill text-warning" style="font-size: clamp(1rem, 3vw, 1.25rem);"></i>
+            <span class="text-white fw-semibold" style="font-size: clamp(0.75rem, 2vw, 0.9rem);">2-3 Hours Delivery</span>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-leaf-fill text-success fs-5"></i>
-            <span class="text-white fw-semibold">Eco-Friendly</span>
+            <i class="bi bi-leaf-fill text-success" style="font-size: clamp(1rem, 3vw, 1.25rem);"></i>
+            <span class="text-white fw-semibold" style="font-size: clamp(0.75rem, 2vw, 0.9rem);">Eco-Friendly</span>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-shield-check-fill text-info fs-5"></i>
-            <span class="text-white fw-semibold">Quality Guaranteed</span>
+            <i class="bi bi-shield-check-fill text-info" style="font-size: clamp(1rem, 3vw, 1.25rem);"></i>
+            <span class="text-white fw-semibold" style="font-size: clamp(0.75rem, 2vw, 0.9rem);">Quality Guaranteed</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Quick Category Access -->
-    <div class="row g-3 mb-4">
+    <div class="row g-2 g-sm-3 mb-4">
       <div class="col-6 col-md-3">
         <a routerLink="/products" [queryParams]="{category: 'rice'}" class="text-decoration-none">
-          <div class="bg-white p-3 rounded shadow-sm text-center h-100 amazon-category-card">
-            <div class="d-flex align-items-center justify-content-center mb-1">
+          <div class="bg-white p-2 p-sm-3 rounded shadow-sm text-center h-100 amazon-category-card">
+            <div class="d-flex align-items-center justify-content-center mb-1" style="height: 60px;">
               <img src="assets/images/riceandgrains.jpeg" alt="Rice & Grains" style="max-height: 100%; max-width: 100%; object-fit: contain;">
             </div>
-              <!-- <div style="height: 60px;" class="d-flex align-items-center justify-content-center mb-1">
-              <img src="assets/images/riceandgrains.jpeg" alt="Rice & Grains" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-            </div> -->
-            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text);">Rice & Grains</h6>
-            <p class="small text-secondary mb-0">Basmati, Sona Masoori</p>
+            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text); font-size: clamp(0.8rem, 2vw, 1rem);">Rice & Grains</h6>
+            <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Basmati, Sona Masoori</p>
           </div>
         </a>
       </div>
       <div class="col-6 col-md-3">
         <a routerLink="/products" [queryParams]="{category: 'dal'}" class="text-decoration-none">
-          <div class="bg-white p-3 rounded shadow-sm text-center h-100 amazon-category-card">
-             <div class="d-flex align-items-center justify-content-center mb-1">
+          <div class="bg-white p-2 p-sm-3 rounded shadow-sm text-center h-100 amazon-category-card">
+             <div class="d-flex align-items-center justify-content-center mb-1" style="height: 60px;">
               <img src="assets/images/dalandpulses.jpeg" alt="Dal & Pulses" style="max-height: 100%; max-width: 100%; object-fit: contain;">
             </div>
-            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text);">Dal & Pulses</h6>
-            <p class="small text-secondary mb-0">Toor, Moong, Masoor</p>
+            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text); font-size: clamp(0.8rem, 2vw, 1rem);">Dal & Pulses</h6>
+            <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Toor, Moong, Masoor</p>
           </div>
         </a>
       </div>
       <div class="col-6 col-md-3">
         <a routerLink="/products" [queryParams]="{category: 'masala'}" class="text-decoration-none">
-          <div class="bg-white p-3 rounded shadow-sm text-center h-100 amazon-category-card">
-         <div class="d-flex align-items-center justify-content-center mb-1">
+          <div class="bg-white p-2 p-sm-3 rounded shadow-sm text-center h-100 amazon-category-card">
+         <div class="d-flex align-items-center justify-content-center mb-1" style="height: 60px;">
               <img src="assets/images/masalas.jpeg" alt="Masalas" style="max-height: 100%; max-width: 100%; object-fit: contain;">
             </div>
-            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text);">Masalas</h6>
-            <p class="small text-secondary mb-0">Spices & Blends</p>
+            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text); font-size: clamp(0.8rem, 2vw, 1rem);">Masalas</h6>
+            <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Spices & Blends</p>
           </div>
         </a>
       </div>
       <div class="col-6 col-md-3">
         <a routerLink="/products" [queryParams]="{category: 'oil'}" class="text-decoration-none">
-          <div class="bg-white p-3 rounded shadow-sm text-center h-100 amazon-category-card">
-             <div class="d-flex align-items-center justify-content-center mb-1">
+          <div class="bg-white p-2 p-sm-3 rounded shadow-sm text-center h-100 amazon-category-card">
+             <div class="d-flex align-items-center justify-content-center mb-1" style="height: 60px;">
               <img src="assets/images/oilandghee.jpeg" alt="Masalas" style="max-height: 100%; max-width: 100%; object-fit: contain;">
             </div>
-            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text);">Oils & Ghee</h6>
-            <p class="small text-secondary mb-0">Pure & Healthy</p>
+            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text); font-size: clamp(0.8rem, 2vw, 1rem);">Oils & Ghee</h6>
+            <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Pure & Healthy</p>
           </div>
         </a>
       </div>
     </div>
 
     <!-- Popular Products Section -->
-    <div class="bg-white p-4 rounded shadow-sm mb-4">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold h4 mb-0" style="color: var(--amazon-text);">Popular Products</h2>
-        <a routerLink="/products" class="text-decoration-none" style="color: var(--amazon-link);">See all</a>
+    <div class="bg-white p-3 p-sm-4 rounded shadow-sm mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-3 mb-sm-4">
+        <h2 class="fw-bold h5 h4-sm mb-0" style="color: var(--amazon-text); font-size: clamp(1.1rem, 3vw, 1.5rem);">Popular Products</h2>
+        <a routerLink="/products" class="text-decoration-none" style="color: var(--amazon-link); font-size: clamp(0.8rem, 2vw, 0.9rem);">See all</a>
       </div>
       
-      <div class="row g-3">
+      <div class="row g-2 g-sm-3">
         @for (product of popularProducts; track product._id) {
           <div class="col-6 col-md-4 col-lg-3">
             <div class="amazon-home-product h-100">
@@ -110,7 +107,7 @@
                     <img [src]="product.imageUrl" [alt]="product.name" class="kit-image" (error)="onImageError(product._id)" />
                   } @else {
                     <div class="d-flex align-items-center justify-content-center" style="color: #9CA3AF;">
-                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                         <circle cx="8.5" cy="8.5" r="1.5"></circle>
                         <polyline points="21 15 16 10 5 21"></polyline>
@@ -118,17 +115,18 @@
                     </div>
                   }
                 </div>
-                <h6 class="fw-medium text-truncate mb-1" style="color: var(--amazon-link); font-size: 0.9rem;">
+                <h6 class="fw-medium text-truncate mb-1" style="color: var(--amazon-link); font-size: clamp(0.8rem, 2vw, 0.9rem);">
                   {{ product.name }}
                 </h6>
-                <p class="small text-secondary mb-1 text-truncate" style="font-size: 0.75rem;">
+                <p class="small text-secondary mb-1 text-truncate d-none d-sm-block" style="font-size: 0.75rem;">
                   {{ product.description }}
                 </p>
-                <p class="fw-bold mb-0" style="color: #B12704;">₹{{ product.price }}</p>
+                <p class="fw-bold mb-0" style="color: #B12704; font-size: clamp(0.9rem, 2vw, 1rem);">₹{{ product.price }}</p>
               </a>
               <button 
                 (click)="addToCart(product)"
-                class="btn w-100 mt-2 amazon-add-btn">
+                class="btn w-100 mt-2 amazon-add-btn"
+                style="font-size: clamp(0.75rem, 2vw, 0.85rem); padding: 8px;">
                 Add to Cart
               </button>
             </div>
@@ -138,27 +136,28 @@
     </div>
 
     <!-- Grocery Kits Banner -->
-    <div class="bg-white p-4 rounded shadow-sm mb-4">
-      <h2 class="fw-bold h4 mb-4" style="color: var(--amazon-text);">Grocery Kits</h2>
-      <div class="row g-3">
+    <div class="bg-white p-3 p-sm-4 rounded shadow-sm mb-4">
+      <h2 class="fw-bold h5 h4-sm mb-3 mb-sm-4" style="color: var(--amazon-text); font-size: clamp(1.1rem, 3vw, 1.5rem);">Grocery Kits</h2>
+      <div class="row g-2 g-sm-3">
         @for (kit of groceryKits; track kit._id) {
-          <div class="col-md-4">
-            <div class="border rounded p-3 h-100 amazon-kit-card">
-              <div class="d-flex align-items-start gap-3">
-                <div class="bg-light d-flex align-items-center justify-content-center rounded flex-shrink-0" style="width: 80px; height: 80px;">
+          <div class="col-12 col-md-4">
+            <div class="border rounded p-2 p-sm-3 h-100 amazon-kit-card">
+              <div class="d-flex align-items-start gap-2 gap-sm-3">
+                <div class="bg-light d-flex align-items-center justify-content-center rounded flex-shrink-0" style="width: 60px; height: 60px;">
                   @if (kit.imageUrl && kit._id && !kitImageErrors[kit._id]) {
                     <img [src]="kit.imageUrl" [alt]="kit.name" style="max-width: 100%; max-height: 100%; object-fit: contain;" (error)="onKitImageError(kit._id)" />
                   } @else {
-                    <span style="font-size: 3rem;">📦</span>
+                    <span style="font-size: 2rem;">📦</span>
                   }
                 </div>
-                <div class="flex-grow-1">
-                  <h6 class="fw-bold mb-1" style="color: var(--amazon-text);">{{ kit.name }}</h6>
-                  <p class="small text-secondary mb-2" style="font-size: 0.8rem;">{{ kit.description }}</p>
-                  <p class="fw-bold mb-2" style="color: #B12704; font-size: 1.2rem;">₹{{ kit.price }}</p>
+                <div class="flex-grow-1 min-w-0">
+                  <h6 class="fw-bold mb-1 text-truncate" style="color: var(--amazon-text); font-size: clamp(0.9rem, 2vw, 1rem);">{{ kit.name }}</h6>
+                  <p class="small text-secondary mb-1 mb-sm-2 text-truncate d-none d-sm-block" style="font-size: 0.75rem;">{{ kit.description }}</p>
+                  <p class="fw-bold mb-1 mb-sm-2" style="color: #B12704; font-size: clamp(1rem, 2vw, 1.2rem);">₹{{ kit.price }}</p>
                   <button 
                     (click)="addToCart(kit)"
-                    class="btn btn-sm w-100 amazon-add-btn">
+                    class="btn btn-sm w-100 amazon-add-btn"
+                    style="font-size: clamp(0.75rem, 2vw, 0.85rem);">
                     Add to Cart
                   </button>
                 </div>
@@ -170,36 +169,36 @@
     </div>
 
     <!-- Why Choose Us -->
-    <div class="bg-white p-4 rounded shadow-sm">
-      <h2 class="fw-bold h4 mb-4 text-center" style="color: var(--amazon-text);">Why Shop With Us</h2>
-      <div class="row g-4 text-center">
+    <div class="bg-white p-3 p-sm-4 rounded shadow-sm">
+      <h2 class="fw-bold h5 h4-sm mb-3 mb-sm-4 text-center" style="color: var(--amazon-text); font-size: clamp(1.1rem, 3vw, 1.5rem);">Why Shop With Us</h2>
+      <div class="row g-3 g-sm-4 text-center">
         <div class="col-6 col-md-3">
-          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
-            <i class="bi bi-truck fs-4 text-primary"></i>
+          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: clamp(48px, 10vw, 60px); height: clamp(48px, 10vw, 60px);">
+            <i class="bi bi-truck text-primary" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
           </div>
-          <h6 class="fw-semibold mb-1">Free Delivery</h6>
-          <p class="small text-secondary mb-0">On orders above ₹500</p>
+          <h6 class="fw-semibold mb-1" style="font-size: clamp(0.8rem, 2vw, 1rem);">Free Delivery</h6>
+          <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">On orders above ₹500</p>
         </div>
         <div class="col-6 col-md-3">
-          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
-            <i class="bi bi-shield-check fs-4 text-success"></i>
+          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: clamp(48px, 10vw, 60px); height: clamp(48px, 10vw, 60px);">
+            <i class="bi bi-shield-check text-success" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
           </div>
-          <h6 class="fw-semibold mb-1">Quality Assured</h6>
-          <p class="small text-secondary mb-0">100% genuine products</p>
+          <h6 class="fw-semibold mb-1" style="font-size: clamp(0.8rem, 2vw, 1rem);">Quality Assured</h6>
+          <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">100% genuine products</p>
         </div>
         <div class="col-6 col-md-3">
-          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
-            <i class="bi bi-whatsapp fs-4 text-success"></i>
+          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: clamp(48px, 10vw, 60px); height: clamp(48px, 10vw, 60px);">
+            <i class="bi bi-whatsapp text-success" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
           </div>
-          <h6 class="fw-semibold mb-1">WhatsApp Order</h6>
-          <p class="small text-secondary mb-0">Quick & easy ordering</p>
+          <h6 class="fw-semibold mb-1" style="font-size: clamp(0.8rem, 2vw, 1rem);">WhatsApp Order</h6>
+          <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Quick & easy ordering</p>
         </div>
         <div class="col-6 col-md-3">
-          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
-            <i class="bi bi-cash-stack fs-4 text-warning"></i>
+          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: clamp(48px, 10vw, 60px); height: clamp(48px, 10vw, 60px);">
+            <i class="bi bi-cash-stack text-warning" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
           </div>
-          <h6 class="fw-semibold mb-1">Best Prices</h6>
-          <p class="small text-secondary mb-0">Competitive rates</p>
+          <h6 class="fw-semibold mb-1" style="font-size: clamp(0.8rem, 2vw, 1rem);">Best Prices</h6>
+          <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Competitive rates</p>
         </div>
       </div>
     </div>

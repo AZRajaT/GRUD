@@ -784,6 +784,74 @@ html {
 }
 
 // ========================================
+// Utility Classes
+// ========================================
+
+// Hide scrollbar
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// Sticky positioning
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+// ========================================
+// Mobile Responsive Utilities
+// ========================================
+
+// Responsive padding utilities
+.p-4-md { @media (min-width: 768px) { padding: 1.5rem !important; } }
+.p-3-md { @media (min-width: 768px) { padding: 1rem !important; } }
+.p-6-md { @media (min-width: 768px) { padding: 2rem !important; } }
+.p-8-md { @media (min-width: 768px) { padding: 3rem !important; } }
+
+// Responsive font size utilities
+.text-sm-md { @media (min-width: 768px) { font-size: 0.875rem !important; } }
+.text-base-md { @media (min-width: 768px) { font-size: 1rem !important; } }
+.text-lg-md { @media (min-width: 768px) { font-size: 1.125rem !important; } }
+.text-xl-md { @media (min-width: 768px) { font-size: 1.25rem !important; } }
+.text-2xl-md { @media (min-width: 768px) { font-size: 1.5rem !important; } }
+.text-3xl-md { @media (min-width: 768px) { font-size: 1.875rem !important; } }
+
+// Responsive width/height
+.w-10-md { @media (min-width: 768px) { width: 2.5rem !important; } }
+.h-10-md { @media (min-width: 768px) { height: 2.5rem !important; } }
+.w-14-md { @media (min-width: 768px) { width: 3.5rem !important; } }
+.h-14-md { @media (min-width: 768px) { height: 3.5rem !important; } }
+.w-24-md { @media (min-width: 768px) { width: 6rem !important; } }
+.h-24-md { @media (min-width: 768px) { height: 6rem !important; } }
+
+// Responsive spacing
+.gap-3-md { @media (min-width: 768px) { gap: 0.75rem !important; } }
+.gap-4-md { @media (min-width: 768px) { gap: 1rem !important; } }
+
+// Responsive max-height
+.max-h-48-md { @media (min-width: 768px) { max-height: 12rem !important; } }
+.max-h-64-md { @media (min-width: 768px) { max-height: 16rem !important; } }
+
+// Responsive rounded corners
+.rounded-2xl-md { @media (min-width: 768px) { border-radius: 1rem !important; } }
+.rounded-3xl-md { @media (min-width: 768px) { border-radius: 1.5rem !important; } }
+
+// Responsive display
+.d-none-md { @media (min-width: 768px) { display: none !important; } }
+.d-lg-grid { @media (min-width: 992px) { display: grid !important; } }
+.d-block-md { @media (min-width: 768px) { display: block !important; } }
+
+// Order utilities for flex/grid
+.order-1-md { @media (min-width: 768px) { order: 1 !important; } }
+.order-2-md { @media (min-width: 768px) { order: 2 !important; } }
+
+// ========================================
 // Mobile Optimizations
 // ========================================
 
@@ -800,7 +868,15 @@ html {
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
   }
 
   .mm-kit-card:hover {
@@ -819,5 +895,59 @@ html {
   
   .cart-total {
     display: none;
+  }
+  
+  // Ensure touch targets are large enough on mobile
+  button, 
+  a.btn,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  // Improve form inputs on mobile
+  input, 
+  textarea, 
+  select {
+    font-size: 16px !important; // Prevent zoom on iOS
+  }
+  
+  // Reduce padding in cards on mobile
+  .mm-card {
+    padding: 1rem;
+  }
+  
+  // Stack grid items on mobile
+  .grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  // Improve scrolling performance
+  .overflow-auto,
+  .overflow-y-auto,
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  
+  // Smaller spacing on very small screens
+  .py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .p-4 {
+    padding: 0.75rem;
+  }
+  
+  // Compact footer
+  footer .col-6 {
+    margin-bottom: 1rem;
   }
 }

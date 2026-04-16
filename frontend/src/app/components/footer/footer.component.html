@@ -1,71 +1,71 @@
 <!-- Clean Minimal Footer -->
 <footer style="background: white; border-top: 1px solid #E5E7EB;">
   <!-- Main Footer -->
-  <div class="py-5">
+  <div class="py-4 py-md-5">
     <div class="container">
-      <div class="row g-4">
+      <div class="row g-3 g-md-4">
         <!-- Brand -->
-        <div class="col-md-4">
-          <div class="mb-3">
+        <div class="col-12 col-md-4 text-center text-md-start">
+          <div class="mb-3 d-flex justify-content-center justify-content-md-start">
             <app-logo size="large" [clickable]="true"></app-logo>
           </div>
-          <p class="small mb-3" style="color: #6B7280;">Your trusted online kirana store for premium groceries and authentic Indian masalas. Quality products delivered fresh.</p>
-          <div class="d-flex gap-3">
-            <a href="#" class="text-decoration-none" style="color: #9CA3AF;">
-              <i class="bi bi-instagram fs-5"></i>
+          <p class="small mb-3 d-none d-md-block" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Your trusted online kirana store for premium groceries and authentic Indian masalas. Quality products delivered fresh.</p>
+          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+            <a href="#" class="text-decoration-none" style="color: #9CA3AF; padding: 8px;">
+              <i class="bi bi-instagram" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
             </a>
-            <a href="#" class="text-decoration-none" style="color: #9CA3AF;">
-              <i class="bi bi-facebook fs-5"></i>
+            <a href="#" class="text-decoration-none" style="color: #9CA3AF; padding: 8px;">
+              <i class="bi bi-facebook" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
             </a>
-            <a href="#" class="text-decoration-none" style="color: #9CA3AF;">
-              <i class="bi bi-twitter fs-5"></i>
+            <a href="#" class="text-decoration-none" style="color: #9CA3AF; padding: 8px;">
+              <i class="bi bi-twitter" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
             </a>
           </div>
         </div>
 
         <!-- Quick Links -->
         <div class="col-6 col-md-2">
-          <h6 class="fw-semibold mb-3" style="color: #374151;">Quick Links</h6>
+          <h6 class="fw-semibold mb-2 mb-md-3" style="color: #374151; font-size: clamp(0.875rem, 2.5vw, 1rem);">Quick Links</h6>
           <ul class="list-unstyled mb-0">
-            <li class="mb-2"><a routerLink="/" class="text-decoration-none small" style="color: #6B7280;">Home</a></li>
-            <li class="mb-2"><a routerLink="/products" class="text-decoration-none small" style="color: #6B7280;">Products</a></li>
-            <li class="mb-2"><a routerLink="/contact" class="text-decoration-none small" style="color: #6B7280;">Contact</a></li>
-            <li class="mb-2"><a routerLink="/cart" class="text-decoration-none small" style="color: #6B7280;">Cart</a></li>
+            <li class="mb-2"><a routerLink="/" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Home</a></li>
+            <li class="mb-2"><a routerLink="/products" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Products</a></li>
+            <li class="mb-2"><a routerLink="/contact" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Contact</a></li>
+            <li class="mb-2"><a routerLink="/cart" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Cart</a></li>
           </ul>
         </div>
 
         <!-- Categories -->
         <div class="col-6 col-md-2">
-          <h6 class="fw-semibold mb-3" style="color: #374151;">Categories</h6>
+          <h6 class="fw-semibold mb-2 mb-md-3" style="color: #374151; font-size: clamp(0.875rem, 2.5vw, 1rem);">Categories</h6>
           <ul class="list-unstyled mb-0">
-            <li class="mb-2"><a routerLink="/products" [queryParams]="{category: 'rice'}" class="text-decoration-none small" style="color: #6B7280;">Rice</a></li>
-            <li class="mb-2"><a routerLink="/products" [queryParams]="{category: 'dal'}" class="text-decoration-none small" style="color: #6B7280;">Dal</a></li>
-            <li class="mb-2"><a routerLink="/products" [queryParams]="{category: 'masala'}" class="text-decoration-none small" style="color: #6B7280;">Masalas</a></li>
+            <li class="mb-2"><a routerLink="/products" [queryParams]="{category: 'rice'}" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Rice</a></li>
+            <li class="mb-2"><a routerLink="/products" [queryParams]="{category: 'dal'}" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Dal</a></li>
+            <li class="mb-2"><a routerLink="/products" [queryParams]="{category: 'masala'}" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Masalas</a></li>
           </ul>
         </div>
 
         <!-- Contact -->
-        <div class="col-md-4">
-          <h6 class="fw-semibold mb-3" style="color: #374151;">Contact Us</h6>
+        <div class="col-12 col-md-4 mt-3 mt-md-0">
+          <h6 class="fw-semibold mb-2 mb-md-3 text-center text-md-start" style="color: #374151; font-size: clamp(0.875rem, 2.5vw, 1rem);">Contact Us</h6>
           <ul class="list-unstyled mb-0">
-            <li class="d-flex align-items-center gap-2 mb-2 small" style="color: #6B7280;">
-              <i class="bi bi-geo-alt" style="color: #FF8A3D;"></i>
+            <li class="d-flex align-items-center gap-2 mb-2 small justify-content-center justify-content-md-start" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">
+              <i class="bi bi-geo-alt" style="color: #FF8A3D; font-size: 1rem;"></i>
               <span>1/45 Thuraisalai Street, Annanagar, Chennai-600024</span>
             </li>
-            <li class="d-flex align-items-center gap-2 mb-2">
-              <i class="bi bi-whatsapp" style="color: #25D366;"></i>
-              <a href="https://wa.me/918870378977" target="_blank" class="text-decoration-none small" style="color: #6B7280;">+91 88703 78977</a>
+            <li class="d-flex align-items-center gap-2 mb-2 justify-content-center justify-content-md-start">
+              <i class="bi bi-whatsapp" style="color: #25D366; font-size: 1rem;"></i>
+              <a href="https://wa.me/918870378977" target="_blank" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">+91 88703 78977</a>
             </li>
-            <li class="d-flex align-items-center gap-2 mb-2">
-              <i class="bi bi-telephone" style="color: #FF8A3D;"></i>
-              <a href="tel:+918870378977" class="text-decoration-none small" style="color: #6B7280;">+91 88703 78977</a>
+            <li class="d-flex align-items-center gap-2 mb-2 justify-content-center justify-content-md-start">
+              <i class="bi bi-telephone" style="color: #FF8A3D; font-size: 1rem;"></i>
+              <a href="tel:+918870378977" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">+91 88703 78977</a>
             </li>
-            <li class="d-flex align-items-center gap-2 small" style="color: #6B7280;">
-              <i class="bi bi-envelope" style="color: #FF8A3D;"></i>
+            <li class="d-flex align-items-center gap-2 small justify-content-center justify-content-md-start" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">
+              <i class="bi bi-envelope" style="color: #FF8A3D; font-size: 1rem;"></i>
               <span>hello&#64;arowmart.com</span>
             </li>
-            <li class="d-flex align-items-center gap-2 small" style="color: #6B7280;">
-              <i class="bi bi-clock" style="color: #FF8A3D;"></i>
+            <li class="d-flex align-items-center gap-2 small justify-content-center justify-content-md-start d-none d-md-flex" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">
+              <i class="bi bi-clock" style="color: #FF8A3D; font-size: 1rem;"></i>
               <span>Mon-Fri: 9AM-9PM</span>
             </li>
           </ul>
@@ -75,10 +75,10 @@
   </div>
 
   <!-- Copyright -->
-  <div class="border-top py-4" style="border-color: #E5E7EB;">
+  <div class="border-top py-3 py-md-4" style="border-color: #E5E7EB;">
     <div class="container">
       <div class="text-center">
-        <p class="small mb-0" style="color: #9CA3AF;">© {{ currentYear }} AROW Mart. All rights reserved.</p>
+        <p class="small mb-0" style="color: #9CA3AF; font-size: clamp(0.75rem, 2vw, 0.875rem);">© {{ currentYear }} AROW Mart. All rights reserved.</p>
       </div>
     </div>
   </div>

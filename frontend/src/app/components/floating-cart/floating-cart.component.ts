@@ -29,13 +29,13 @@ import { CartService } from '../../services/cart.service';
   styles: [`
     .floating-cart-btn {
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      z-index: 1000;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 9999;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.75rem 1rem;
+      padding: 0.6rem 0.9rem;
       background: #FF8A3D;
       color: white;
       border-radius: 50px;
@@ -44,6 +44,7 @@ import { CartService } from '../../services/cart.service';
       transition: all 0.2s ease;
       cursor: pointer;
       font-weight: 500;
+      min-height: 44px;
     }
 
     .floating-cart-btn:hover {
@@ -74,19 +75,30 @@ import { CartService } from '../../services/cart.service';
 
     .cart-badge {
       position: absolute;
-      top: -8px;
-      right: -8px;
+      top: -6px;
+      right: -6px;
       background: #111827;
       color: white;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      min-width: 20px;
-      height: 20px;
+      min-width: 18px;
+      height: 18px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      padding: 2px;
+    }
+
+    @media (min-width: 768px) {
+      .cart-badge {
+        top: -8px;
+        right: -8px;
+        font-size: 0.75rem;
+        min-width: 20px;
+        height: 20px;
+      }
     }
 
     .cart-total {
@@ -97,18 +109,18 @@ import { CartService } from '../../services/cart.service';
 
     .cart-amount {
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
     }
 
-    @media (max-width: 576px) {
+    @media (min-width: 768px) {
       .floating-cart-btn {
-        bottom: 1rem;
-        right: 1rem;
-        padding: 0.6rem 0.9rem;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        padding: 0.75rem 1rem;
       }
 
       .cart-amount {
-        font-size: 0.85rem;
+        font-size: 0.95rem;
       }
     }
   `]

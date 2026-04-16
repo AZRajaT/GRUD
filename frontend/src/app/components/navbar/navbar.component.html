@@ -1,8 +1,16 @@
 <!-- Clean Minimal Navbar -->
-<nav class="navbar navbar-expand-lg sticky-top" style="background: white; border-bottom: 1px solid #E5E7EB; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+<nav class="navbar navbar-expand-lg sticky-top" style="background: white; border-bottom: 1px solid #E5E7EB; box-shadow: 0 1px 3px rgba(0,0,0,0.05); min-height: 60px;">
   <div class="container">
     <!-- Logo -->
     <app-logo size="medium"></app-logo>
+    <style>
+      @media (max-width: 575px) {
+        .navbar .container {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+      }
+    </style>
 
     <!-- Search Bar (Hidden on mobile, shown on md+) -->
     <div class="d-none d-md-flex flex-grow-1 mx-4" style="max-width: 500px;">
@@ -36,22 +44,22 @@
 
       <!-- Search Toggle (Mobile only) -->
       <button 
-        class="btn btn-link text-dark d-md-none p-1" 
+        class="btn btn-link text-dark d-md-none"
         (click)="toggleMobileSearch()"
-        style="text-decoration: none;">
-        <i class="bi bi-search fs-5"></i>
+        style="text-decoration: none; padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;">
+        <i class="bi bi-search" style="font-size: 1.25rem;"></i>
       </button>
 
       <!-- Cart -->
       <a 
         routerLink="/cart" 
-        class="btn btn-link text-dark position-relative p-1"
-        style="text-decoration: none;">
-        <i class="bi bi-cart3 fs-5"></i>
+        class="btn btn-link text-dark position-relative"
+        style="text-decoration: none; padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;">
+        <i class="bi bi-cart3" style="font-size: 1.25rem;"></i>
         @if (cartCount() > 0) {
           <span 
             class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-            style="background: #FF8A3D; font-size: 0.65rem; min-width: 18px; height: 18px;">
+            style="background: #FF8A3D; font-size: 0.7rem; min-width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
             {{ cartCount() }}
           </span>
         }
@@ -59,10 +67,10 @@
 
       <!-- Mobile Menu Toggle -->
       <button
-        class="btn btn-link text-dark d-lg-none p-1"
+        class="btn btn-link text-dark d-lg-none"
         (click)="toggleMobileMenu()"
-        style="text-decoration: none;">
-        <i class="bi bi-list fs-5"></i>
+        style="text-decoration: none; padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;">
+        <i class="bi bi-list" style="font-size: 1.5rem;"></i>
       </button>
     </div>
 
@@ -134,26 +142,26 @@
   <!-- Mobile Search (Expandable) -->
   @if (isMobileSearchOpen) {
     <div class="d-md-none border-top p-3" style="background: #F9FAFB;">
-      <div class="input-group">
-        <span class="input-group-text bg-white border-end-0" style="border-color: #E5E7EB;">
-          <i class="bi bi-search text-secondary"></i>
+      <div class="input-group" style="height: 48px;">
+        <span class="input-group-text bg-white border-end-0" style="border-color: #E5E7EB; padding: 12px;">
+          <i class="bi bi-search text-secondary" style="font-size: 1.1rem;"></i>
         </span>
         <input 
           type="text" 
           class="form-control border-start-0" 
           placeholder="Search groceries..."
-          style="border-color: #E5E7EB;"
+          style="border-color: #E5E7EB; font-size: 16px;"
           [(ngModel)]="searchQuery"
           (keyup.enter)="onSearch()"
           #mobileSearchInput>
-        <button class="btn" style="background: #FF8A3D; color: white;" (click)="onSearch()">Search</button>
+        <button class="btn" style="background: #FF8A3D; color: white; padding: 12px 20px; font-weight: 500;" (click)="onSearch()">Search</button>
       </div>
     </div>
   }
 
   <!-- Mobile Menu (Expandable) -->
   @if (isMobileMenuOpen) {
-    <div class="d-lg-none border-top" style="background: white;">
+    <div class="d-lg-none border-top" style="background: white; max-height: calc(100vh - 60px); overflow-y: auto;">
       <div class="p-3">
         <ul class="navbar-nav gap-2">
           <li class="nav-item">
@@ -267,5 +275,18 @@
   
   .nav-link:hover {
     color: #FF8A3D !important;
+  }
+  
+  /* Mobile touch targets */
+  @media (max-width: 991px) {
+    .navbar-nav .nav-link {
+      padding: 12px 8px;
+      font-size: 1rem;
+    }
+    
+    .navbar-nav .btn {
+      padding: 12px;
+      font-size: 1rem;
+    }
   }
 </style>
