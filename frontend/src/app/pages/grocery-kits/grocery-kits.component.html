@@ -1,58 +1,60 @@
-<!-- Grocery Kits Hero Section -->
-<section class="grocery-kits-hero">
-  <div class="container">
-    <div class="hero-content">
-      <h1 class="hero-title">
+<!-- Modern Grocery Kits Page -->
+<section class="grocery-kits-page">
+  <!-- Modern Hero Section -->
+  <div class="kits-hero">
+    <div class="container">
+      <div class="hero-badge">
         <i class="bi bi-box-seam"></i>
-        Grocery Kits
-      </h1>
-      <p class="hero-subtitle">
-        Curated combos of essential items at special prices. Perfect for monthly shopping or gifting!
-      </p>
+        <span>Value Packs</span>
+      </div>
+      <h1 class="hero-title">Grocery Kits</h1>
+      <p class="hero-subtitle">Curated combos of essential items at special prices. Perfect for monthly shopping or gifting!</p>
     </div>
   </div>
-</section>
 
-<!-- Grocery Kits Grid -->
-<section class="grocery-kits-section">
+  <!-- Main Content -->
   <div class="container">
-    <!-- Loading State -->
+    <!-- Modern Loading State -->
     @if (loading()) {
       <div class="loading-state">
-        <div class="spinner-container">
-          <div class="spinner"></div>
-        </div>
+        <div class="spinner"></div>
         <p>Loading amazing kits for you...</p>
       </div>
     }
 
-    <!-- Error State -->
+    <!-- Modern Error State -->
     @if (error()) {
       <div class="error-state">
-        <i class="bi bi-exclamation-circle"></i>
+        <div class="error-icon">
+          <i class="bi bi-exclamation-circle"></i>
+        </div>
+        <h6>Error Loading Kits</h6>
         <p>{{ error() }}</p>
-        <button class="btn-retry" (click)="loadKits()">Try Again</button>
+        <button class="retry-btn" (click)="loadKits()">
+          <i class="bi bi-arrow-clockwise"></i>
+          Try Again
+        </button>
       </div>
     }
 
-    <!-- Kits Grid -->
+    <!-- Modern Kits Grid -->
     @if (!loading() && !error()) {
       <div class="kits-grid">
         @for (kit of kits(); track trackByKitId($index, kit)) {
           <div class="kit-card" [class.expanded]="expandedKitId() === kit._id">
-            <!-- Popular Badge -->
-            @if (kit.popular) {
-              <div class="popular-badge">
-                <i class="bi bi-fire"></i>
-                Popular
-              </div>
-            }
-
             <!-- Kit Image -->
-            <div class="kit-image">
-              <img [src]="getImageUrl(kit)" [alt]="kit.name" loading="lazy">
+            <div class="kit-image-wrapper">
+              <img [src]="getImageUrl(kit)" [alt]="kit.name" class="kit-image" loading="lazy">
+              
+              <!-- Badges -->
+              @if (kit.popular) {
+                <div class="kit-badge popular">
+                  <i class="bi bi-fire"></i>
+                  Popular
+                </div>
+              }
               @if (calculateSavings(kit) > 0) {
-                <div class="savings-badge">
+                <div class="kit-badge savings">
                   Save ₹{{ calculateSavings(kit) }}
                 </div>
               }
@@ -60,20 +62,22 @@
 
             <!-- Kit Content -->
             <div class="kit-content">
-              <h3 class="kit-name">{{ kit.name }}</h3>
-              <p class="kit-description">{{ kit.description }}</p>
+              <div class="kit-header">
+                <h3 class="kit-name">{{ kit.name }}</h3>
+                <p class="kit-description">{{ kit.description }}</p>
+              </div>
 
-              <!-- Kit Items Preview -->
-              <div class="kit-items-preview">
-                <span class="items-count">
+              <!-- Items Count -->
+              <div class="kit-meta">
+                <span class="meta-item">
                   <i class="bi bi-basket"></i>
                   {{ calculateTotalItems(kit) }} items
                 </span>
               </div>
 
               <!-- Price Section -->
-              <div class="kit-price-section">
-                <div class="price-main">
+              <div class="kit-price">
+                <div class="price-row">
                   <span class="current-price">₹{{ kit.price }}</span>
                   @if (kit.originalPrice && kit.originalPrice > kit.price) {
                     <span class="original-price">₹{{ kit.originalPrice }}</span>
@@ -86,22 +90,23 @@
                 }
               </div>
 
-              <!-- Action Buttons -->
+              <!-- Actions -->
               <div class="kit-actions">
                 <button
-                  class="btn-view-details"
+                  class="btn-view"
                   (click)="toggleKitDetails(kit._id!)"
                   [class.active]="expandedKitId() === kit._id">
                   <i class="bi" [class.bi-chevron-down]="expandedKitId() !== kit._id" [class.bi-chevron-up]="expandedKitId() === kit._id"></i>
-                  {{ expandedKitId() === kit._id ? 'Hide Details' : 'View Items' }}
+                  {{ expandedKitId() === kit._id ? 'Hide Items' : 'View Items' }}
                 </button>
 
                 <button
-                  class="btn-add-cart"
+                  class="btn-add"
                   (click)="addKitToCart(kit)"
+                  [class.added]="addingToCart() === kit._id"
                   [disabled]="addingToCart() === kit._id">
                   @if (addingToCart() === kit._id) {
-                    <i class="bi bi-check-circle"></i>
+                    <i class="bi bi-check-circle-fill"></i>
                     Added!
                   } @else {
                     <i class="bi bi-cart-plus"></i>
@@ -112,28 +117,26 @@
 
               <!-- Expanded Items List -->
               @if (expandedKitId() === kit._id) {
-                <div class="kit-items-list">
-                  <div class="items-header">
-                    <h4>What's Inside</h4>
+                <div class="items-panel">
+                  <div class="panel-header">
+                    <h4><i class="bi bi-box-seam"></i> What's Inside</h4>
                   </div>
                   <ul class="items-list">
                     @for (item of kit.items; track item.product._id) {
                       <li class="item-row">
+                        <img
+                          [src]="item.product.imageUrl || '/assets/images/product-placeholder.jpg'"
+                          [alt]="item.product.name"
+                          class="item-thumb">
                         <div class="item-info">
-                          <img
-                            [src]="item.product.imageUrl || '/assets/images/product-placeholder.jpg'"
-                            [alt]="item.product.name"
-                            class="item-image">
-                          <div class="item-details">
-                            <span class="item-name">{{ item.product.name }}</span>
-                            <span class="item-price">₹{{ item.product.price }}</span>
-                          </div>
+                          <span class="item-name">{{ item.product.name }}</span>
+                          <span class="item-price">₹{{ item.product.price }}</span>
                         </div>
-                        <span class="item-quantity">× {{ item.quantity }}</span>
+                        <span class="item-qty">× {{ item.quantity }}</span>
                       </li>
                     }
                   </ul>
-                  <div class="kit-total">
+                  <div class="panel-footer">
                     <span>Total Value:</span>
                     <span class="total-value">
                       @if (kit.originalPrice) {
@@ -150,20 +153,22 @@
         }
       </div>
 
-      <!-- Empty State -->
+      <!-- Modern Empty State -->
       @if (kits().length === 0) {
         <div class="empty-state">
-          <i class="bi bi-box"></i>
+          <div class="empty-icon">
+            <i class="bi bi-box"></i>
+          </div>
           <h3>No Grocery Kits Available</h3>
           <p>Check back soon for amazing combo deals!</p>
         </div>
       }
 
-      <!-- Pagination -->
+      <!-- Modern Pagination -->
       @if (totalPages() > 1) {
         <div class="pagination">
           <button
-            class="btn-page"
+            class="page-btn"
             [disabled]="currentPage() === 1"
             (click)="changePage(currentPage() - 1)">
             <i class="bi bi-chevron-left"></i>
@@ -171,7 +176,7 @@
 
           @for (page of [].constructor(totalPages()); let idx = $index; track idx) {
             <button
-              class="btn-page"
+              class="page-btn"
               [class.active]="currentPage() === idx + 1"
               (click)="changePage(idx + 1)">
               {{ idx + 1 }}
@@ -179,7 +184,7 @@
           }
 
           <button
-            class="btn-page"
+            class="page-btn"
             [disabled]="currentPage() === totalPages()"
             (click)="changePage(currentPage() + 1)">
             <i class="bi bi-chevron-right"></i>
@@ -189,3 +194,625 @@
     }
   </div>
 </section>
+
+<style>
+  /* ========================================
+     MODERN GROCERY KITS PAGE STYLES
+     ======================================== */
+  
+  .grocery-kits-page {
+    background: #f9fafb;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      padding: 0 1.5rem;
+    }
+  }
+  
+  /* Hero Section */
+  .kits-hero {
+    background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+    padding: 3rem 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  @media (min-width: 768px) {
+    .kits-hero {
+      padding: 4rem 2rem;
+      margin-bottom: 3rem;
+    }
+  }
+  
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 138, 61, 0.2);
+    border: 1px solid rgba(255, 138, 61, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-badge i {
+    color: rgb(255, 138, 61);
+    font-size: 1rem;
+  }
+  
+  .hero-badge span {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  .hero-title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800;
+    color: white;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: -0.02em;
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  
+  /* Loading State */
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 2rem;
+  }
+  
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid #e5e7eb;
+    border-top-color: rgb(255, 138, 61);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .loading-state p {
+    color: #6b7280;
+    font-size: 1rem;
+  }
+  
+  /* Error State */
+  .error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 20px;
+    margin: 2rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .error-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .error-icon i {
+    font-size: 2rem;
+    color: #ef4444;
+  }
+  
+  .error-state h6 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .error-state p {
+    color: #6b7280;
+    margin: 0 0 1.5rem 0;
+  }
+  
+  .retry-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .retry-btn:hover {
+    background: #e5e7eb;
+  }
+  
+  /* Kits Grid */
+  .kits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  @media (min-width: 640px) {
+    .kits-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .kits-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  /* Kit Card */
+  .kit-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid #f3f4f6;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .kit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    border-color: rgba(255, 138, 61, 0.3);
+  }
+  
+  /* Kit Image */
+  .kit-image-wrapper {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #fef3e2 0%, #fff7ed 100%);
+  }
+  
+  @media (min-width: 768px) {
+    .kit-image-wrapper {
+      height: 220px;
+    }
+  }
+  
+  .kit-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .kit-card:hover .kit-image {
+    transform: scale(1.05);
+  }
+  
+  /* Kit Badges */
+  .kit-badge {
+    position: absolute;
+    padding: 0.375rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .kit-badge.popular {
+    top: 12px;
+    left: 12px;
+    background: #ef4444;
+    color: white;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
+  }
+  
+  .kit-badge.savings {
+    top: 12px;
+    right: 12px;
+    background: #10b981;
+    color: white;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+  }
+  
+  /* Kit Content */
+  .kit-content {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (min-width: 768px) {
+    .kit-content {
+      padding: 1.5rem;
+    }
+  }
+  
+  .kit-header {
+    margin-bottom: 0.75rem;
+  }
+  
+  .kit-name {
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+    transition: color 0.2s ease;
+  }
+  
+  .kit-card:hover .kit-name {
+    color: rgb(255, 138, 61);
+  }
+  
+  .kit-description {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Kit Meta */
+  .kit-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+  
+  .meta-item i {
+    color: rgb(255, 138, 61);
+  }
+  
+  /* Kit Price */
+  .kit-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: #f9fafb;
+    border-radius: 12px;
+  }
+  
+  .price-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .current-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: rgb(255, 138, 61);
+  }
+  
+  .original-price {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #9ca3af;
+    text-decoration: line-through;
+  }
+  
+  .discount-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+  }
+  
+  /* Kit Actions */
+  .kit-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: auto;
+  }
+  
+  .btn-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-view:hover {
+    background: #e5e7eb;
+  }
+  
+  .btn-view.active {
+    background: #374151;
+    color: white;
+  }
+  
+  .btn-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgb(255, 138, 61);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(255, 138, 61, 0.3);
+  }
+  
+  .btn-add:hover:not(:disabled) {
+    box-shadow: 0 4px 12px rgba(255, 138, 61, 0.45);
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+  }
+  
+  .btn-add:disabled {
+    opacity: 0.8;
+    cursor: default;
+  }
+  
+  .btn-add.added {
+    background: #10b981;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  }
+  
+  /* Items Panel */
+  .items-panel {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+    animation: slideDown 0.3s ease;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .panel-header {
+    margin-bottom: 0.75rem;
+  }
+  
+  .panel-header h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+  }
+  
+  .panel-header h4 i {
+    color: rgb(255, 138, 61);
+  }
+  
+  .items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem 0;
+  }
+  
+  .item-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  
+  .item-row:last-child {
+    border-bottom: none;
+  }
+  
+  .item-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #f9fafb;
+  }
+  
+  .item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  
+  .item-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .item-price {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
+  .item-qty {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #111827;
+    background: #f3f4f6;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+  }
+  
+  .panel-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f3f4f6;
+    font-size: 0.9rem;
+  }
+  
+  .panel-footer span:first-child {
+    color: #6b7280;
+  }
+  
+  .total-value {
+    font-weight: 700;
+    color: rgb(255, 138, 61);
+  }
+  
+  /* Empty State */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 5rem 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  .empty-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 138, 61, 0.1);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .empty-icon i {
+    font-size: 2.5rem;
+    color: rgb(255, 138, 61);
+  }
+  
+  .empty-state h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  .empty-state p {
+    color: #6b7280;
+    margin: 0;
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem 0;
+  }
+  
+  .page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.75rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .page-btn:hover:not(:disabled) {
+    border-color: rgb(255, 138, 61);
+    color: rgb(255, 138, 61);
+  }
+  
+  .page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .page-btn.active {
+    background: rgb(255, 138, 61);
+    color: white;
+    border-color: rgb(255, 138, 61);
+    box-shadow: 0 2px 8px rgba(255, 138, 61, 0.3);
+  }
+</style>

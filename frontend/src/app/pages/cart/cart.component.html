@@ -1,127 +1,945 @@
-<!-- Clean Minimal Cart Page -->
-<section class="py-3 py-md-4" style="background: #F9FAFB; min-height: 100vh;">
-  <div class="container" style="max-width: 1000px;">
-    <!-- Header -->
-    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 gap-md-3 mb-3 mb-md-4">
-      <div>
-        <h1 class="fw-bold mb-1" style="font-size: clamp(1.25rem, 4vw, 1.75rem); color: #111827;">Shopping Cart</h1>
-        <p class="mb-0" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.9rem);">{{ cartCount() }} item(s)</p>
+<!-- Modern Shopping Cart Page -->
+<section class="cart-page">
+  <!-- Modern Cart Header -->
+  <div class="cart-header-modern">
+    <div class="container">
+      <div class="header-layout">
+        <!-- Left: Title & Info -->
+        <div class="header-text">
+          <div class="breadcrumb">
+            <a routerLink="/">Home</a>
+            <i class="bi bi-chevron-right"></i>
+            <span>Cart</span>
+          </div>
+          <h1 class="header-title">Your Shopping Cart</h1>
+          <p class="header-subtitle">You have {{ cartCount() }} item(s) in your cart</p>
+        </div>
+        
+        <!-- Right: Cart Visual -->
+        <div class="header-visual">
+          <div class="cart-icon-large">
+            <i class="bi bi-bag"></i>
+            @if (cartCount() > 0) {
+              <span class="cart-badge">{{ cartCount() }}</span>
+            }
+          </div>
+          <div class="free-shipping-banner">
+            <i class="bi bi-truck"></i>
+            <span>Free delivery on orders above ₹1999</span>
+          </div>
+        </div>
       </div>
-      @if (cartItems().length > 0) {
-        <button (click)="clearCart()" class="btn btn-outline-secondary btn-sm" style="font-size: clamp(0.75rem, 2vw, 0.875rem); padding: 6px 12px;">
-          <i class="bi bi-trash me-1"></i>Clear Cart
-        </button>
-      }
     </div>
+  </div>
 
+  <!-- Main Content -->
+  <div class="container">
     @if (cartItems().length > 0) {
-      <div class="row g-3 g-md-4">
-        <!-- Cart Items -->
-        <div class="col-lg-8 order-2 order-lg-1">
-          <div class="bg-white rounded-3 rounded-md-4 p-3 p-md-4" style="border: 1px solid #E5E7EB;">
-            <h6 class="fw-semibold mb-3 mb-md-4 pb-2 pb-md-3 border-bottom" style="color: #374151; font-size: clamp(0.875rem, 2vw, 1rem);">
-              Cart Items ({{ cartCount() }})
-            </h6>
+      <div class="cart-layout">
+        <!-- Cart Items List -->
+        <div class="cart-items-section">
+          <div class="cart-card">
+            <div class="card-title">
+              <i class="bi bi-bag"></i>
+              <span>Cart Items ({{ cartCount() }})</span>
+              <button (click)="clearCart()" class="clear-btn">
+                <i class="bi bi-trash"></i>
+                Clear All
+              </button>
+            </div>
             
-            @for (item of cartItems(); track item.product._id) {
-              <div class="d-flex gap-2 gap-md-3 py-3 border-bottom" style="border-color: #E5E7EB !important;">
-                <!-- Product Image -->
-                <div class="flex-shrink-0 d-flex align-items-center justify-content-center rounded-3" style="width: clamp(60px, 15vw, 80px); height: clamp(60px, 15vw, 80px); background: #F9FAFB;">
-                  @if (item.product.imageUrl && item.product._id && !imageErrors[item.product._id]) {
-                    <img [src]="item.product.imageUrl" [alt]="item.product.name" style="max-width: 100%; max-height: 100%; object-fit: contain;" (error)="onImageError(item.product._id)" />
-                  } @else {
-                    <div class="d-flex align-items-center justify-content-center" style="color: #9CA3AF;">
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                        <polyline points="21 15 16 10 5 21"></polyline>
-                      </svg>
-                    </div>
-                  }
-                </div>
+            <div class="items-list">
+              @for (item of cartItems(); track item.product._id) {
+                <div class="cart-item">
+                  <!-- Product Image -->
+                  <div class="item-image-wrapper">
+                    @if (item.product.imageUrl && item.product._id && !imageErrors[item.product._id]) {
+                      <img [src]="item.product.imageUrl" [alt]="item.product.name" class="item-image" (error)="onImageError(item.product._id)" />
+                    } @else {
+                      <div class="image-placeholder">
+                        <i class="bi bi-image"></i>
+                      </div>
+                    }
+                  </div>
 
-                <!-- Product Info -->
-                <div class="flex-grow-1 min-w-0">
-                  <h6 class="fw-semibold text-truncate mb-1" style="color: #374151; font-size: clamp(0.875rem, 2.5vw, 1rem);">{{ item.product.name }}</h6>
-                  <p class="small mb-1 d-none d-sm-block" style="color: #6B7280; font-size: 0.75rem;">{{ item.product.unit || '1 unit' }}</p>
-                  <p class="fw-bold mb-2" style="color: rgb(255, 138, 61); font-size: clamp(0.9rem, 2vw, 1rem);">₹{{ item.product.price }}</p>
-                  
-                  <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap">
-                    <div class="d-flex align-items-center border rounded-3" style="background: #F9FAFB; border-color: #E5E7EB !important;">
-                      <button (click)="updateQuantity(item.product._id, -1)" class="btn btn-sm p-1 px-2" style="background: transparent; border: none; border-right: 1px solid #E5E7EB; color: #374151; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                        <i class="bi bi-dash" style="font-size: 0.875rem;"></i>
+                  <!-- Product Info -->
+                  <div class="item-details">
+                    <h6 class="item-name">{{ item.product.name }}</h6>
+                    <span class="item-unit">{{ item.product.unit || '1 unit' }}</span>
+                    <div class="item-price-row">
+                      <span class="item-price">₹{{ item.product.price }}</span>
+                      <span class="item-total">₹{{ item.product.price * item.quantity }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Quantity & Actions -->
+                  <div class="item-actions">
+                    <div class="quantity-selector">
+                      <button (click)="updateQuantity(item.product._id, -1)" class="qty-btn">
+                        <i class="bi bi-dash"></i>
                       </button>
-                      <span class="px-2 px-md-3 small fw-semibold" style="min-width: 2rem; text-align: center; color: #374151; font-size: clamp(0.8rem, 2vw, 0.875rem);">{{ item.quantity }}</span>
-                      <button (click)="updateQuantity(item.product._id, 1)" class="btn btn-sm p-1 px-2" style="background: transparent; border: none; border-left: 1px solid #E5E7EB; color: #374151; min-width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                        <i class="bi bi-plus" style="font-size: 0.875rem;"></i>
+                      <span class="qty-value">{{ item.quantity }}</span>
+                      <button (click)="updateQuantity(item.product._id, 1)" class="qty-btn">
+                        <i class="bi bi-plus"></i>
                       </button>
                     </div>
-                    <button (click)="removeItem(item.product._id)" class="btn btn-link small p-0 text-decoration-none" style="color: #bc1e09; font-size: clamp(0.75rem, 2vw, 0.875rem);">Delete</button>
+                    <button (click)="removeItem(item.product._id)" class="delete-btn">
+                      <i class="bi bi-trash"></i>
+                      <span>Remove</span>
+                    </button>
                   </div>
                 </div>
-
-                <div class="text-end flex-shrink-0 d-none d-sm-block">
-                  <p class="fw-bold mb-0" style="color: rgb(255, 138, 61); font-size: clamp(0.9rem, 2vw, 1rem);">₹{{ item.product.price * item.quantity }}</p>
-                </div>
-              </div>
-            }
+              }
+            </div>
           </div>
         </div>
 
         <!-- Order Summary -->
-        <div class="col-lg-4 order-1 order-lg-2">
-          <div class="sticky-top" style="top: 80px;">
-            <div class="bg-white rounded-3 rounded-md-4 p-3 p-md-4 mb-3" style="border: 1px solid #E5E7EB;">
-              <h5 class="fw-bold mb-3" style="color: #374151; font-size: clamp(1rem, 2.5vw, 1.25rem);">Order Summary</h5>
-              <div class="mb-3">
-                <div class="d-flex justify-content-between mb-2" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.9rem);">
-                  <span>Items ({{ cartCount() }})</span>
-                  <span>₹{{ cartTotal() }}</span>
-                </div>
-                <div class="d-flex justify-content-between mb-2" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.9rem);">
-                  <span>Delivery</span>
-                  <span style="color: #10B981;">FREE</span>
-                </div>
-              </div>
-              <div class="border-top pt-3 mb-3" style="border-color: #E5E7EB !important;">
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="fw-semibold" style="font-size: clamp(0.9rem, 2vw, 1rem);">Total</span>
-                  <span class="fw-bold" style="color: rgb(255, 138, 61); font-size: clamp(1.1rem, 3vw, 1.25rem);">₹{{ cartTotal() }}</span>
-                </div>
-              </div>
-              <a routerLink="/checkout" class="btn w-100 mb-2" style="background: rgb(255, 138, 61); color: white; border: none; border-radius: 0.5rem; font-weight: 600; padding: 12px; font-size: clamp(0.875rem, 2vw, 1rem); box-shadow: 0 2px 8px rgba(255, 138, 61, 0.35); transition: all 0.15s ease;" onmouseover="this.style.boxShadow='0 4px 12px rgba(255, 138, 61, 0.5)'; this.style.filter='brightness(1.05)';" onmouseout="this.style.boxShadow='0 2px 8px rgba(255, 138, 61, 0.35)'; this.style.filter='none';">Proceed to Checkout</a>
-              <!-- <a href="https://wa.me/918870378977?text={{ getWhatsAppMessage() }}" target="_blank" class="btn btn-outline-secondary w-100" style="border-radius: 0.5rem; font-weight: 500; padding: 12px; font-size: clamp(0.875rem, 2vw, 1rem);">
-                <i class="bi bi-whatsapp me-2"></i>Order via WhatsApp
-              </a> -->
+        <div class="summary-section">
+          <div class="summary-card sticky">
+            <div class="summary-header">
+              <i class="bi bi-receipt"></i>
+              <span>Order Summary</span>
             </div>
-            <div class="bg-white rounded-3 rounded-md-4 p-3 text-center d-none d-lg-block" style="border: 1px solid #E5E7EB;">
-              <div class="row g-2">
-                <div class="col-4">
-                  <i class="bi bi-shield-check" style="color: #10B981; font-size: 1.5rem;"></i>
-                  <p class="small mb-0 mt-1" style="color: #6B7280; font-size: 0.7rem;">Secure</p>
-                </div>
-                <div class="col-4">
-                  <i class="bi bi-truck" style="color: #3B82F6; font-size: 1.5rem;"></i>
-                  <p class="small mb-0 mt-1" style="color: #6B7280; font-size: 0.7rem;">Free Delivery</p>
-                </div>
-                <div class="col-4">
-                  <i class="bi bi-arrow-counterclockwise" style="color: #6B7280; font-size: 1.5rem;"></i>
-                  <p class="small mb-0 mt-1" style="color: #6B7280; font-size: 0.7rem;">Easy Returns</p>
-                </div>
+            
+            <div class="summary-body">
+              <div class="summary-row">
+                <span class="label">Items ({{ cartCount() }})</span>
+                <span class="value">₹{{ cartTotal() }}</span>
+              </div>
+              <div class="summary-row">
+                <span class="label">Delivery</span>
+                <span class="value free">FREE</span>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-row total">
+                <span class="label">Total</span>
+                <span class="value">₹{{ cartTotal() }}</span>
+              </div>
+            </div>
+
+            <a routerLink="/checkout" class="checkout-btn">
+              <span>Proceed to Checkout</span>
+              <i class="bi bi-arrow-right"></i>
+            </a>
+
+            <!-- Trust Badges -->
+            <div class="trust-badges">
+              <div class="badge-item">
+                <i class="bi bi-shield-check"></i>
+                <span>Secure</span>
+              </div>
+              <div class="badge-item">
+                <i class="bi bi-truck"></i>
+                <span>Free Delivery</span>
+              </div>
+              <div class="badge-item">
+                <i class="bi bi-arrow-counterclockwise"></i>
+                <span>Returns</span>
               </div>
             </div>
           </div>
         </div>
       </div>
     } @else {
-      <div class="bg-white rounded-3 rounded-md-4 p-4 p-md-5 text-center" style="border: 1px solid #E5E7EB;">
-        <div class="mb-4 d-inline-flex align-items-center justify-content-center rounded-circle" style="width: clamp(80px, 20vw, 100px); height: clamp(80px, 20vw, 100px); background: #FFF0E5;">
-          <span style="font-size: clamp(2rem, 6vw, 3rem);">🛒</span>
+      <!-- Empty Cart State -->
+      <div class="empty-cart">
+        <div class="empty-icon">
+          <i class="bi bi-cart-x"></i>
         </div>
-        <h3 class="fw-bold mb-2" style="color: #374151; font-size: clamp(1.1rem, 3vw, 1.5rem);">Your cart is empty</h3>
-        <p class="mb-4" style="color: #6B7280; font-size: clamp(0.875rem, 2vw, 1rem);">Add some groceries and authentic masalas to get started!</p>
-        <a routerLink="/products" class="btn" style="background: rgb(255, 138, 61); color: white; border: none; border-radius: 0.5rem; font-weight: 600; padding: 12px 32px; font-size: clamp(0.875rem, 2vw, 1rem); box-shadow: 0 2px 8px rgba(255, 138, 61, 0.35); transition: all 0.15s ease;" onmouseover="this.style.boxShadow='0 4px 12px rgba(255, 138, 61, 0.5)'; this.style.filter='brightness(1.05)';" onmouseout="this.style.boxShadow='0 2px 8px rgba(255, 138, 61, 0.35)'; this.style.filter='none';">Continue Shopping</a>
+        <h3>Your cart is empty</h3>
+        <p>Add some groceries and authentic masalas to get started!</p>
+        <a routerLink="/products" class="shop-btn">
+          <i class="bi bi-bag"></i>
+          Start Shopping
+        </a>
       </div>
     }
   </div>
 </section>
+
+<style>
+  /* ========================================
+     MODERN CART PAGE STYLES
+     ======================================== */
+  
+  .cart-page {
+    background: #f9fafb;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+  }
+  
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      padding: 0 1.5rem;
+    }
+  }
+  
+  /* Modern Cart Header */
+  .cart-header-modern {
+    background: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  @media (min-width: 768px) {
+    .cart-header-modern {
+      padding: 1.5rem 2rem 2rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  .header-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  @media (min-width: 640px) {
+    .header-layout {
+      gap: 2rem;
+    }
+  }
+  
+  /* Breadcrumb - Hidden on mobile */
+  .breadcrumb {
+    display: none;
+  }
+  
+  @media (min-width: 640px) {
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .breadcrumb a {
+      color: #6b7280;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .breadcrumb a:hover {
+      color: rgb(255, 138, 61);
+    }
+    
+    .breadcrumb i {
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+    
+    .breadcrumb span {
+      color: #111827;
+      font-weight: 600;
+    }
+  }
+  
+  /* Header Text */
+  .header-text {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .header-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111827;
+    margin: 0 0 0.25rem 0;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  @media (min-width: 640px) {
+    .header-title {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin: 0 0 0.5rem 0;
+    }
+  }
+  
+  .header-subtitle {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0;
+  }
+  
+  @media (min-width: 640px) {
+    .header-subtitle {
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+  }
+  
+  /* Header Visual */
+  .header-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  .cart-icon-large {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    background: rgb(255, 138, 61);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(255, 138, 61, 0.3);
+  }
+  
+  @media (min-width: 640px) {
+    .cart-icon-large {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(255, 138, 61, 0.35);
+    }
+  }
+  
+  .cart-icon-large i {
+    font-size: 1.75rem;
+    color: white;
+  }
+  
+  @media (min-width: 640px) {
+    .cart-icon-large i {
+      font-size: 2.25rem;
+    }
+  }
+  
+  .cart-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 22px;
+    height: 22px;
+    background: #111827;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  @media (min-width: 640px) {
+    .cart-badge {
+      top: -6px;
+      right: -6px;
+      min-width: 26px;
+      height: 26px;
+      font-size: 0.8rem;
+      border: 3px solid white;
+    }
+  }
+  
+  .free-shipping-banner {
+    display: none;
+  }
+  
+  @media (min-width: 640px) {
+    .free-shipping-banner {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #ecfdf5;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #059669;
+      white-space: nowrap;
+    }
+    
+    .free-shipping-banner i {
+      font-size: 1rem;
+    }
+  }
+  
+  /* Cart Layout */
+  .cart-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 992px) {
+    .cart-layout {
+      grid-template-columns: 1fr 380px;
+    }
+  }
+  
+  /* Cards */
+  .cart-card, .summary-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f3f4f6;
+    overflow: hidden;
+  }
+  
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border-bottom: 1px solid #f3f4f6;
+    font-weight: 700;
+    color: #111827;
+    font-size: 1.1rem;
+  }
+  
+  .card-title i {
+    color: rgb(255, 138, 61);
+    font-size: 1.25rem;
+  }
+  
+  .clear-btn {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: #fef2f2;
+    color: #ef4444;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .clear-btn:hover {
+    background: #fecaca;
+  }
+  
+  /* Mobile: hide text, show only icon */
+  @media (max-width: 639px) {
+    .clear-btn span {
+      display: none;
+    }
+  }
+  
+  /* Cart Items */
+  .items-list {
+    padding: 0.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .items-list {
+      padding: 1rem;
+    }
+  }
+  
+  .cart-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    align-items: flex-start;
+  }
+  
+  @media (min-width: 640px) {
+    .cart-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 1rem;
+      padding: 1rem;
+      align-items: center;
+    }
+  }
+  
+  .cart-item:hover {
+    background: #f9fafb;
+  }
+  
+  .cart-item + .cart-item {
+    border-top: 1px solid #f3f4f6;
+  }
+  
+  /* Item Image */
+  .item-image-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fef3e2;
+    flex-shrink: 0;
+  }
+  
+  @media (min-width: 640px) {
+    .item-image-wrapper {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  
+  .item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d1d5db;
+  }
+  
+  .image-placeholder i {
+    font-size: 1.5rem;
+  }
+  
+  /* Item Details */
+  .item-details {
+    min-width: 0;
+  }
+  
+  .item-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.25rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .item-unit {
+    display: block;
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+  }
+  
+  .item-price-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  
+  .item-price {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgb(255, 138, 61);
+  }
+  
+  .item-total {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #111827;
+    background: #f3f4f6;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+  }
+  
+  /* Item Actions */
+  .item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+  
+  @media (min-width: 640px) {
+    .item-actions {
+      align-items: flex-end;
+      gap: 0.75rem;
+    }
+  }
+  
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    background: #f3f4f6;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .qty-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  
+  @media (min-width: 640px) {
+    .qty-btn {
+      width: 36px;
+      height: 36px;
+    }
+  }
+  
+  .qty-btn:hover {
+    background: #e5e7eb;
+    color: rgb(255, 138, 61);
+  }
+  
+  .qty-value {
+    min-width: 2rem;
+    text-align: center;
+    font-weight: 700;
+    color: #111827;
+    font-size: 0.9rem;
+  }
+  
+  @media (min-width: 640px) {
+    .qty-value {
+      min-width: 2.5rem;
+      font-size: 0.95rem;
+    }
+  }
+  
+  .delete-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem;
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  
+  .delete-btn span {
+    display: none;
+  }
+  
+  @media (min-width: 640px) {
+    .delete-btn {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+    }
+    
+    .delete-btn span {
+      display: inline;
+    }
+  }
+  
+  .delete-btn:hover {
+    color: #ef4444;
+    background: #fef2f2;
+    border-radius: 6px;
+  }
+  
+  /* Cards - Mobile adjustments */
+  @media (max-width: 639px) {
+    .cart-card, .summary-card {
+      border-radius: 16px;
+      border: none;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+    
+    .card-title {
+      padding: 1rem;
+      font-size: 1rem;
+    }
+  }
+  
+  /* Summary Card */
+  .summary-card {
+    padding: 1.25rem;
+  }
+  
+  @media (min-width: 640px) {
+    .summary-card {
+      padding: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .summary-card.sticky {
+      position: sticky;
+      top: 20px;
+    }
+  }
+  
+  .summary-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    color: #111827;
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  
+  .summary-header i {
+    color: rgb(255, 138, 61);
+    font-size: 1.25rem;
+  }
+  
+  .summary-body {
+    margin-bottom: 1.5rem;
+  }
+  
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.625rem 0;
+    font-size: 0.95rem;
+  }
+  
+  .summary-row .label {
+    color: #6b7280;
+  }
+  
+  .summary-row .value {
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  .summary-row .value.free {
+    color: #10b981;
+    font-weight: 700;
+  }
+  
+  .summary-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 0.75rem 0;
+  }
+  
+  .summary-row.total {
+    font-size: 1.1rem;
+  }
+  
+  .summary-row.total .label {
+    font-weight: 700;
+    color: #111827;
+  }
+  
+  .summary-row.total .value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: rgb(255, 138, 61);
+  }
+  
+  /* Checkout Button */
+  .checkout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.875rem;
+    background: rgb(255, 138, 61);
+    color: white;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 3px 10px rgba(255, 138, 61, 0.3);
+    transition: all 0.2s ease;
+  }
+  
+  @media (min-width: 640px) {
+    .checkout-btn {
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      gap: 0.75rem;
+      box-shadow: 0 4px 12px rgba(255, 138, 61, 0.35);
+    }
+  }
+  
+  .checkout-btn:hover {
+    box-shadow: 0 6px 20px rgba(255, 138, 61, 0.5);
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+  }
+  
+  .checkout-btn i {
+    transition: transform 0.2s ease;
+  }
+  
+  .checkout-btn:hover i {
+    transform: translateX(4px);
+  }
+  
+  /* Trust Badges */
+  .trust-badges {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #f3f4f6;
+  }
+  
+  @media (min-width: 640px) {
+    .trust-badges {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+    }
+  }
+  
+  .badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    color: #6b7280;
+  }
+  
+  @media (min-width: 640px) {
+    .badge-item {
+      gap: 0.375rem;
+      font-size: 0.75rem;
+    }
+  }
+  
+  .badge-item i {
+    font-size: 1.25rem;
+  }
+  
+  @media (min-width: 640px) {
+    .badge-item i {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .badge-item:first-child i {
+    color: #10b981;
+  }
+  
+  .badge-item:nth-child(2) i {
+    color: #3b82f6;
+  }
+  
+  .badge-item:last-child i {
+    color: #6b7280;
+  }
+  
+  /* Empty Cart */
+  .empty-cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f3f4f6;
+    margin: 0 0.5rem;
+  }
+  
+  @media (min-width: 640px) {
+    .empty-cart {
+      padding: 4rem 2rem;
+      border-radius: 20px;
+      margin: 0;
+    }
+  }
+  
+  .empty-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 138, 61, 0.1);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .empty-icon i {
+    font-size: 3rem;
+    color: rgb(255, 138, 61);
+  }
+  
+  .empty-cart h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  @media (min-width: 640px) {
+    .empty-cart h3 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .empty-cart p {
+    color: #6b7280;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.9rem;
+    max-width: 280px;
+  }
+  
+  @media (min-width: 640px) {
+    .empty-cart p {
+      font-size: 1rem;
+      max-width: none;
+    }
+  }
+  
+  .shop-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: rgb(255, 138, 61);
+    color: white;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 3px 10px rgba(255, 138, 61, 0.3);
+    transition: all 0.2s ease;
+  }
+  
+  @media (min-width: 640px) {
+    .shop-btn {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      gap: 0.75rem;
+      box-shadow: 0 4px 12px rgba(255, 138, 61, 0.35);
+    }
+  }
+  
+  .shop-btn:hover {
+    box-shadow: 0 6px 20px rgba(255, 138, 61, 0.5);
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+  }
+</style>

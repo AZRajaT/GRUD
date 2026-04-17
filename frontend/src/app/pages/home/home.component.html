@@ -1,132 +1,221 @@
 <!-- AROW MART Homepage -->
 <section class="py-3" style="background: var(--ng-background);">
   <div class="container">
-    <!-- Hero Banner - AROW MART -->
-    <div class="hero-banner rounded-4 overflow-hidden mb-4 position-relative">
-      <!-- Background Image Slider -->
-      <div class="hero-slider">
-        <div class="slide active" style="background-image: url('assets/images/gods.jpeg');"></div>
-        <!-- <div class="slide" style="background-image: url('assets/images/wheat.jpeg');"></div>
-        <div class="slide" style="background-image: url('assets/images/sakthisambar.jpeg');"></div> -->
-        <div class="slide-overlay"></div>
-      </div>
-      <div class="p-3 p-sm-4 p-lg-5 text-center position-relative z-2">
-        <h1 class="arow-heading mb-2" style="font-size: clamp(1.5rem, 5vw, 2.5rem); letter-spacing: 2px;">
-          AROW MART
-        </h1>
-        <p class="arow-subheading mb-3" style="font-size: clamp(1rem, 3vw, 1.25rem);">
-          Fresh Groceries at <span class="arow-highlight">Your Doorstep</span>
-        </p>
-        <div class="d-flex flex-wrap justify-content-center gap-2 gap-sm-3 mb-4">
-          <a routerLink="/products" class="btn btn-arow" style="font-size: clamp(0.875rem, 2vw, 1rem); padding: 10px 20px;">
-            Shop Now
-          </a>
-          <a routerLink="/products" class="btn btn-outline-light fw-semibold" style="font-size: clamp(0.875rem, 2vw, 1rem); padding: 10px 20px;">
-            Browse All
-          </a>
+    <!-- Modern Hero Banner -->
+    <div class="hero-wrapper mb-4">
+      <div class="hero-card">
+        <!-- Background Layer -->
+        <div class="hero-bg">
+          <div class="hero-image" style="background-image: url('assets/images/gods.jpeg');"></div>
+          <div class="hero-gradient"></div>
         </div>
-        <div class="d-flex flex-wrap justify-content-center gap-2 gap-sm-4 mt-4">
-          <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-lightning-fill" style="font-size: clamp(1rem, 3vw, 1.25rem); color: rgb(255, 138, 61);"></i>
-            <span class="text-white fw-semibold" style="font-size: clamp(0.75rem, 2vw, 0.9rem);">2-3 Hours Delivery</span>
+        
+        <!-- Content Layer -->
+        <div class="hero-content">
+          <!-- Badge -->
+          <div class="hero-badge">
+            <i class="bi bi-shop"></i>
+            <span>Your Trusted Grocery Partner</span>
           </div>
-          <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-leaf-fill text-success" style="font-size: clamp(1rem, 3vw, 1.25rem);"></i>
-            <span class="text-white fw-semibold" style="font-size: clamp(0.75rem, 2vw, 0.9rem);">Eco-Friendly</span>
+          
+          <!-- Main Title -->
+          <h1 class="hero-title">
+            AROW <span class="hero-title-accent">MART</span>
+          </h1>
+          
+          <!-- Tagline -->
+          <p class="hero-tagline">
+            Fresh Groceries Delivered <span class="highlight">Fast & Fresh</span>
+          </p>
+          
+          <!-- CTA Buttons -->
+          <div class="hero-buttons">
+            <a routerLink="/products" class="btn btn-primary-hero">
+              <i class="bi bi-basket-fill"></i>
+              Shop Now
+            </a>
+            <a routerLink="/products" class="btn btn-secondary-hero">
+              <i class="bi bi-grid"></i>
+              Browse All
+            </a>
           </div>
-          <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-shield-check-fill text-info" style="font-size: clamp(1rem, 3vw, 1.25rem);"></i>
-            <span class="text-white fw-semibold" style="font-size: clamp(0.75rem, 2vw, 0.9rem);">Quality Guaranteed</span>
+          
+          <!-- Trust Indicators -->
+          <div class="trust-pills">
+            <div class="trust-pill">
+              <div class="trust-icon">
+                <i class="bi bi-lightning-fill"></i>
+              </div>
+              <span>2-3 Hours</span>
+            </div>
+            <div class="trust-pill">
+              <div class="trust-icon green">
+                <i class="bi bi-leaf-fill"></i>
+              </div>
+              <span>Eco-Friendly</span>
+            </div>
+            <div class="trust-pill">
+              <div class="trust-icon blue">
+                <i class="bi bi-shield-check-fill"></i>
+              </div>
+              <span>Quality First</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Quick Category Access -->
-    <div class="row g-2 g-sm-3 mb-4">
-      <div class="col-6 col-md-3">
-        <a routerLink="/products" [queryParams]="{category: 'rice'}" class="text-decoration-none">
-          <div class="bg-white p-2 p-sm-3 rounded shadow-sm text-center h-100 amazon-category-card">
-            <div class="d-flex align-items-center justify-content-center mb-1" style="height: 60px;">
-              <img src="assets/images/riceandgrains.jpeg" alt="Rice & Grains" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-            </div>
-            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text); font-size: clamp(0.8rem, 2vw, 1rem);">Rice & Grains</h6>
-            <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Basmati, Sona Masoori</p>
+    <!-- Modern Quick Category Access -->
+    <div class="section-header mb-3">
+      <h2 class="section-title">Shop by Category</h2>
+      <a routerLink="/products" class="section-link">
+        View All <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+    
+    <div class="category-grid">
+      <!-- Rice & Grains -->
+      <a routerLink="/products" [queryParams]="{category: 'rice'}" class="category-card">
+        <div class="category-image-wrapper">
+          <img src="assets/images/riceandgrains.jpeg" alt="Rice & Grains" class="category-image">
+          <div class="category-overlay"></div>
+          <div class="category-icon">
+            <i class="bi bi-basket"></i>
           </div>
-        </a>
-      </div>
-      <div class="col-6 col-md-3">
-        <a routerLink="/products" [queryParams]="{category: 'dal'}" class="text-decoration-none">
-          <div class="bg-white p-2 p-sm-3 rounded shadow-sm text-center h-100 amazon-category-card">
-             <div class="d-flex align-items-center justify-content-center mb-1" style="height: 60px;">
-              <img src="assets/images/dalandpulses.jpeg" alt="Dal & Pulses" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-            </div>
-            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text); font-size: clamp(0.8rem, 2vw, 1rem);">Dal & Pulses</h6>
-            <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Toor, Moong, Masoor</p>
+        </div>
+        <div class="category-info">
+          <h6 class="category-name">Rice & Grains</h6>
+          <span class="category-count">Basmati, Sona Masoori</span>
+        </div>
+      </a>
+      
+      <!-- Dal & Pulses -->
+      <a routerLink="/products" [queryParams]="{category: 'dal'}" class="category-card">
+        <div class="category-image-wrapper">
+          <img src="assets/images/dalandpulses.jpeg" alt="Dal & Pulses" class="category-image">
+          <div class="category-overlay"></div>
+          <div class="category-icon">
+            <i class="bi bi-circle-fill"></i>
           </div>
-        </a>
-      </div>
-      <div class="col-6 col-md-3">
-        <a routerLink="/products" [queryParams]="{category: 'masala'}" class="text-decoration-none">
-          <div class="bg-white p-2 p-sm-3 rounded shadow-sm text-center h-100 amazon-category-card">
-         <div class="d-flex align-items-center justify-content-center mb-1" style="height: 60px;">
-              <img src="assets/images/masalas.jpeg" alt="Masalas" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-            </div>
-            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text); font-size: clamp(0.8rem, 2vw, 1rem);">Masalas</h6>
-            <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Spices & Blends</p>
+        </div>
+        <div class="category-info">
+          <h6 class="category-name">Dal & Pulses</h6>
+          <span class="category-count">Toor, Moong, Masoor</span>
+        </div>
+      </a>
+      
+      <!-- Masalas -->
+      <a routerLink="/products" [queryParams]="{category: 'masala'}" class="category-card">
+        <div class="category-image-wrapper">
+          <img src="assets/images/masalas.jpeg" alt="Masalas" class="category-image">
+          <div class="category-overlay"></div>
+          <div class="category-icon spice">
+            <i class="bi bi-fire"></i>
           </div>
-        </a>
-      </div>
-      <div class="col-6 col-md-3">
-        <a routerLink="/products" [queryParams]="{category: 'oil'}" class="text-decoration-none">
-          <div class="bg-white p-2 p-sm-3 rounded shadow-sm text-center h-100 amazon-category-card">
-             <div class="d-flex align-items-center justify-content-center mb-1" style="height: 60px;">
-              <img src="assets/images/oilandghee.jpeg" alt="Masalas" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-            </div>
-            <h6 class="fw-semibold mt-2 mb-1" style="color: var(--amazon-text); font-size: clamp(0.8rem, 2vw, 1rem);">Oils & Ghee</h6>
-            <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Pure & Healthy</p>
+        </div>
+        <div class="category-info">
+          <h6 class="category-name">Masalas</h6>
+          <span class="category-count">Spices & Blends</span>
+        </div>
+      </a>
+      
+      <!-- Oils & Ghee -->
+      <a routerLink="/products" [queryParams]="{category: 'oil'}" class="category-card">
+        <div class="category-image-wrapper">
+          <img src="assets/images/oilandghee.jpeg" alt="Oils & Ghee" class="category-image">
+          <div class="category-overlay"></div>
+          <div class="category-icon">
+            <i class="bi bi-droplet-fill"></i>
           </div>
-        </a>
-      </div>
+        </div>
+        <div class="category-info">
+          <h6 class="category-name">Oils & Ghee</h6>
+          <span class="category-count">Pure & Healthy</span>
+        </div>
+      </a>
     </div>
 
-    <!-- Popular Products Section -->
-    <div class="bg-white p-3 p-sm-4 rounded shadow-sm mb-4">
-      <div class="d-flex justify-content-between align-items-center mb-3 mb-sm-4">
-        <h2 class="fw-bold h5 h4-sm mb-0" style="color: var(--amazon-text); font-size: clamp(1.1rem, 3vw, 1.5rem);">Popular Products</h2>
-        <a routerLink="/products" class="text-decoration-none" style="color: var(--amazon-link); font-size: clamp(0.8rem, 2vw, 0.9rem);">See all</a>
+    <!-- Modern Popular Products Section -->
+    <div class="products-section">
+      <div class="section-header mb-3">
+        <h2 class="section-title">Popular Products</h2>
+        <a routerLink="/products" class="section-link">
+          See all <i class="bi bi-arrow-right"></i>
+        </a>
       </div>
       
-      <div class="row g-2 g-sm-3">
+      <div class="products-grid">
         @for (product of popularProducts; track product._id) {
-          <div class="col-6 col-md-4 col-lg-3">
-            <div class="amazon-home-product h-100">
-              <a [routerLink]="['/products']" class="text-decoration-none">
-                <div class="bg-light d-flex align-items-center justify-content-center rounded mb-2" style="aspect-ratio: 1;">
-                  @if (product.imageUrl && product._id && !imageErrors[product._id]) {
-                    <img [src]="product.imageUrl" [alt]="product.name" class="kit-image" (error)="onImageError(product._id)" />
-                  } @else {
-                    <div class="d-flex align-items-center justify-content-center" style="color: #9CA3AF;">
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                        <polyline points="21 15 16 10 5 21"></polyline>
-                      </svg>
-                    </div>
-                  }
+          <div class="product-card">
+            <a [routerLink]="['/products']" class="product-link">
+              <div class="product-image-wrapper">
+                @if (product.imageUrl && product._id && !imageErrors[product._id]) {
+                  <img [src]="product.imageUrl" [alt]="product.name" class="product-image" (error)="onImageError(product._id)" />
+                } @else {
+                  <div class="product-placeholder">
+                    <i class="bi bi-image"></i>
+                  </div>
+                }
+                <div class="product-badge">Popular</div>
+              </div>
+              <div class="product-details">
+                <h6 class="product-name">{{ product.name }}</h6>
+                <p class="product-desc">{{ product.description }}</p>
+                <div class="product-footer">
+                  <span class="product-price">₹{{ product.price }}</span>
+                  <span class="product-unit">{{ product.unit || '1 unit' }}</span>
                 </div>
-                <h6 class="fw-medium text-truncate mb-1" style="color: var(--amazon-link); font-size: clamp(0.8rem, 2vw, 0.9rem);">
-                  {{ product.name }}
-                </h6>
-                <p class="small text-secondary mb-1 text-truncate d-none d-sm-block" style="font-size: 0.75rem;">
-                  {{ product.description }}
-                </p>
-                <p class="fw-bold mb-0" style="color: #B12704; font-size: clamp(0.9rem, 2vw, 1rem);">₹{{ product.price }}</p>
-              </a>
+              </div>
+            </a>
+            <button 
+              (click)="addToCart(product)"
+              class="btn product-add-btn">
+              <i class="bi bi-plus-lg"></i>
+              Add to Cart
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Modern Grocery Kits Section -->
+    <div class="kits-section">
+      <div class="section-header mb-3">
+        <h2 class="section-title">Grocery Kits</h2>
+        <a routerLink="/products" class="section-link">
+          Browse All <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+      
+      <div class="kits-grid">
+        @for (kit of groceryKits; track kit._id) {
+          <div class="kit-card">
+            <div class="kit-image-wrapper">
+              @if (kit.imageUrl && kit._id && !kitImageErrors[kit._id]) {
+                <img [src]="kit.imageUrl" [alt]="kit.name" class="kit-image" (error)="onKitImageError(kit._id)" />
+              } @else {
+                <div class="kit-placeholder">
+                  <i class="bi bi-box-seam"></i>
+                </div>
+              }
+              <div class="kit-badge">
+                <i class="bi bi-stars"></i>
+                Value Pack
+              </div>
+            </div>
+            <div class="kit-content">
+              <div class="kit-info">
+                <h6 class="kit-name">{{ kit.name }}</h6>
+                <p class="kit-desc">{{ kit.description }}</p>
+                <div class="kit-price-row">
+                  <span class="kit-price">₹{{ kit.price }}</span>
+                  <span class="kit-save">Save 15%</span>
+                </div>
+              </div>
               <button 
-                (click)="addToCart(product)"
-                class="btn w-100 mt-2 amazon-add-btn"
-                style="font-size: clamp(0.75rem, 2vw, 0.85rem); padding: 8px;">
+                (click)="addToCart(kit)"
+                class="btn kit-add-btn">
+                <i class="bi bi-cart-plus"></i>
                 Add to Cart
               </button>
             </div>
@@ -135,70 +224,56 @@
       </div>
     </div>
 
-    <!-- Grocery Kits Banner -->
-    <div class="bg-white p-3 p-sm-4 rounded shadow-sm mb-4">
-      <h2 class="fw-bold h5 h4-sm mb-3 mb-sm-4" style="color: var(--amazon-text); font-size: clamp(1.1rem, 3vw, 1.5rem);">Grocery Kits</h2>
-      <div class="row g-2 g-sm-3">
-        @for (kit of groceryKits; track kit._id) {
-          <div class="col-12 col-md-4">
-            <div class="border rounded p-2 p-sm-3 h-100 amazon-kit-card">
-              <div class="d-flex align-items-start gap-2 gap-sm-3">
-                <div class="bg-light d-flex align-items-center justify-content-center rounded flex-shrink-0" style="width: 60px; height: 60px;">
-                  @if (kit.imageUrl && kit._id && !kitImageErrors[kit._id]) {
-                    <img [src]="kit.imageUrl" [alt]="kit.name" style="max-width: 100%; max-height: 100%; object-fit: contain;" (error)="onKitImageError(kit._id)" />
-                  } @else {
-                    <span style="font-size: 2rem;">📦</span>
-                  }
-                </div>
-                <div class="flex-grow-1 min-w-0">
-                  <h6 class="fw-bold mb-1 text-truncate" style="color: var(--amazon-text); font-size: clamp(0.9rem, 2vw, 1rem);">{{ kit.name }}</h6>
-                  <p class="small text-secondary mb-1 mb-sm-2 text-truncate d-none d-sm-block" style="font-size: 0.75rem;">{{ kit.description }}</p>
-                  <p class="fw-bold mb-1 mb-sm-2" style="color: #B12704; font-size: clamp(1rem, 2vw, 1.2rem);">₹{{ kit.price }}</p>
-                  <button 
-                    (click)="addToCart(kit)"
-                    class="btn btn-sm w-100 amazon-add-btn"
-                    style="font-size: clamp(0.75rem, 2vw, 0.85rem);">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        }
+    <!-- Modern Why Shop With Us Section -->
+    <div class="features-section">
+      <div class="section-header-center mb-4">
+        <h2 class="section-title">Why Shop With Us</h2>
+        <p class="section-subtitle">Experience the AROW Mart difference</p>
       </div>
-    </div>
-
-    <!-- Why Choose Us -->
-    <div class="bg-white p-3 p-sm-4 rounded shadow-sm">
-      <h2 class="fw-bold h5 h4-sm mb-3 mb-sm-4 text-center" style="color: var(--amazon-text); font-size: clamp(1.1rem, 3vw, 1.5rem);">Why Shop With Us</h2>
-      <div class="row g-3 g-sm-4 text-center">
-        <div class="col-6 col-md-3">
-          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: clamp(48px, 10vw, 60px); height: clamp(48px, 10vw, 60px);">
-            <i class="bi bi-truck text-primary" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
+      
+      <div class="features-grid">
+        <!-- Free Delivery -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper blue">
+            <i class="bi bi-truck"></i>
           </div>
-          <h6 class="fw-semibold mb-1" style="font-size: clamp(0.8rem, 2vw, 1rem);">Free Delivery</h6>
-          <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">On orders above ₹500</p>
+          <div class="feature-content">
+            <h6 class="feature-title">Free Delivery</h6>
+            <p class="feature-desc">On all orders above ₹500. Fast & reliable shipping to your doorstep.</p>
+          </div>
         </div>
-        <div class="col-6 col-md-3">
-          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: clamp(48px, 10vw, 60px); height: clamp(48px, 10vw, 60px);">
-            <i class="bi bi-shield-check text-success" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
+        
+        <!-- Quality Assured -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper green">
+            <i class="bi bi-shield-check"></i>
           </div>
-          <h6 class="fw-semibold mb-1" style="font-size: clamp(0.8rem, 2vw, 1rem);">Quality Assured</h6>
-          <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">100% genuine products</p>
+          <div class="feature-content">
+            <h6 class="feature-title">Quality Assured</h6>
+            <p class="feature-desc">100% genuine products sourced directly from trusted suppliers.</p>
+          </div>
         </div>
-        <div class="col-6 col-md-3">
-          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: clamp(48px, 10vw, 60px); height: clamp(48px, 10vw, 60px);">
-            <i class="bi bi-whatsapp text-success" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
+        
+        <!-- WhatsApp Order -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper teal">
+            <i class="bi bi-whatsapp"></i>
           </div>
-          <h6 class="fw-semibold mb-1" style="font-size: clamp(0.8rem, 2vw, 1rem);">WhatsApp Order</h6>
-          <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Quick & easy ordering</p>
+          <div class="feature-content">
+            <h6 class="feature-title">WhatsApp Order</h6>
+            <p class="feature-desc">Quick & easy ordering. Just message us and we'll handle the rest.</p>
+          </div>
         </div>
-        <div class="col-6 col-md-3">
-          <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: clamp(48px, 10vw, 60px); height: clamp(48px, 10vw, 60px);">
-            <i class="bi bi-cash-stack" style="font-size: clamp(1.25rem, 3vw, 1.5rem); color: rgb(255, 138, 61);"></i>
+        
+        <!-- Best Prices -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper orange">
+            <i class="bi bi-cash-stack"></i>
           </div>
-          <h6 class="fw-semibold mb-1" style="font-size: clamp(0.8rem, 2vw, 1rem);">Best Prices</h6>
-          <p class="small text-secondary mb-0 d-none d-sm-block" style="font-size: 0.75rem;">Competitive rates</p>
+          <div class="feature-content">
+            <h6 class="feature-title">Best Prices</h6>
+            <p class="feature-desc">Competitive rates on all products. Save more on every purchase.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -307,39 +382,1063 @@
     box-shadow: 0 4px 8px rgba(255, 138, 61, 0.25);
   }
 
-  /* Hero Background Slider */
-  .hero-slider {
+  /* ========================================
+     MODERN CATEGORY GRID STYLES
+     ======================================== */
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.25rem;
+  }
+  
+  .section-title {
+    font-size: clamp(1.1rem, 3.5vw, 1.35rem);
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+  }
+  
+  .section-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: rgb(255, 138, 61);
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .section-link:hover {
+    gap: 0.5rem;
+    color: rgb(255, 138, 61);
+  }
+  
+  .section-link i {
+    transition: transform 0.2s ease;
+  }
+  
+  .section-link:hover i {
+    transform: translateX(3px);
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .category-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+  }
+  
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid #f3f4f6;
+  }
+  
+  .category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    border-color: rgba(255, 138, 61, 0.3);
+  }
+  
+  .category-image-wrapper {
+    position: relative;
+    height: 100px;
+    overflow: hidden;
+  }
+  
+  @media (min-width: 768px) {
+    .category-image-wrapper {
+      height: 120px;
+    }
+  }
+  
+  .category-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .category-card:hover .category-image {
+    transform: scale(1.08);
+  }
+  
+  .category-overlay {
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, 
+      transparent 0%, 
+      rgba(0, 0, 0, 0.4) 100%);
+  }
+  
+  .category-icon {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgb(255, 138, 61);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(255, 138, 61, 0.35);
+    transition: all 0.3s ease;
+    border: 3px solid white;
+  }
+  
+  .category-card:hover .category-icon {
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 138, 61, 0.45);
+  }
+  
+  .category-icon i {
+    color: white;
+    font-size: 1.1rem;
+  }
+  
+  .category-icon.spice {
+    background: #ef4444;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+  }
+  
+  .category-icon.spice i {
+    font-size: 1rem;
+  }
+  
+  .category-card:hover .category-icon.spice {
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.45);
+  }
+  
+  .category-info {
+    padding: 1.5rem 0.75rem 1rem;
+    text-align: center;
+  }
+  
+  @media (min-width: 768px) {
+    .category-info {
+      padding: 1.75rem 1rem 1.25rem;
+    }
+  }
+  
+  .category-name {
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.25rem 0;
+    transition: color 0.2s ease;
+  }
+  
+  .category-card:hover .category-name {
+    color: rgb(255, 138, 61);
+  }
+  
+  .category-count {
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  /* ========================================
+     MODERN PRODUCTS SECTION STYLES
+     ======================================== */
+  
+  .products-section {
+    margin-bottom: 2rem;
+  }
+  
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .products-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  .product-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid #f3f4f6;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    border-color: rgba(255, 138, 61, 0.3);
+  }
+  
+  .product-link {
+    text-decoration: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-image-wrapper {
+    position: relative;
+    aspect-ratio: 1;
+    background: #f9fafb;
+    overflow: hidden;
+  }
+  
+  .product-image {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+  
+  .product-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d1d5db;
+  }
+  
+  .product-placeholder i {
+    font-size: 2rem;
+  }
+  
+  .product-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgb(255, 138, 61);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .product-details {
+    padding: 0.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (min-width: 768px) {
+    .product-details {
+      padding: 1rem;
+    }
+  }
+  
+  .product-name {
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.2s ease;
+  }
+  
+  .product-card:hover .product-name {
+    color: rgb(255, 138, 61);
+  }
+  
+  .product-desc {
+    font-size: clamp(0.7rem, 1.8vw, 0.75rem);
+    color: #6b7280;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    gap: 0.5rem;
+  }
+  
+  .product-price {
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    font-weight: 700;
+    color: rgb(255, 138, 61);
+  }
+  
+  .product-unit {
+    font-size: clamp(0.65rem, 1.8vw, 0.7rem);
+    color: #9ca3af;
+  }
+  
+  .product-add-btn {
+    width: calc(100% - 1.5rem);
+    margin: 0 0.75rem 0.75rem;
+    background: rgb(255, 138, 61);
+    color: white;
+    border: none;
+    padding: 0.625rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(255, 138, 61, 0.3);
+  }
+  
+  @media (min-width: 768px) {
+    .product-add-btn {
+      width: calc(100% - 2rem);
+      margin: 0 1rem 1rem;
+      padding: 0.75rem;
+    }
+  }
+  
+  .product-add-btn:hover {
+    background: rgb(255, 138, 61);
+    box-shadow: 0 4px 12px rgba(255, 138, 61, 0.45);
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+  }
+  
+  .product-add-btn i {
+    font-size: 1rem;
+  }
+
+  /* ========================================
+     MODERN GROCERY KITS SECTION STYLES
+     ======================================== */
+  
+  .kits-section {
+    margin-bottom: 2rem;
+  }
+  
+  .kits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .kits-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .kits-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .kit-card {
+    display: flex;
+    flex-direction: row;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid #f3f4f6;
+  }
+  
+  @media (max-width: 576px) {
+    .kit-card {
+      flex-direction: column;
+    }
+  }
+  
+  .kit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    border-color: rgba(255, 138, 61, 0.3);
+  }
+  
+  .kit-image-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #fef3e2 0%, #fff7ed 100%);
+    overflow: hidden;
+  }
+  
+  @media (max-width: 576px) {
+    .kit-image-wrapper {
+      width: 100%;
+      height: 160px;
+    }
+  }
+  
+  .kit-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .kit-card:hover .kit-image {
+    transform: scale(1.05);
+  }
+  
+  .kit-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 138, 61);
+  }
+  
+  .kit-placeholder i {
+    font-size: 3rem;
+    opacity: 0.6;
+  }
+  
+  .kit-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #10b981;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .kit-badge i {
+    font-size: 0.7rem;
+  }
+  
+  .kit-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .kit-info {
+    flex: 1;
+  }
+  
+  .kit-name {
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+    transition: color 0.2s ease;
+  }
+  
+  .kit-card:hover .kit-name {
+    color: rgb(255, 138, 61);
+  }
+  
+  .kit-desc {
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
+    color: #6b7280;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .kit-price-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .kit-price {
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    font-weight: 700;
+    color: rgb(255, 138, 61);
+  }
+  
+  .kit-save {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+  
+  .kit-add-btn {
+    width: 100%;
+    background: rgb(255, 138, 61);
+    color: white;
+    border: none;
+    padding: 0.625rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(255, 138, 61, 0.3);
+    margin-top: auto;
+  }
+  
+  .kit-add-btn:hover {
+    background: rgb(255, 138, 61);
+    box-shadow: 0 4px 12px rgba(255, 138, 61, 0.45);
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+  }
+  
+  .kit-add-btn i {
+    font-size: 1.1rem;
+  }
+
+  /* ========================================
+     MODERN FEATURES SECTION STYLES
+     ======================================== */
+  
+  .features-section {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem 1.25rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  }
+  
+  @media (min-width: 768px) {
+    .features-section {
+      padding: 2.5rem 2rem;
+    }
+  }
+  
+  .section-header-center {
+    text-align: center;
+  }
+  
+  .section-header-center .section-title {
+    margin-bottom: 0.5rem;
+  }
+  
+  .section-subtitle {
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    color: #6b7280;
+    margin: 0;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .features-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+  }
+  
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.25rem 0.75rem;
+    border-radius: 16px;
+    background: #f9fafb;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+  }
+  
+  @media (min-width: 768px) {
+    .feature-card {
+      padding: 1.5rem 1rem;
+    }
+  }
+  
+  .feature-card:hover {
+    background: white;
+    border-color: #e5e7eb;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  }
+  
+  .feature-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+  }
+  
+  @media (min-width: 768px) {
+    .feature-icon-wrapper {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .feature-icon-wrapper i {
+    font-size: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .feature-icon-wrapper i {
+      font-size: 1.75rem;
+    }
+  }
+  
+  .feature-icon-wrapper.blue {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+  }
+  
+  .feature-icon-wrapper.green {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+  }
+  
+  .feature-icon-wrapper.teal {
+    background: rgba(20, 184, 166, 0.1);
+    color: #14b8a6;
+  }
+  
+  .feature-icon-wrapper.orange {
+    background: rgba(255, 138, 61, 0.1);
+    color: rgb(255, 138, 61);
+  }
+  
+  .feature-card:hover .feature-icon-wrapper {
+    transform: scale(1.1);
+  }
+  
+  .feature-content {
+    width: 100%;
+  }
+  
+  .feature-title {
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.375rem 0;
+  }
+  
+  .feature-desc {
+    font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ========================================
+     MODERN HERO BANNER STYLES
+     ======================================== */
+  
+  .hero-wrapper {
+    padding: 0 0.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .hero-wrapper {
+      padding: 0;
+    }
+  }
+  
+  .hero-card {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Background Layer */
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 0;
   }
-
-  .hero-slider .slide {
+  
+  .hero-image {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     background-size: cover;
     background-position: center;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transform: scale(1.05);
+    transition: transform 8s ease;
   }
-
-  .hero-slider .slide.active {
-    opacity: 1;
+  
+  .hero-card:hover .hero-image {
+    transform: scale(1.1);
   }
-
-  .hero-slider .slide-overlay {
+  
+  .hero-gradient {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(2, 87, 155, 0.85) 0%, rgba(2, 136, 209, 0.8) 100%);
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+      rgba(17, 24, 39, 0.92) 0%, 
+      rgba(17, 24, 39, 0.75) 50%,
+      rgba(31, 41, 55, 0.85) 100%);
     z-index: 1;
+  }
+  
+  /* Content Layer */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    max-width: 700px;
+    width: 100%;
+  }
+  
+  @media (min-width: 768px) {
+    .hero-content {
+      padding: 3rem 2rem;
+    }
+  }
+  
+  /* Badge */
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+    animation: fadeInDown 0.6s ease;
+  }
+  
+  .hero-badge i {
+    color: rgb(255, 138, 61);
+    font-size: 1rem;
+  }
+  
+  .hero-badge span {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  /* Title */
+  .hero-title {
+    color: white;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    animation: fadeInUp 0.6s ease 0.1s both;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .hero-title-accent {
+    color: rgb(255, 138, 61);
+    position: relative;
+  }
+  
+  .hero-title-accent::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, transparent, rgb(255, 138, 61), transparent);
+    opacity: 0.3;
+    border-radius: 4px;
+  }
+  
+  /* Tagline */
+  .hero-tagline {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: clamp(1rem, 3vw, 1.35rem);
+    margin-bottom: 2rem;
+    font-weight: 400;
+    animation: fadeInUp 0.6s ease 0.2s both;
+  }
+  
+  .hero-tagline .highlight {
+    color: rgb(255, 138, 61);
+    font-weight: 600;
+  }
+  
+  /* Buttons */
+  .hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.6s ease 0.3s both;
+  }
+  
+  .btn-primary-hero {
+    background: rgb(255, 138, 61);
+    color: white;
+    border: none;
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 138, 61, 0.4);
+  }
+  
+  .btn-primary-hero:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 138, 61, 0.5);
+    filter: brightness(1.05);
+    color: white;
+  }
+  
+  .btn-primary-hero i {
+    font-size: 1.1rem;
+  }
+  
+  .btn-secondary-hero {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+  
+  .btn-secondary-hero:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    color: white;
+  }
+  
+  .btn-secondary-hero i {
+    font-size: 1.1rem;
+  }
+  
+  /* Trust Pills */
+  .trust-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    animation: fadeInUp 0.6s ease 0.4s both;
+  }
+  
+  .trust-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+  }
+  
+  .trust-pill:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .trust-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 138, 61, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .trust-icon i {
+    color: rgb(255, 138, 61);
+    font-size: 0.85rem;
+  }
+  
+  .trust-icon.green {
+    background: rgba(16, 185, 129, 0.2);
+  }
+  
+  .trust-icon.green i {
+    color: #10B981;
+  }
+  
+  .trust-icon.blue {
+    background: rgba(59, 130, 246, 0.2);
+  }
+  
+  .trust-icon.blue i {
+    color: #3B82F6;
+  }
+  
+  .trust-pill span {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Mobile Optimizations */
+  @media (max-width: 576px) {
+    .hero-card {
+      border-radius: 20px;
+    }
+    
+    .hero-content {
+      padding: 1.5rem 1rem;
+    }
+    
+    .hero-badge {
+      padding: 0.4rem 0.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    .hero-badge span {
+      font-size: 0.75rem;
+    }
+    
+    .hero-buttons {
+      gap: 0.75rem;
+    }
+    
+    .btn-primary-hero,
+    .btn-secondary-hero {
+      padding: 0.75rem 1.25rem;
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .trust-pills {
+      gap: 0.5rem;
+    }
+    
+    .trust-pill {
+      padding: 0.4rem 0.75rem;
+    }
+    
+    .trust-pill span {
+      font-size: 0.75rem;
+    }
   }
 </style>
