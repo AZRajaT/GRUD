@@ -12,21 +12,21 @@ const productSchema = new mongoose.Schema({
     required: [true, 'Price is required'],
     min: [0, 'Price cannot be negative']
   },
-  quantity: {
+  stock: {
     type: Number,
-    required: [true, 'Quantity is required'],
-    min: [0, 'Quantity cannot be negative'],
+    required: [true, 'Stock quantity is required'],
+    min: [0, 'Stock cannot be negative'],
     default: 0
   },
   description: {
     type: String,
     trim: true,
-    maxlength: [500, 'Description cannot exceed 500 characters']
+    maxlength: [1000, 'Description cannot exceed 1000 characters']
   },
   category: {
     type: String,
-    trim: true,
-    default: 'General'
+    required: [true, 'Category is required'],
+    trim: true
   },
   imageUrl: {
     type: String,
@@ -35,6 +35,10 @@ const productSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -46,5 +50,7 @@ const productSchema = new mongoose.Schema({
 
 // Index for search
 productSchema.index({ name: 'text', description: 'text' });
+productSchema.index({ category: 1 });
+productSchema.index({ isActive: 1, isDeleted: 1 });
 
 module.exports = mongoose.model('Product', productSchema);

@@ -1,1 +1,149 @@
-/* Home page styles */
+/* Home page styles - Mobile First */
+
+.hero-wrapper {
+  @apply relative overflow-hidden rounded-[2rem] md:rounded-[3rem] bg-text-primary;
+}
+
+.hero-card {
+  @apply relative min-h-[400px] md:min-h-[500px] flex items-center p-6 md:p-16;
+}
+
+.hero-bg {
+  @apply absolute inset-0 z-0;
+}
+
+.hero-image {
+  @apply w-full h-full bg-cover bg-center opacity-40 md:opacity-60;
+}
+
+.hero-gradient {
+  @apply absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent md:bg-gradient-to-r md:from-black/80 md:via-black/20 md:to-transparent;
+}
+
+.hero-content {
+  @apply relative z-10 max-w-2xl text-center md:text-left;
+}
+
+.hero-badge {
+  @apply inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white text-[10px] md:text-xs font-black uppercase tracking-widest mb-6;
+}
+
+.hero-title {
+  @apply text-4xl md:text-7xl font-black text-white leading-[0.9] tracking-tighter mb-4;
+  .hero-title-accent {
+    @apply text-brand-orange;
+  }
+}
+
+.hero-tagline {
+  @apply text-sm md:text-xl text-gray-300 font-medium mb-8;
+  .highlight {
+    @apply text-white font-black;
+  }
+}
+
+.hero-buttons {
+  @apply flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-10;
+}
+
+.btn-primary-hero {
+  @apply w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-brand-orange text-white rounded-xl font-black text-sm md:text-base shadow-glow hover:scale-105 transition-all;
+}
+
+.btn-secondary-hero {
+  @apply w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-xl font-black text-sm md:text-base hover:bg-white hover:text-text-primary transition-all;
+}
+
+.trust-pills {
+  @apply flex flex-wrap justify-center md:justify-start gap-3;
+}
+
+.trust-pill {
+  @apply flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] md:text-xs text-white/80 font-bold;
+}
+
+.trust-icon {
+  @apply w-5 h-5 rounded-full flex items-center justify-center text-[10px];
+  @apply bg-brand-orange text-white;
+  &.green { @apply bg-success; }
+  &.blue { @apply bg-primary-500; }
+}
+
+/* Category & Product Grids */
+.category-grid, .products-grid {
+  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6;
+}
+
+.kits-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.features-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6;
+}
+
+/* Section Header */
+.section-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.section-title {
+  @apply text-xl md:text-3xl font-black text-text-primary tracking-tight uppercase;
+}
+
+.section-link {
+  @apply flex items-center gap-2 text-[10px] md:text-xs font-black text-brand-orange uppercase tracking-widest hover:gap-3 transition-all;
+}
+
+/* Card Improvements */
+.category-card, .product-card, .kit-card, .feature-card {
+  @apply transition-all duration-300;
+  &:hover {
+    @apply -translate-y-1 shadow-premium;
+  }
+}
+
+.product-card {
+  @apply bg-white rounded-2xl md:rounded-[2rem] border border-gray-100 overflow-hidden flex flex-col h-full;
+}
+
+.product-image-wrapper {
+  @apply relative aspect-square bg-gray-50 p-4 flex items-center justify-center overflow-hidden;
+}
+
+.product-image {
+  @apply w-full h-full object-contain transition-transform duration-500;
+}
+
+.product-details {
+  @apply p-4 md:p-6 flex flex-col flex-1;
+}
+
+.product-name {
+  @apply text-sm md:text-lg font-black text-text-primary line-clamp-2 mb-1;
+}
+
+.product-unit {
+  @apply text-[10px] md:text-xs font-bold text-text-secondary uppercase tracking-widest mb-4;
+}
+
+.product-footer {
+  @apply mt-auto flex items-center justify-between;
+}
+
+.product-price {
+  @apply text-base md:text-xl font-black text-brand-orange;
+}
+
+.product-add-btn {
+  @apply mt-4 w-full flex items-center justify-center gap-2 py-3 bg-gray-50 hover:bg-brand-orange hover:text-white text-text-primary rounded-xl font-black text-xs md:text-sm transition-all;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}

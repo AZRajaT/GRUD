@@ -30,6 +30,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   groceryKits: GroceryKit[] = [];
   isLoadingKits = false;
 
+  categories = [
+    { id: 'spices', name: 'Pure Spices', image: 'assets/images/cat-spices.jpg' },
+    { id: 'oils', name: 'Cold Pressed Oils', image: 'assets/images/cat-oils.jpg' },
+    { id: 'grains', name: 'Premium Grains', image: 'assets/images/cat-grains.jpg' },
+    { id: 'sweets', name: 'Traditional Sweets', image: 'assets/images/cat-sweets.jpg' }
+  ];
+
+  get products(): Product[] {
+    return this.popularProducts;
+  }
+
+  addToCartFromKit(kit: GroceryKit): void {
+    this.addToCart(kit);
+  }
+
   constructor(
     private cartService: CartService,
     private toastService: ToastService,

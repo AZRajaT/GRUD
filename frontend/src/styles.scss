@@ -954,3 +954,40 @@ html {
     margin-bottom: 1rem;
   }
 }
+
+// ========================================
+// Custom Premium Utilities
+// ========================================
+
+.custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #E5E7EB;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #D1D5DB;
+  }
+}
+
+.shadow-glow {
+  box-shadow: 0 0 40px rgba(255, 106, 0, 0.15);
+}
+
+.shadow-premium {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+// Global typography overrides for premium feel
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif !important;
+}

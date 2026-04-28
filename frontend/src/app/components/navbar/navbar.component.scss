@@ -1,1 +1,34 @@
-/* Navbar styles */
+.nav-link {
+  @apply text-sm font-black uppercase tracking-widest text-text-secondary transition-all hover:text-brand-orange;
+  
+  &.active {
+    @apply text-brand-orange;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      @apply bg-brand-orange rounded-full;
+    }
+  }
+}
+
+.mobile-nav-link {
+  @apply flex items-center py-4 px-4 text-sm font-black uppercase tracking-widest text-text-secondary rounded-xl transition-all;
+  
+  &:hover, &.active {
+    @apply bg-brand-orange/5 text-brand-orange;
+  }
+}
+
+.mobile-search-drawer {
+  will-change: height;
+}
+
+.no-tap-highlight {
+  -webkit-tap-highlight-color: transparent;
+}

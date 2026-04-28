@@ -7,6 +7,8 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth.routes');
 const productRoutes = require('./routes/product.routes');
 const groceryKitRoutes = require('./routes/groceryKit.routes');
+const orderRoutes = require('./routes/order.routes');
+const adminRoutes = require('./routes/admin.routes');
 
 const app = express();
 
@@ -19,14 +21,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/assets', express.static('assets'));
 
 // Database Connection
+const initDB = require('./utils/init-db');
+
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/freshcart')
-  .then(() => console.log('Connected to MongoDB'))
+  .then(async () => {
+    console.log('Connected to MongoDB');
+    // Initialize database with admin and sample data
+    await initDB();
+  })
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/kits', groceryKitRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

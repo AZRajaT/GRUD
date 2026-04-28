@@ -1,292 +1,115 @@
-<!-- Clean Minimal Navbar -->
-<nav class="navbar navbar-expand-lg sticky-top" style="background: white; border-bottom: 1px solid #E5E7EB; box-shadow: 0 1px 3px rgba(0,0,0,0.05); min-height: 60px;">
-  <div class="container">
-    <!-- Logo -->
-    <app-logo size="medium"></app-logo>
-    <style>
-      @media (max-width: 575px) {
-        .navbar .container {
-          padding-left: 12px;
-          padding-right: 12px;
-        }
-      }
-    </style>
-
-    <!-- Search Bar (Hidden on mobile, shown on md+) -->
-    <div class="d-none d-md-flex flex-grow-1 mx-4" style="max-width: 500px;">
-      <div class="input-group">
-        <span class="input-group-text bg-white border-end-0" style="border-color: #E5E7EB;">
-          <i class="bi bi-search text-secondary"></i>
-        </span>
-        <input 
-          type="text" 
-          class="form-control border-start-0" 
-          placeholder="Search groceries..."
-          style="border-color: #E5E7EB;"
-          [(ngModel)]="searchQuery"
-          (keyup.enter)="onSearch()">
+<!-- Modern Premium Navbar -->
+<nav class="navbar-wrapper sticky-top bg-white border-b border-gray-100 z-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16 md:h-20 gap-4">
+      
+      <!-- Logo Section -->
+      <div class="flex-shrink-0">
+        <app-logo size="medium"></app-logo>
       </div>
-    </div>
 
-    <!-- Right Side Actions -->
-    <div class="d-flex align-items-center gap-3">
-      <!-- Admin Login Button -->
-      <a 
-        routerLink="/admin/login" 
-        class="btn d-flex align-items-center gap-2 d-none d-sm-flex"
-        style="background: #02579b; color: white; border-radius: 8px; font-weight: 500; font-size: 14px; padding: 8px 16px; text-decoration: none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-        Admin Login
-      </a>
+      <!-- Desktop Navigation: Hidden on Mobile -->
+      <div class="hidden lg:flex items-center gap-8">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
+        <a routerLink="/products" routerLinkActive="active" class="nav-link">Products</a>
+        <a routerLink="/kits" routerLinkActive="active" class="nav-link">Grocery Kits</a>
+        <a routerLink="/contact" routerLinkActive="active" class="nav-link">Contact</a>
+      </div>
 
-      <!-- Search Toggle (Mobile only) -->
-      <button 
-        class="btn btn-link text-dark d-md-none"
-        (click)="toggleMobileSearch()"
-        style="text-decoration: none; padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;">
-        <i class="bi bi-search" style="font-size: 1.25rem;"></i>
-      </button>
+      <!-- Search Bar: Hidden on Small Mobile, shown on md+ -->
+      <div class="hidden md:flex flex-1 max-w-md mx-4">
+        <div class="relative w-full group">
+          <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-orange transition-colors"></i>
+          <input 
+            type="text" 
+            [(ngModel)]="searchQuery" 
+            (keyup.enter)="onSearch()"
+            placeholder="Search groceries..." 
+            class="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-brand-orange pl-11 pr-4 py-2.5 rounded-xl outline-none text-sm transition-all font-medium">
+        </div>
+      </div>
 
-      <!-- Cart -->
-      <a 
-        routerLink="/cart" 
-        class="btn btn-link text-dark position-relative"
-        style="text-decoration: none; padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;">
-        <i class="bi bi-cart3" style="font-size: 1.25rem;"></i>
-        <!-- @if (cartCount() > 0) {
-          <span 
-            class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-            style="background: #FF8A3D; font-size: 0.7rem; min-width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
-            {{ cartCount() }}
+      <!-- Actions Section -->
+      <div class="flex items-center gap-1 md:gap-3">
+        <!-- Mobile Search Toggle -->
+        <button (click)="toggleMobileSearch()" class="p-2.5 text-gray-500 hover:text-brand-orange md:hidden no-tap-highlight">
+          <i class="bi bi-search text-xl"></i>
+        </button>
+
+        <!-- Admin Access: Icon only on mobile -->
+        <a routerLink="/admin/login" class="p-2.5 text-gray-500 hover:text-brand-orange no-tap-highlight" title="Admin Login">
+          <i class="bi bi-person-circle text-xl md:hidden"></i>
+          <span class="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-xs font-black uppercase tracking-widest text-text-primary transition-all">
+            <i class="bi bi-shield-lock"></i> Admin
           </span>
-        } -->
-      </a>
+        </a>
 
-      <!-- Mobile Menu Toggle -->
-      <button
-        class="btn btn-link text-dark d-lg-none"
-        (click)="toggleMobileMenu()"
-        style="text-decoration: none; padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;">
-        <i class="bi bi-list" style="font-size: 1.5rem;"></i>
-      </button>
-    </div>
+        <!-- Cart: Premium Badge -->
+        <a routerLink="/cart" class="relative p-2.5 text-gray-500 hover:text-brand-orange no-tap-highlight group">
+          <i class="bi bi-bag-heart text-2xl group-hover:scale-110 transition-transform"></i>
+          @if (cartCount() > 0) {
+            <span class="absolute top-1.5 right-1 min-w-[18px] h-[18px] bg-brand-orange text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+              {{ cartCount() }}
+            </span>
+          }
+        </a>
 
-    <!-- Desktop Navigation Links -->
-    <div class="d-none d-lg-flex ms-auto" id="navbarNav">
-      <ul class="navbar-nav flex-row align-items-center gap-4">
-        <li class="nav-item">
-          <a
-            class="nav-link fw-medium d-flex align-items-center gap-1"
-            routerLink="/"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}"
-            style="color: #374151;">
-            <i class="bi bi-house-door"></i>Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link fw-medium d-flex align-items-center gap-1"
-            routerLink="/products"
-            routerLinkActive="active"
-            style="color: #374151;">
-            <i class="bi bi-shop"></i>Products
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link fw-medium d-flex align-items-center gap-1"
-            routerLink="/kits"
-            routerLinkActive="active"
-            style="color: #374151;">
-            <i class="bi bi-box-seam"></i>Kits
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link fw-medium d-flex align-items-center gap-1"
-            routerLink="/contact"
-            routerLinkActive="active"
-            style="color: #374151;">
-            <i class="bi bi-telephone"></i>Contact
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link fw-medium d-flex align-items-center gap-1 position-relative"
-            routerLink="/cart"
-            routerLinkActive="active"
-            style="color: #374151;">
-            <i class="bi bi-cart3"></i>Cart
-            @if (cartCount() > 0) {
-              <span class="badge rounded-pill" style="background: #FF8A3D; font-size: 0.65rem; position: absolute; top: -5px; right: -10px;">{{ cartCount() }}</span>
-            }
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            href="https://wa.me/918870378977"
-            target="_blank"
-            class="btn btn-sm d-flex align-items-center gap-1"
-            style="background: #FF8A3D; color: white; border-radius: 0.5rem; font-weight: 500;">
-            <i class="bi bi-whatsapp"></i>Order
-          </a>
-        </li>
-      </ul>
+        <!-- Hamburger Toggle: Mobile Only -->
+        <button (click)="toggleMobileMenu()" class="p-2.5 text-gray-700 lg:hidden no-tap-highlight">
+          <i class="bi" [class]="isMobileMenuOpen ? 'bi-x-lg' : 'bi-list'" style="font-size: 1.75rem;"></i>
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Mobile Search (Expandable) -->
-  @if (isMobileSearchOpen) {
-    <div class="d-md-none border-top p-3" style="background: #F9FAFB;">
-      <div class="input-group" style="height: 48px;">
-        <span class="input-group-text bg-white border-end-0" style="border-color: #E5E7EB; padding: 12px;">
-          <i class="bi bi-search text-secondary" style="font-size: 1.1rem;"></i>
-        </span>
+  <!-- Mobile Search Drawer -->
+  <div class="mobile-search-drawer overflow-hidden transition-all duration-300" [class.h-0]="!isMobileSearchOpen" [class.h-20]="isMobileSearchOpen">
+    <div class="px-4 py-3 bg-gray-50 border-t border-gray-100">
+      <div class="relative w-full">
+        <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
         <input 
           type="text" 
-          class="form-control border-start-0" 
-          placeholder="Search groceries..."
-          style="border-color: #E5E7EB; font-size: 16px;"
-          [(ngModel)]="searchQuery"
+          [(ngModel)]="searchQuery" 
           (keyup.enter)="onSearch()"
-          #mobileSearchInput>
-        <button class="btn" style="background: #FF8A3D; color: white; padding: 12px 20px; font-weight: 500;" (click)="onSearch()">Search</button>
+          placeholder="Search groceries..." 
+          class="w-full bg-white border border-gray-200 pl-11 pr-4 py-3 rounded-xl outline-none text-base font-medium shadow-sm">
       </div>
-    </div>
-  }
-
-  <!-- Mobile Menu (Expandable) -->
-  @if (isMobileMenuOpen) {
-    <div class="d-lg-none border-top" style="background: white; max-height: calc(100vh - 60px); overflow-y: auto;">
-      <div class="p-3">
-        <ul class="navbar-nav gap-2">
-          <li class="nav-item">
-            <a
-              class="nav-link py-2"
-              routerLink="/"
-              (click)="closeMobileMenu()"
-              style="color: #374151;">
-              <i class="bi bi-house-door me-2"></i>Home
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link py-2"
-              routerLink="/products"
-              (click)="closeMobileMenu()"
-              style="color: #374151;">
-              <i class="bi bi-shop me-2"></i>Products
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link py-2"
-              routerLink="/kits"
-              (click)="closeMobileMenu()"
-              style="color: #374151;">
-              <i class="bi bi-box-seam me-2"></i>Grocery Kits
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link py-2"
-              routerLink="/contact"
-              (click)="closeMobileMenu()"
-              style="color: #374151;">
-              <i class="bi bi-telephone me-2"></i>Contact
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link py-2"
-              routerLink="/cart"
-              (click)="closeMobileMenu()"
-              style="color: #374151;">
-              <i class="bi bi-cart3 me-2"></i>Cart
-              @if (cartCount() > 0) {
-                <span class="badge ms-2" style="background: #FF8A3D;">{{ cartCount() }}</span>
-              }
-            </a>
-          </li>
-          <li class="nav-item pt-2 border-top">
-            <a
-              routerLink="/admin/login"
-              class="nav-link py-2"
-              style="color: #02579b; font-weight: 600;"
-              (click)="closeMobileMenu()">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              Admin Login
-            </a>
-          </li>
-          <li class="nav-item pt-2">
-            <a
-              href="https://wa.me/918870378977"
-              target="_blank"
-              class="btn w-100"
-              style="background: #FF8A3D; color: white; font-weight: 500;"
-              (click)="closeMobileMenu()">
-              <i class="bi bi-whatsapp me-2"></i>Order on WhatsApp
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  }
-</nav>
-
-<!-- Category Navigation Bar -->
-<div class="d-none d-md-block border-bottom" style="background: white;">
-  <div class="container">
-    <div class="d-flex align-items-center gap-4 py-2 overflow-auto" style="white-space: nowrap;">
-      <a routerLink="/products" [queryParams]="{category: 'all'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem; font-weight: 500;">
-        All Products
-      </a>
-      <a routerLink="/products" [queryParams]="{category: 'rice'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
-        Rice
-      </a>
-      <a routerLink="/products" [queryParams]="{category: 'dal'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
-        Dal
-      </a>
-      <a routerLink="/products" [queryParams]="{category: 'oil'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
-        Oil & Ghee
-      </a>
-      <a routerLink="/products" [queryParams]="{category: 'masala'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
-        Masalas
-      </a>
-      <a routerLink="/products" [queryParams]="{category: 'kits'}" class="text-decoration-none" style="color: #6B7280; font-size: 0.9rem;">
-        Grocery Kits
-      </a>
     </div>
   </div>
-</div>
 
-<style>
-  .nav-link.active {
-    color: #FF8A3D !important;
-    font-weight: 600;
-  }
-  
-  .nav-link:hover {
-    color: #FF8A3D !important;
-  }
-  
-  /* Mobile touch targets */
-  @media (max-width: 991px) {
-    .navbar-nav .nav-link {
-      padding: 12px 8px;
-      font-size: 1rem;
-    }
+  <!-- Mobile Slide-out Menu (Drawer) -->
+  <div class="fixed inset-0 z-[60] lg:hidden transition-all duration-500 pointer-events-none" [class.active]="isMobileMenuOpen">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/20 backdrop-blur-sm opacity-0 transition-opacity duration-500 pointer-events-auto" (click)="closeMobileMenu()" [class.opacity-100]="isMobileMenuOpen"></div>
     
-    .navbar-nav .btn {
-      padding: 12px;
-      font-size: 1rem;
-    }
-  }
-</style>
+    <!-- Drawer Content -->
+    <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl transform translate-x-full transition-transform duration-500 pointer-events-auto flex flex-col" [class.translate-x-0]="isMobileMenuOpen">
+      <div class="p-6 border-b border-gray-50 flex items-center justify-between">
+        <app-logo size="small"></app-logo>
+        <button (click)="closeMobileMenu()" class="p-2 text-gray-400">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-6">
+        <nav class="space-y-1">
+          <a routerLink="/" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-house mr-3"></i> Home</a>
+          <a routerLink="/products" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-shop mr-3"></i> Products</a>
+          <a routerLink="/kits" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-box-seam mr-3"></i> Grocery Kits</a>
+          <a routerLink="/contact" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-chat-dots mr-3"></i> Contact</a>
+        </nav>
+
+        <div class="mt-10 pt-10 border-t border-gray-50">
+          <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Quick Actions</p>
+          <a href="https://wa.me/918870378977" class="w-full flex items-center justify-center gap-3 py-4 bg-brand-green text-white rounded-xl font-black text-sm shadow-soft">
+            <i class="bi bi-whatsapp"></i> ORDER ON WHATSAPP
+          </a>
+        </div>
+      </div>
+
+      <div class="p-6 border-t border-gray-50 bg-gray-50/50">
+        <p class="text-[10px] text-gray-400 font-medium text-center">© 2026 AROW Mart. Fast Delivery.</p>
+      </div>
+    </div>
+  </div>
+</nav>

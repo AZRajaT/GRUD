@@ -1,84 +1,90 @@
-<!-- Clean Minimal Footer -->
-<footer style="background: white; border-top: 1px solid #E5E7EB;">
-  <!-- Main Footer -->
-  <div class="py-4 py-md-5">
-    <div class="container">
-      <div class="row g-3 g-md-4">
-        <!-- Brand -->
-        <div class="col-12 col-md-4 text-center text-md-start">
-          <div class="mb-3 d-flex justify-content-center justify-content-md-start">
-            <app-logo size="large" [clickable]="true"></app-logo>
+<!-- Modern Premium Footer -->
+<footer class="bg-white border-t border-gray-100 pt-12 pb-8 md:pt-20 md:pb-12">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-16 mb-12 md:mb-20">
+      
+      <!-- Brand & Story -->
+      <div class="lg:col-span-4 space-y-6 text-center md:text-left">
+        <app-logo size="large" [clickable]="true"></app-logo>
+        <p class="text-text-secondary text-sm md:text-base font-medium leading-relaxed max-w-sm mx-auto md:mx-0">
+          Your trusted source for premium groceries and authentic Kovilpatti masalas. We bring the tradition of quality directly to your kitchen.
+        </p>
+        <div class="flex items-center justify-center md:justify-start gap-4">
+          <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-brand-orange hover:text-white transition-all shadow-sm">
+            <i class="bi bi-instagram text-lg"></i>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-brand-orange hover:text-white transition-all shadow-sm">
+            <i class="bi bi-facebook text-lg"></i>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-brand-orange hover:text-white transition-all shadow-sm">
+            <i class="bi bi-twitter-x text-lg"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="lg:col-span-2 space-y-6">
+        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-text-primary text-center md:text-left">Quick Links</h4>
+        <ul class="space-y-4 text-center md:text-left">
+          <li><a routerLink="/" class="text-sm font-bold text-text-secondary hover:text-brand-orange transition-colors">Home</a></li>
+          <li><a routerLink="/products" class="text-sm font-bold text-text-secondary hover:text-brand-orange transition-colors">All Products</a></li>
+          <li><a routerLink="/kits" class="text-sm font-bold text-text-secondary hover:text-brand-orange transition-colors">Grocery Kits</a></li>
+          <li><a routerLink="/cart" class="text-sm font-bold text-text-secondary hover:text-brand-orange transition-colors">Shopping Cart</a></li>
+        </ul>
+      </div>
+
+      <!-- Categories -->
+      <div class="lg:col-span-2 space-y-6">
+        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-text-primary text-center md:text-left">Categories</h4>
+        <ul class="space-y-4 text-center md:text-left">
+          <li><a routerLink="/products" [queryParams]="{category: 'spices'}" class="text-sm font-bold text-text-secondary hover:text-brand-orange transition-colors">Pure Spices</a></li>
+          <li><a routerLink="/products" [queryParams]="{category: 'oils'}" class="text-sm font-bold text-text-secondary hover:text-brand-orange transition-colors">Cold Pressed Oils</a></li>
+          <li><a routerLink="/products" [queryParams]="{category: 'grains'}" class="text-sm font-bold text-text-secondary hover:text-brand-orange transition-colors">Premium Grains</a></li>
+          <li><a routerLink="/products" [queryParams]="{category: 'sweets'}" class="text-sm font-bold text-text-secondary hover:text-brand-orange transition-colors">Traditional Sweets</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="lg:col-span-4 space-y-6">
+        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-text-primary text-center md:text-left">Get In Touch</h4>
+        <div class="space-y-4">
+          <div class="flex items-start gap-4 justify-center md:justify-start">
+            <div class="w-10 h-10 rounded-xl bg-brand-orange/5 flex items-center justify-center text-brand-orange flex-shrink-0">
+              <i class="bi bi-geo-alt-fill"></i>
+            </div>
+            <p class="text-sm font-bold text-text-secondary leading-tight pt-2">
+              1/45 Thuraisalai Street, Annanagar,<br>Chennai - 600024
+            </p>
           </div>
-          <p class="small mb-3 d-none d-md-block" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Your trusted online kirana store for premium groceries and authentic Indian masalas. Quality products delivered fresh.</p>
-          <div class="d-flex gap-3 justify-content-center justify-content-md-start">
-            <a href="#" class="text-decoration-none" style="color: #9CA3AF; padding: 8px;">
-              <i class="bi bi-instagram" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
-            </a>
-            <a href="#" class="text-decoration-none" style="color: #9CA3AF; padding: 8px;">
-              <i class="bi bi-facebook" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
-            </a>
-            <a href="#" class="text-decoration-none" style="color: #9CA3AF; padding: 8px;">
-              <i class="bi bi-twitter" style="font-size: clamp(1.25rem, 3vw, 1.5rem);"></i>
+          <div class="flex items-center gap-4 justify-center md:justify-start">
+            <div class="w-10 h-10 rounded-xl bg-brand-green/5 flex items-center justify-center text-brand-green flex-shrink-0">
+              <i class="bi bi-whatsapp"></i>
+            </div>
+            <a href="https://wa.me/918870378977" target="_blank" class="text-sm font-black text-text-primary hover:text-brand-green transition-colors">
+              +91 88703 78977
             </a>
           </div>
-        </div>
-
-        <!-- Quick Links -->
-        <div class="col-6 col-md-2">
-          <h6 class="fw-semibold mb-2 mb-md-3" style="color: #374151; font-size: clamp(0.875rem, 2.5vw, 1rem);">Quick Links</h6>
-          <ul class="list-unstyled mb-0">
-            <li class="mb-2"><a routerLink="/" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Home</a></li>
-            <li class="mb-2"><a routerLink="/products" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Products</a></li>
-            <li class="mb-2"><a routerLink="/contact" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Contact</a></li>
-            <li class="mb-2"><a routerLink="/cart" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Cart</a></li>
-          </ul>
-        </div>
-
-        <!-- Categories -->
-        <div class="col-6 col-md-2">
-          <h6 class="fw-semibold mb-2 mb-md-3" style="color: #374151; font-size: clamp(0.875rem, 2.5vw, 1rem);">Categories</h6>
-          <ul class="list-unstyled mb-0">
-            <li class="mb-2"><a routerLink="/products" [queryParams]="{category: 'rice'}" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Rice</a></li>
-            <li class="mb-2"><a routerLink="/products" [queryParams]="{category: 'dal'}" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Dal</a></li>
-            <li class="mb-2"><a routerLink="/products" [queryParams]="{category: 'masala'}" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">Masalas</a></li>
-          </ul>
-        </div>
-
-        <!-- Contact -->
-        <div class="col-12 col-md-4 mt-3 mt-md-0">
-          <h6 class="fw-semibold mb-2 mb-md-3 text-center text-md-start" style="color: #374151; font-size: clamp(0.875rem, 2.5vw, 1rem);">Contact Us</h6>
-          <ul class="list-unstyled mb-0">
-            <li class="d-flex align-items-center gap-2 mb-2 small justify-content-center justify-content-md-start" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">
-              <i class="bi bi-geo-alt" style="color: #FF8A3D; font-size: 1rem;"></i>
-              <span>1/45 Thuraisalai Street, Annanagar, Chennai-600024</span>
-            </li>
-            <li class="d-flex align-items-center gap-2 mb-2 justify-content-center justify-content-md-start">
-              <i class="bi bi-whatsapp" style="color: #25D366; font-size: 1rem;"></i>
-              <a href="https://wa.me/918870378977" target="_blank" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">+91 88703 78977</a>
-            </li>
-            <li class="d-flex align-items-center gap-2 mb-2 justify-content-center justify-content-md-start">
-              <i class="bi bi-telephone" style="color: #FF8A3D; font-size: 1rem;"></i>
-              <a href="tel:+918870378977" class="text-decoration-none small" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">+91 88703 78977</a>
-            </li>
-            <li class="d-flex align-items-center gap-2 small justify-content-center justify-content-md-start" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">
-              <i class="bi bi-envelope" style="color: #FF8A3D; font-size: 1rem;"></i>
-              <span>hello&#64;arowmart.com</span>
-            </li>
-            <li class="d-flex align-items-center gap-2 small justify-content-center justify-content-md-start d-none d-md-flex" style="color: #6B7280; font-size: clamp(0.8rem, 2vw, 0.875rem);">
-              <i class="bi bi-clock" style="color: #FF8A3D; font-size: 1rem;"></i>
-              <span>Mon-Fri: 9AM-9PM</span>
-            </li>
-          </ul>
+          <div class="flex items-center gap-4 justify-center md:justify-start">
+            <div class="w-10 h-10 rounded-xl bg-primary-100/10 flex items-center justify-center text-primary-500 flex-shrink-0">
+              <i class="bi bi-envelope-fill"></i>
+            </div>
+            <a href="mailto:hello&#64;arowmart.com" class="text-sm font-bold text-text-secondary hover:text-text-primary transition-colors">
+              hello&#64;arowmart.com
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Copyright -->
-  <div class="border-top py-3 py-md-4" style="border-color: #E5E7EB;">
-    <div class="container">
-      <div class="text-center">
-        <p class="small mb-0" style="color: #9CA3AF; font-size: clamp(0.75rem, 2vw, 0.875rem);">© {{ currentYear }} AROW Mart. All rights reserved.</p>
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t border-gray-50 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-[0.3em] text-center">
+        © {{ currentYear }} AROW Mart. All rights reserved. 
+      </p>
+      <div class="flex items-center gap-6">
+        <span class="text-[10px] font-black text-gray-300 uppercase tracking-widest">Privacy</span>
+        <span class="text-[10px] font-black text-gray-300 uppercase tracking-widest">Terms</span>
+        <span class="text-[10px] font-black text-gray-300 uppercase tracking-widest">Shipping</span>
       </div>
     </div>
   </div>

@@ -1,12 +1,141 @@
-/* Products page styles */
- .bg-white:hover {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-    transform: translateY(-4px);
-  }
+/* Products Page - Mobile First Styles */
 
-  .product-image {
-    width: 100%;
-    height: 465px;
-    object-fit: contain;
-    border-radius: 8px;
+.products-page {
+  @apply min-h-screen bg-[#F8F9FA] pb-24 md:pb-12;
+}
+
+.products-header {
+  @apply bg-white border-b border-gray-100 pt-4 pb-6 md:pt-12 md:pb-16 mb-4 md:mb-10;
+}
+
+.page-title {
+  @apply text-2xl md:text-5xl font-black text-text-primary tracking-tighter mb-1 md:mb-2;
+}
+
+.page-subtitle {
+  @apply text-xs md:text-lg text-text-secondary font-medium;
+}
+
+.search-wrapper {
+  @apply mt-6 md:mt-0 w-full md:max-w-md;
+}
+
+.search-box {
+  @apply relative;
+  
+  i {
+    @apply absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-orange transition-colors;
   }
+  
+  input {
+    @apply w-full pl-11 pr-4 py-3 md:py-4 bg-gray-50 border-2 border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-brand-orange transition-all outline-none font-bold text-sm md:text-base text-text-primary placeholder:text-gray-300 shadow-inner;
+  }
+}
+
+/* Category Scrollbar: Hidden but functional */
+.category-scroll {
+  @apply overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-pills {
+  @apply flex items-center gap-3 w-max;
+}
+
+.category-pill {
+  @apply px-5 py-2.5 rounded-full bg-white border border-gray-100 text-[10px] md:text-xs font-black uppercase tracking-widest text-text-secondary transition-all hover:border-brand-orange hover:text-brand-orange shadow-soft whitespace-nowrap;
+  
+  &.active {
+    @apply bg-brand-orange border-brand-orange text-white shadow-glow;
+  }
+}
+
+/* Products Grid */
+.products-grid {
+  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8;
+}
+
+.product-card {
+  @apply bg-white rounded-2xl md:rounded-[2.5rem] border border-gray-100 overflow-hidden flex flex-col h-full transition-all duration-500 hover:-translate-y-2 hover:shadow-premium;
+}
+
+.product-image-wrapper {
+  @apply relative aspect-square bg-gray-50/50 p-4 flex items-center justify-center overflow-hidden;
+}
+
+.product-image {
+  @apply w-full h-full object-contain transition-transform duration-700 group-hover:scale-110;
+}
+
+.product-tag {
+  @apply absolute top-3 left-3 px-2 py-1 bg-brand-orange text-white text-[8px] md:text-[10px] font-black rounded-lg uppercase tracking-widest shadow-sm;
+}
+
+.product-details {
+  @apply p-4 md:p-8 flex flex-col flex-1;
+}
+
+.product-name {
+  @apply text-sm md:text-xl font-black text-text-primary line-clamp-2 mb-1 md:mb-2 leading-tight transition-colors;
+}
+
+.product-unit {
+  @apply text-[9px] md:text-xs font-bold text-text-secondary uppercase tracking-widest mb-4;
+}
+
+.product-footer {
+  @apply mt-auto flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4;
+}
+
+.product-price {
+  @apply text-lg md:text-2xl font-black text-text-primary tracking-tighter;
+}
+
+/* Add to Cart Button */
+.product-add-btn {
+  @apply w-full flex items-center justify-center gap-2 py-3.5 md:py-4 bg-gray-50 hover:bg-brand-orange hover:text-white text-text-primary rounded-xl md:rounded-2xl font-black text-xs md:text-sm transition-all uppercase tracking-widest mt-4;
+  
+  i { @apply text-lg md:text-xl; }
+}
+
+/* Quantity Controls */
+.quantity-control {
+  @apply mt-4 flex items-center justify-between bg-gray-100 rounded-xl md:rounded-2xl p-1 md:p-1.5 shadow-inner;
+}
+
+.qty-btn {
+  @apply w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white rounded-lg md:rounded-xl text-text-primary shadow-sm active:scale-95 transition-all;
+  
+  &.plus { @apply bg-brand-orange text-white; }
+}
+
+.qty-value {
+  @apply flex-1 text-center font-black text-sm md:text-lg text-text-primary;
+}
+
+/* States */
+.loading-state, .empty-state, .error-state {
+  @apply flex flex-col items-center justify-center text-center py-12 md:py-24 animate-fade-in;
+}
+
+.empty-icon, .error-icon {
+  @apply w-24 h-24 md:w-40 md:h-40 bg-gray-50 rounded-full flex items-center justify-center mb-6 md:mb-10 text-gray-200 animate-float;
+  i { @apply text-4xl md:text-7xl; }
+}
+
+.clear-btn, .retry-btn {
+  @apply mt-8 px-8 py-4 bg-text-primary text-white rounded-xl font-black text-xs md:text-sm tracking-widest shadow-soft hover:bg-black transition-all;
+}
+
+.spinner {
+  @apply w-12 h-12 md:w-20 md:h-20 border-4 border-gray-100 border-t-brand-orange rounded-full animate-spin mb-6;
+}
+
+/* Animation Utilities */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

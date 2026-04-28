@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
 
@@ -10,8 +9,7 @@ import { ToastService } from '../../services/toast.service';
   standalone: true,
   imports: [
     CommonModule, 
-    RouterLink, 
-    LucideAngularModule
+    RouterLink
   ],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']

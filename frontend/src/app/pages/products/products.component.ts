@@ -20,13 +20,13 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductsComponent implements OnInit {
   searchQuery = signal('');
-  selectedCategory = 'all';
-  products: Product[] = [];
+  selectedCategory = signal('all');
+  products = signal<Product[]>([]);
   isLoading = false;
   error: string | null = null;
   imageErrors: { [key: string]: boolean } = {};
 
-  categories: { id: string; name: string }[] = [];
+  categories = signal<{ id: string; name: string }[]>([]);
 
   constructor(
     private cartService: CartService,
@@ -37,10 +37,12 @@ export class ProductsComponent implements OnInit {
 
   filteredProducts = computed(() => {
     const query = this.searchQuery().toLowerCase();
-    return this.products.filter(product => {
+    const currentCategory = this.selectedCategory();
+    
+    return this.products().filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(query) ||
                           product.description?.toLowerCase().includes(query);
-      const matchesCategory = this.selectedCategory === 'all' || product.category === this.selectedCategory;
+      const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
       return matchesSearch && matchesCategory;
     });
   });
@@ -77,12 +79,12 @@ export class ProductsComponent implements OnInit {
   }
 
   getCategoryName(categoryId: string): string {
-    const category = this.categories.find(c => c.id === categoryId);
+    const category = this.categories().find(c => c.id === categoryId);
     return category ? category.name : 'Products';
   }
 
   selectCategory(categoryId: string): void {
-    this.selectedCategory = categoryId;
+    this.selectedCategory.set(categoryId);
     this.loadProducts();
   }
 
@@ -90,19 +92,18 @@ export class ProductsComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
     
-    const category = this.selectedCategory === 'all' ? undefined : this.selectedCategory;
+    const currentCategory = this.selectedCategory();
+    const category = currentCategory === 'all' ? undefined : currentCategory;
     const search = this.searchQuery() || undefined;
     
-    console.log('[DEBUG] Loading products with:', { category, search, selectedCategory: this.selectedCategory });
+    console.log('[DEBUG] Loading products with:', { category, search, selectedCategory: currentCategory });
     
     this.productService.getProducts(1, 100, search, category).subscribe({
       next: (response) => {
         console.log('[DEBUG] API Response:', response);
         if (response.success) {
           console.log('[DEBUG] Products count:', response.data.products.length);
-          console.log('[DEBUG] Products:', response.data.products);
-          this.products = response.data.products.filter(p => p.isActive !== false);
-          console.log('[DEBUG] Filtered products:', this.products.length);
+          this.products.set(response.data.products.filter(p => p.isActive !== false));
         } else {
           this.error = 'Failed to load products';
         }
@@ -120,27 +121,15 @@ export class ProductsComponent implements OnInit {
     this.productService.getCategories().subscribe({
       next: (response) => {
         if (response.success && response.data.categories.length > 0) {
-          // Normalize and deduplicate categories by lowercase ID
-          const categoryMap = new Map<string, string>();
-          
-          response.data.categories
+          // Keep original category names as IDs for backend compatibility
+          const apiCategories = response.data.categories
             .filter(cat => cat && cat.trim())
-            .forEach(cat => {
-              const id = cat.toLowerCase().replace(/\s+/g, '-');
-              // Keep the first occurrence or prefer title case version
-              if (!categoryMap.has(id)) {
-                // Convert to proper title case: "RICE" -> "Rice"
-                const name = cat.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
-                categoryMap.set(id, name);
-              }
-            });
+            .map(cat => ({
+              id: cat, // Use original string
+              name: cat.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) // Pretty name
+            }));
           
-          const apiCategories = Array.from(categoryMap.entries()).map(([id, name]) => ({
-            id,
-            name
-          }));
-          
-          this.categories = [{ id: 'all', name: 'All Products' }, ...apiCategories];
+          this.categories.set([{ id: 'all', name: 'All Products' }, ...apiCategories]);
         } else {
           this.setDefaultCategories();
         }
@@ -153,15 +142,15 @@ export class ProductsComponent implements OnInit {
   }
 
   private setDefaultCategories(): void {
-    this.categories = [
+    this.categories.set([
       { id: 'all', name: 'All Products' },
-      { id: 'kits', name: 'Grocery Kits' },
-      { id: 'rice', name: 'Rice & Grains' },
-      { id: 'dal', name: 'Dal & Pulses' },
-      { id: 'masala', name: 'Masala & Spices' },
-      { id: 'oil', name: 'Oils & Ghee' },
-      { id: 'essentials', name: 'Daily Essentials' },
-    ];
+      { id: 'Kits', name: 'Grocery Kits' },
+      { id: 'Rice', name: 'Rice & Grains' },
+      { id: 'Dal', name: 'Dal & Pulses' },
+      { id: 'Masala', name: 'Masala & Spices' },
+      { id: 'Oil', name: 'Oils & Ghee' },
+      { id: 'Essentials', name: 'Daily Essentials' },
+    ]);
   }
 
   ngOnInit(): void {
@@ -171,7 +160,7 @@ export class ProductsComponent implements OnInit {
         this.searchQuery.set(params['search']);
       }
       if (params['category']) {
-        this.selectedCategory = params['category'];
+        this.selectedCategory.set(params['category']);
       }
       this.loadProducts();
     });
@@ -180,4 +169,5 @@ export class ProductsComponent implements OnInit {
   onImageError(productId: string): void {
     this.imageErrors[productId] = true;
   }
+
 }

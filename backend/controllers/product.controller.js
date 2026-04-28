@@ -1,40 +1,46 @@
 const Product = require('../models/product.model');
 const { validationResult } = require('express-validator');
 
-// Get all products
-const getAllProducts = async (req, res) => {
+// Get all products with filters and pagination
+exports.getAllProducts = async (req, res, next) => {
   try {
-    const { page = 1, limit = 10, search, category, minPrice, maxPrice, sortBy = 'createdAt', order = 'desc' } = req.query;
+    const { 
+      page = 1, 
+      limit = 12, 
+      search, 
+      category, 
+      minPrice, 
+      maxPrice, 
+      sortBy = 'createdAt', 
+      order = 'desc' 
+    } = req.query;
 
-    // Build query
-    const query = { isActive: true };
+    const query = { isDeleted: false };
 
     if (search) {
-      query.$text = { $search: search };
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
     }
 
-    if (category) {
+    if (category && category !== 'all') {
       query.category = category;
     }
 
-    if (minPrice !== undefined || maxPrice !== undefined) {
+    if (minPrice || maxPrice) {
       query.price = {};
-      if (minPrice !== undefined) query.price.$gte = Number(minPrice);
-      if (maxPrice !== undefined) query.price.$lte = Number(maxPrice);
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
-    // Build sort
     const sortOptions = {};
     sortOptions[sortBy] = order === 'desc' ? -1 : 1;
 
-    // Pagination
-    const skip = (Number(page) - 1) * Number(limit);
-
     const products = await Product.find(query)
       .sort(sortOptions)
-      .skip(skip)
-      .limit(Number(limit))
-      .populate('createdBy', 'username email');
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
 
     const total = await Product.countDocuments(query);
 
@@ -43,125 +49,71 @@ const getAllProducts = async (req, res) => {
       data: {
         products,
         pagination: {
-          currentPage: Number(page),
-          totalPages: Math.ceil(total / Number(limit)),
           totalItems: total,
+          currentPage: Number(page),
+          totalPages: Math.ceil(total / limit),
           itemsPerPage: Number(limit)
         }
       }
     });
   } catch (error) {
-    console.error('Get products error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error fetching products',
-      error: error.message
-    });
+    next(error);
   }
 };
 
 // Get single product
-const getProductById = async (req, res) => {
+exports.getProductById = async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.id).populate('createdBy', 'username email');
-
+    const product = await Product.findOne({ _id: req.params.id, isDeleted: false });
     if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: 'Product not found'
-      });
+      return res.status(404).json({ success: false, message: 'Product not found' });
     }
-
-    res.json({
-      success: true,
-      data: { product }
-    });
+    res.json({ success: true, data: { product } });
   } catch (error) {
-    console.error('Get product error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error fetching product',
-      error: error.message
-    });
+    next(error);
   }
 };
 
-// Create product
-const createProduct = async (req, res) => {
+// Create product (Admin)
+exports.createProduct = async (req, res, next) => {
   try {
-    // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        message: 'Validation failed',
-        errors: errors.array()
-      });
+      return res.status(400).json({ success: false, errors: errors.array() });
     }
 
-    const { name, price, quantity, description, category, imageUrl } = req.body;
-
     const product = new Product({
-      name,
-      price,
-      quantity,
-      description,
-      category,
-      imageUrl,
-      createdBy: req.user._id
+      ...req.body,
+      createdBy: req.user ? req.user._id : null
     });
 
     await product.save();
-
     res.status(201).json({
       success: true,
       message: 'Product created successfully',
       data: { product }
     });
   } catch (error) {
-    console.error('Create product error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error creating product',
-      error: error.message
-    });
+    next(error);
   }
 };
 
-// Update product
-const updateProduct = async (req, res) => {
+// Update product (Admin)
+exports.updateProduct = async (req, res, next) => {
   try {
-    // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        message: 'Validation failed',
-        errors: errors.array()
-      });
+      return res.status(400).json({ success: false, errors: errors.array() });
     }
-
-    const { name, price, quantity, description, category, imageUrl, isActive } = req.body;
 
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      {
-        name,
-        price,
-        quantity,
-        description,
-        category,
-        imageUrl,
-        isActive
-      },
+      req.body,
       { new: true, runValidators: true }
     );
 
     if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: 'Product not found'
-      });
+      return res.status(404).json({ success: false, message: 'Product not found' });
     }
 
     res.json({
@@ -170,29 +122,22 @@ const updateProduct = async (req, res) => {
       data: { product }
     });
   } catch (error) {
-    console.error('Update product error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error updating product',
-      error: error.message
-    });
+    next(error);
   }
 };
 
-// Delete product (soft delete)
-const deleteProduct = async (req, res) => {
+
+// Soft delete product (Admin)
+exports.deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      { isActive: false },
+      { isDeleted: true, isActive: false },
       { new: true }
     );
 
     if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: 'Product not found'
-      });
+      return res.status(404).json({ success: false, message: 'Product not found' });
     }
 
     res.json({
@@ -200,17 +145,12 @@ const deleteProduct = async (req, res) => {
       message: 'Product deleted successfully'
     });
   } catch (error) {
-    console.error('Delete product error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error deleting product',
-      error: error.message
-    });
+    next(error);
   }
 };
 
-// Hard delete product (admin only)
-const hardDeleteProduct = async (req, res) => {
+// Hard delete product (Admin only)
+exports.hardDeleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
 
@@ -226,17 +166,12 @@ const hardDeleteProduct = async (req, res) => {
       message: 'Product permanently deleted'
     });
   } catch (error) {
-    console.error('Hard delete product error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error deleting product',
-      error: error.message
-    });
+    next(error);
   }
 };
 
 // Get product categories
-const getCategories = async (req, res) => {
+exports.getCategories = async (req, res, next) => {
   try {
     const categories = await Product.distinct('category');
 
@@ -245,21 +180,7 @@ const getCategories = async (req, res) => {
       data: { categories }
     });
   } catch (error) {
-    console.error('Get categories error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error fetching categories',
-      error: error.message
-    });
+    next(error);
   }
 };
 
-module.exports = {
-  getAllProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-  hardDeleteProduct,
-  getCategories
-};
