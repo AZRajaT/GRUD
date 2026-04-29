@@ -6,13 +6,15 @@ import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
 import { ProductService } from '../../services/product.service';
 import { GroceryKitService } from '../../services/grocery-kit.service';
+import { AssetPipe } from '../../pipes/asset.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule, 
-    RouterLink
+    RouterLink,
+    AssetPipe
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

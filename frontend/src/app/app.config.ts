@@ -5,6 +5,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(
-      withInterceptors([AuthInterceptor])
+      withInterceptors([AuthInterceptor, LoadingInterceptor])
     )
   ]
 };

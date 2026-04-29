@@ -6,6 +6,7 @@ import { Product } from '../../models';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
 import { ProductService } from '../../services/product.service';
+import { AssetPipe } from '../../pipes/asset.pipe';
 
 @Component({
   selector: 'app-products',
@@ -13,7 +14,8 @@ import { ProductService } from '../../services/product.service';
   imports: [
     CommonModule, 
     RouterLink, 
-    FormsModule
+    FormsModule,
+    AssetPipe
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'

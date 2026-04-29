@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../services/product.service';
 import { ToastService } from '../../../services/toast.service';
 import { Product, ProductPagination } from '../../../models/product.model';
+import { AssetPipe } from '../../../pipes/asset.pipe';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, AssetPipe],
   template: `
     <div class="space-y-6 animate-fade-in">
       <!-- Header -->
@@ -48,7 +49,7 @@ import { Product, ProductPagination } from '../../../models/product.model';
         @for (product of products; track product._id) {
           <div class="bg-white rounded-2xl shadow-soft border border-gray-100 overflow-hidden group hover:shadow-premium transition-all duration-300">
             <div class="relative h-48 bg-gray-50 overflow-hidden">
-              <img [src]="product.imageUrl || 'assets/images/placeholder.png'" 
+              <img [src]="(product.imageUrl || 'assets/images/placeholder.png') | asset" 
                    class="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500" 
                    [alt]="product.name">
               <div class="absolute top-3 right-3 flex flex-col gap-2">

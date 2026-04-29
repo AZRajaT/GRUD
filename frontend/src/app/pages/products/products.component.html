@@ -81,7 +81,7 @@
           <div class="product-card group">
             <div class="product-image-wrapper">
               @if (product.imageUrl && product._id && !imageErrors[product._id]) {
-                <img [src]="product.imageUrl" [alt]="product.name" class="product-image" (error)="onImageError(product._id)" />
+                <img [src]="product.imageUrl | asset" [alt]="product.name" class="product-image" (error)="onImageError(product._id)" />
               } @else {
                 <i class="bi bi-image text-gray-200 text-5xl"></i>
               }

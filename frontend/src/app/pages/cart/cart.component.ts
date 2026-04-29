@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
+import { AssetPipe } from '../../pipes/asset.pipe';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
   imports: [
     CommonModule, 
-    RouterLink
+    RouterLink,
+    AssetPipe
   ],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']

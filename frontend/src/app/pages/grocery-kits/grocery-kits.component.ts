@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { GroceryKitService } from '../../services/grocery-kit.service';
 import { CartService } from '../../services/cart.service';
 import { GroceryKit, KitItem } from '../../models';
+import { AssetPipe } from '../../pipes/asset.pipe';
 
 @Component({
   selector: 'app-grocery-kits',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, AssetPipe],
   templateUrl: './grocery-kits.component.html',
   styleUrl: './grocery-kits.component.scss'
 })

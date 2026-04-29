@@ -44,7 +44,7 @@
           <div class="kit-card" [class.expanded]="expandedKitId() === kit._id">
             <!-- Kit Image -->
             <div class="kit-image-wrapper">
-              <img [src]="getImageUrl(kit)" [alt]="kit.name" class="kit-image" loading="lazy">
+              <img [src]="getImageUrl(kit) | asset" [alt]="kit.name" class="kit-image" loading="lazy">
               
               <!-- Badges -->
               @if (kit.popular) {
@@ -125,7 +125,7 @@
                     @for (item of kit.items; track item.product._id) {
                       <li class="item-row">
                         <img
-                          [src]="item.product.imageUrl || '/assets/images/product-placeholder.jpg'"
+                          [src]="(item.product.imageUrl || 'assets/images/product-placeholder.jpg') | asset"
                           [alt]="item.product.name"
                           class="item-thumb">
                         <div class="item-info">

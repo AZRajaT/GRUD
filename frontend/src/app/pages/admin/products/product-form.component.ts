@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../services/product.service';
 import { ToastService } from '../../../services/toast.service';
 import { Product } from '../../../models/product.model';
+import { AssetPipe } from '../../../pipes/asset.pipe';
 
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, AssetPipe],
   template: `
     <div class="max-w-4xl mx-auto space-y-8 animate-fade-in pb-12">
       <!-- Header -->
@@ -30,7 +31,7 @@ import { Product } from '../../../models/product.model';
             <h3 class="font-bold text-text-primary mb-4">Product Image</h3>
             <div class="aspect-square bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center overflow-hidden group">
               @if (product.imageUrl) {
-                <img [src]="product.imageUrl" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300">
+                <img [src]="product.imageUrl | asset" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300">
               } @else {
                 <i class="bi bi-image text-4xl text-gray-300 mb-2"></i>
                 <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">No Preview Available</span>
