@@ -1,16 +1,13 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
+const connectDB = require('../config/db');
 const User = require('../models/user.model');
 const Product = require('../models/product.model');
 const GroceryKit = require('../models/groceryKit.model');
 
 const initDB = async () => {
   try {
-    // Check if we are already connected, if not connect
-    if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/freshcart');
-      console.log('Connected to MongoDB for initialization');
-    }
+    // Ensure database is connected
+    await connectDB();
 
     // 1. Ensure Admin User
     let admin = await User.findOne({ role: 'admin' });

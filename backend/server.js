@@ -19,16 +19,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Database Connection
+const connectDB = require('./config/db');
 const initDB = require('./utils/init-db');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/freshcart')
-  .then(async () => {
-    console.log('Connected to MongoDB');
-    await initDB();
-  })
-  .catch((err) => console.error('MongoDB connection error:', err));
+// Connect to Database
+connectDB().then(() => {
+  // Initialize database with admin and sample data if needed
+  initDB();
+});
 
 // --- 1. API ROUTES ---
+const dbCheck = require('./middleware/db-check.middleware');
+app.use('/api', dbCheck);
+
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/kits', groceryKitRoutes);
