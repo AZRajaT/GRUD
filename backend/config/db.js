@@ -9,7 +9,9 @@ const connectDB = async () => {
 
   const uri = process.env.MONGODB_URI;
   if (!uri && process.env.NODE_ENV === 'production') {
-    throw new Error('MONGODB_URI is not defined in production environment variables');
+    console.error('CRITICAL ERROR: MONGODB_URI is not defined in production environment variables!');
+    console.error('Please add MONGODB_URI to your deployment platform (e.g., Render/Vercel) settings.');
+    // We don't throw here so the server can at least boot and respond with 503 via middleware
   }
 
   const connectionString = uri || 'mongodb://127.0.0.1:27017/freshcart';
@@ -35,12 +37,8 @@ const connectDB = async () => {
     return conn;
   } catch (error) {
     console.error(`Error connecting to MongoDB: ${error.message}`);
-    // Don't exit process in serverless, but throw so the request fails
-    if (process.env.NODE_ENV === 'production') {
-      throw error;
-    } else {
-      process.exit(1);
-    }
+    // We don't exit/throw so the server stays alive and can respond with 503
+    return null;
   }
 };
 
