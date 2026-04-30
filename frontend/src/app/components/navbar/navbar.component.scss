@@ -32,3 +32,12 @@
 .no-tap-highlight {
   -webkit-tap-highlight-color: transparent;
 }
+
+.mobile-menu-active {
+  pointer-events: auto !important;
+  visibility: visible !important;
+  
+  .drawer-content {
+    pointer-events: auto !important;
+  }
+}

@@ -18,6 +18,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static assets (Images, etc.) from backend/assets
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
 // Database Connection
 const connectDB = require('./config/db');
 const initDB = require('./utils/init-db');

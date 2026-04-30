@@ -12,7 +12,7 @@ import { AssetPipe } from '../../pipes/asset.pipe';
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterLink,
     AssetPipe
   ],
@@ -24,19 +24,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoadingProducts = false;
   imageErrors: { [key: string]: boolean } = {};
   kitImageErrors: { [key: string]: boolean } = {};
-  
+
   // Hero slider
   currentSlide = 0;
   private slideInterval: any;
-  
+
   groceryKits: GroceryKit[] = [];
   isLoadingKits = false;
 
   categories = [
-    { id: 'spices', name: 'Pure Spices', image: 'assets/images/cat-spices.jpg' },
-    { id: 'oils', name: 'Cold Pressed Oils', image: 'assets/images/cat-oils.jpg' },
-    { id: 'grains', name: 'Premium Grains', image: 'assets/images/cat-grains.jpg' },
-    { id: 'sweets', name: 'Traditional Sweets', image: 'assets/images/cat-sweets.jpg' }
+    { id: 'spices', name: 'Pure Spices', image: 'assets/images/cat-spices.jpg.jpg' },
+    { id: 'oils', name: 'Cold Pressed Oils', image: 'assets/images/cat-oils.jpg.jpg' },
+    { id: 'grains', name: 'Premium Grains', image: 'assets/images/cat-grains.jpg.jpg' },
+    { id: 'masalas', name: 'Traditional Masalas', image: 'assets/images/cat-sweets.jpg.jpg' }
   ];
 
   get products(): Product[] {
@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private productService: ProductService,
     private groceryKitService: GroceryKitService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadPopularProducts();
@@ -120,10 +120,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   addToCart(product: Product | GroceryKit): void {
+    console.log('addToCart called for:', product);
     // Check if it's a kit by looking for items array
     if ('items' in product && Array.isArray(product.items) && product.items.length > 0 && typeof product.items[0] !== 'string') {
       // It's a kit - expand and add all items
       const kit = product as GroceryKit;
+      console.log('Adding kit items:', kit.items.length);
       kit.items.forEach((item: KitItem) => {
         this.cartService.addToCart(item.product, item.quantity);
       });
@@ -131,6 +133,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       // It's a regular product
       const prod = product as Product;
+      console.log('Adding product:', prod.name, prod._id);
       this.cartService.addToCart(prod, 1);
       this.toastService.show(`${prod.name} added to cart!`);
     }

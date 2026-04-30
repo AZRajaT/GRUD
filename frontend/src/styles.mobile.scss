@@ -8,6 +8,17 @@
   min-height: 44px;
   min-width: 44px;
   touch-action: manipulation;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Global mobile interaction fixes */
+button, 
+a, 
+[role="button"],
+.btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Prevent text selection on interactive elements */
