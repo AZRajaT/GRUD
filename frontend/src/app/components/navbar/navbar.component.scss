@@ -36,8 +36,14 @@
 .mobile-menu-active {
   pointer-events: auto !important;
   visibility: visible !important;
+  opacity: 1 !important;
   
   .drawer-content {
     pointer-events: auto !important;
+    transform: translateX(0) !important;
   }
+}
+
+.drawer-content {
+  will-change: transform;
 }

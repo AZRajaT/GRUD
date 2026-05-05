@@ -20,8 +20,13 @@ export class NavbarComponent {
 
   constructor(
     private cartService: CartService,
-    private router: Router
+    public router: Router
   ) {}
+
+  get showCartIcon(): boolean {
+    const url = this.router.url.split('?')[0];
+    return url !== '/cart' && url !== '/checkout';
+  }
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;

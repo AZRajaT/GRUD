@@ -32,7 +32,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    loadComponent: () => import('./components/admin/layout/admin-layout.component').then(m => m.AdminLayoutComponent),
+    loadComponent: () => import('./pages/admin/layout/admin-layout.component').then(m => m.AdminLayoutComponent),
     canActivate: [() => import('./guards/auth.guard').then(m => m.AuthGuard)],
     children: [
       {
@@ -55,6 +55,14 @@ export const routes: Routes = [
       {
         path: 'products/edit/:id',
         loadComponent: () => import('./pages/admin/products/product-form.component').then(m => m.ProductFormComponent)
+      },
+      {
+        path: 'orders',
+        loadComponent: () => import('./pages/admin/orders/orders.component').then(m => m.AdminOrdersComponent)
+      },
+      {
+        path: 'categories',
+        loadComponent: () => import('./pages/admin/categories/categories.component').then(m => m.AdminCategoriesComponent)
       },
       {
         path: 'kits',

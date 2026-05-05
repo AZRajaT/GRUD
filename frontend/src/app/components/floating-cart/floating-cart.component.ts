@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 
 @Component({
@@ -8,23 +8,25 @@ import { CartService } from '../../services/cart.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <a
-      routerLink="/cart"
-      class="floating-cart-btn"
-      [class.pulse]="cartCount() > 0"
-      [attr.aria-label]="'Cart with ' + cartCount() + ' items'">
-      <div class="cart-icon-wrapper">
-        <i class="bi bi-cart3 fs-4"></i>
-        @if (cartCount() > 0) {
-          <span class="cart-badge">{{ cartCount() }}</span>
-        }
-      </div>
-      @if (cartCount() > 0) {
-        <div class="cart-total">
-          <span class="cart-amount">₹{{ cartTotal() }}</span>
+    @if (showCart) {
+      <a
+        routerLink="/cart"
+        class="floating-cart-btn"
+        [class.pulse]="cartCount() > 0"
+        [attr.aria-label]="'Cart with ' + cartCount() + ' items'">
+        <div class="cart-icon-wrapper">
+          <i class="bi bi-cart3 fs-4"></i>
+          @if (cartCount() > 0) {
+            <span class="cart-badge">{{ cartCount() }}</span>
+          }
         </div>
-      }
-    </a>
+        @if (cartCount() > 0) {
+          <div class="cart-total">
+            <span class="cart-amount">₹{{ cartTotal() }}</span>
+          </div>
+        }
+      </a>
+    }
   `,
   styles: [`
     .floating-cart-btn {
@@ -126,8 +128,16 @@ import { CartService } from '../../services/cart.service';
   `]
 })
 export class FloatingCartComponent {
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private router: Router
+  ) {}
 
   cartCount = this.cartService.cartCount;
   cartTotal = this.cartService.cartTotal;
+
+  get showCart(): boolean {
+    const url = this.router.url.split('?')[0];
+    return url !== '/cart' && url !== '/checkout';
+  }
 }
