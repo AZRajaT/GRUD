@@ -3,7 +3,7 @@ const Product = require('../models/product.model');
 const { validationResult } = require('express-validator');
 const { calculateDistance } = require('../utils/order.utils');
 
-// Default Store Location (Kovilpatti)
+// Default Store Location (Organic)
 const STORE_LOCATION = {
   lat: 9.1764,
   lng: 77.8687

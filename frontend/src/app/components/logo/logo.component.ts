@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 /**
- * Reusable Logo Component for AROW Mart
+ * Reusable Logo Component for AROW Organic
  * Usage:
  *   <app-logo></app-logo> - Default size (40px)
  *   <app-logo size="small"></app-logo> - Small size (32px)
@@ -22,10 +22,10 @@ import { RouterLink } from '@angular/router';
         class="logo-link"
         [class]="'logo-size-' + size"
         [style.--logo-height.px]="getHeight()"
-        aria-label="AROW Mart Home">
+        aria-label="AROW Organic Home">
         <img
           src="assets/images/logo.png"
-          alt="AROW Mart Logo"
+          alt="AROW Organic Logo"
           class="logo-img"
           (error)="onImageError($event)">
       </a>
@@ -36,7 +36,7 @@ import { RouterLink } from '@angular/router';
         [style.--logo-height.px]="getHeight()">
         <img
           src="assets/images/logo.png"
-          alt="AROW Mart Logo"
+          alt="AROW Organic Logo"
           class="logo-img"
           (error)="onImageError($event)">
       </div>
@@ -126,7 +126,7 @@ export class LogoComponent {
       const parent = img.parentElement;
       if (parent) {
         const fallback = document.createElement('span');
-        fallback.textContent = '🛒 AROW Mart';
+        fallback.textContent = '🌿 AROW Organic';
         fallback.style.fontSize = `${this.getHeight() * 0.5}px`;
         fallback.style.fontWeight = '600';
         fallback.style.color = '#FF8A3D';

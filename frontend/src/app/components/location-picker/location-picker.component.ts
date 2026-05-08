@@ -321,7 +321,7 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
   private initializeLeafletMap(): void {
     this.mapProvider = 'leaflet';
     try {
-      const defaultLocation = { lat: 9.1764, lng: 77.8687 }; // Kovilpatti
+      const defaultLocation = { lat: 9.1764, lng: 77.8687 }; // Organic
       const initialLocation = this.selectedLocation || defaultLocation;
 
       this.leafletMap = window.L.map(this.mapContainer.nativeElement).setView(

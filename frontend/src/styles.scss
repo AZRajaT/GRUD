@@ -11,16 +11,16 @@
 // Mobile-first responsive utilities
 @import 'styles.mobile.scss';
 
-// Google Fonts - AROW MART Typography
+// Google Fonts - AROW Organic Typography
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
 
 // ========================================
-// AROW MART - Final Theme Guide
+// AROW Organic - Final Theme Guide
 // Orange (#FF6A00) → Yellow (#FFC107) → Green (#1B8F3A)
 // ========================================
 
 :root {
-  // AROW MART Brand Colors
+  // AROW Organic Brand Colors
   --ng-primary: #FF6A00;
   --ng-primary-dark: #E55A00;
   --ng-primary-light: #FF8A3D;
@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--ng-text-primary);
 }
 
-// AROW MART Brand Typography
+// AROW Organic Brand Typography
 .arow-heading {
   font-family: var(--ng-font-heading);
   font-weight: 900;

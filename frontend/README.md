@@ -1,8 +1,8 @@
-# AROW Mart - Premium Grocery Delivery Website
+# AROW Organic - Premium Grocery Delivery Website
 
 A modern, premium grocery delivery website built with Angular 19 and Tailwind CSS. Features a stunning UI similar to professional startup products like Blinkit or Zepto, with full Google Maps integration for accurate delivery location handling.
 
-![AROW Mart](public/freshcart-preview.png)
+![AROW Organic](public/freshcart-preview.png)
 
 ## Features
 
