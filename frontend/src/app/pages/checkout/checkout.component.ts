@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
+import { OrderService } from '../../services/order.service';
 import { CustomerDetails } from '../../models';
 import { LocationPickerComponent } from '../../components/location-picker/location-picker.component';
 
@@ -58,7 +59,8 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -175,6 +177,23 @@ export class CheckoutComponent implements OnInit {
 
     this.isProcessing = true;
 
+    // Prepare order data for backend
+    const orderData = {
+      customerName: this.customer.name,
+      phone: this.customer.phone,
+      address: this.customer.address,
+      apartmentName: this.customer.apartmentName,
+      flatNumber: this.customer.flatNumber,
+      items: this.cartItems().map(item => ({
+        productId: item.product._id!,
+        quantity: item.quantity
+      })),
+      deliveryLocation: this.deliveryLocation ? {
+        lat: this.deliveryLocation.lat,
+        lng: this.deliveryLocation.lng
+      } : undefined
+    };
+
     // Save order summary before clearing cart
     this.orderSummary = {
       itemCount: this.cartItems().length,
@@ -182,19 +201,33 @@ export class CheckoutComponent implements OnInit {
       items: [...this.cartItems()]
     };
 
-    // Generate WhatsApp message
-    const message = this.generateWhatsAppMessage();
-    const encodedMessage = encodeURIComponent(message);
-    
-    // Open WhatsApp
-    const whatsappUrl = `https://wa.me/${this.PHONE_NUMBER}?text=${encodedMessage}`;
-    window.open(whatsappUrl, '_blank');
-    
-    this.isProcessing = false;
-    this.isOrderPlaced = true;
-    
-    // Clear cart after successful order
-    this.cartService.clearCart();
+    // Call backend to store order
+    this.orderService.placeOrder(orderData).subscribe({
+      next: (response) => {
+        this.isProcessing = false;
+        if (response.success) {
+          this.isOrderPlaced = true;
+          this.toastService.show('Order placed successfully!', 'success');
+          
+          // Generate WhatsApp message and open it
+          const message = this.generateWhatsAppMessage();
+          const encodedMessage = encodeURIComponent(message);
+          const whatsappUrl = `https://wa.me/${this.PHONE_NUMBER}?text=${encodedMessage}`;
+          window.open(whatsappUrl, '_blank');
+          
+          // Clear cart
+          this.cartService.clearCart();
+        } else {
+          this.toastService.show(response.message || 'Failed to place order', 'error');
+        }
+      },
+      error: (error) => {
+        this.isProcessing = false;
+        console.error('Order placement error:', error);
+        const errorMessage = error.error?.message || 'Failed to connect to server';
+        this.toastService.show(errorMessage, 'error');
+      }
+    });
   }
 
   isFormValid(): boolean {

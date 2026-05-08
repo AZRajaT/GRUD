@@ -54,11 +54,11 @@ const productValidation = [
     .trim()
     .custom((value) => {
       if (!value || value === '') return true;
-      // Allow full URLs (http/https) OR root-relative paths (/assets/...)
-      const urlRegex = /^https?:\/\/.+/;
-      const pathRegex = /^\//;
-      if (!urlRegex.test(value) && !pathRegex.test(value)) {
-        throw new Error('Image URL must be a valid URL or root-relative path (e.g., /assets/images/file.png)');
+      // Allow full URLs (http/https) OR asset paths (/assets/... or assets/...)
+      const urlRegex = /^https?:\/\/.+$/;
+      const assetPathRegex = /^\/?assets\/.+$/;
+      if (!urlRegex.test(value) && !assetPathRegex.test(value)) {
+        throw new Error('Image URL must be a valid URL or asset path like /assets/images/file.png or assets/images/file.png');
       }
       return true;
     })

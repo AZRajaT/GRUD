@@ -37,32 +37,53 @@ exports.placeOrder = async (req, res, next) => {
       }
     }
 
-    // 2. Validate items and calculate total
-    let totalAmount = 0;
-    const orderItems = [];
+    // 2. Validate all items first
+    const productsToUpdate = [];
+    const outOfStockItems = [];
 
     for (const item of items) {
       const product = await Product.findById(item.productId);
-      if (!product || !product.isActive || product.isDeleted) {
-        return res.status(400).json({ success: false, message: `Product ${item.name} is no longer available` });
+      if (!product) {
+        return res.status(400).json({ success: false, message: `Product with ID ${item.productId} not found` });
+      }
+      if (!product.isActive) {
+        return res.status(400).json({ success: false, message: `Product ${product.name} is not active` });
+      }
+      if (product.isDeleted) {
+        return res.status(400).json({ success: false, message: `Product ${product.name} has been removed` });
       }
       
       if (product.stock < item.quantity) {
-        return res.status(400).json({ success: false, message: `Insufficient stock for ${product.name}` });
+        outOfStockItems.push(product.name);
+      } else {
+        productsToUpdate.push({ product, quantity: item.quantity });
       }
+    }
 
-      const itemTotal = product.price * item.quantity;
+    if (outOfStockItems.length > 0) {
+      const message = outOfStockItems.length === 1 
+        ? `Insufficient stock for ${outOfStockItems[0]}`
+        : `Insufficient stock for: ${outOfStockItems.join(', ')}`;
+      return res.status(400).json({ success: false, message });
+    }
+
+    // 3. Process items and update stock since validation passed
+    let totalAmount = 0;
+    const orderItems = [];
+
+    for (const { product, quantity } of productsToUpdate) {
+      const itemTotal = product.price * quantity;
       totalAmount += itemTotal;
 
       orderItems.push({
         product: product._id,
         name: product.name,
         price: product.price,
-        quantity: item.quantity
+        quantity: quantity
       });
 
       // Update stock
-      product.stock -= item.quantity;
+      product.stock -= quantity;
       await product.save();
     }
 

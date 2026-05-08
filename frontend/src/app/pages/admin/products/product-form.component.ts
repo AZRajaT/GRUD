@@ -40,8 +40,9 @@ import { AssetPipe } from '../../../pipes/asset.pipe';
             <div class="mt-6 space-y-4">
               <div>
                 <label class="block text-xs font-black text-text-secondary uppercase tracking-widest mb-2">Image URL</label>
-                <input type="url" [(ngModel)]="product.imageUrl" placeholder="https://..." 
+                <input type="text" name="imageUrl" [(ngModel)]="product.imageUrl" placeholder="https://... or /assets/images/file.png or assets/images/file.png" 
                        class="w-full px-4 py-3 bg-gray-50 border-2 border-transparent rounded-xl focus:border-primary-400 focus:bg-white focus:outline-none transition-all duration-200 text-sm">
+                <p class="text-[11px] text-gray-400 mt-1">Use a full URL or a root-relative/asset path like /assets/images/file.png or assets/images/file.png.</p>
               </div>
             </div>
           </div>
