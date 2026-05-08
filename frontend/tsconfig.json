@@ -22,7 +22,7 @@
     "useDefineForClassFields": false,
     "baseUrl": "./src",
     "paths": {
-      "@environments/*": ["src/environments/*"]
+      "@environments/*": ["environments/*"]
     },
     "lib": [
       "ES2022",
