@@ -1,7 +1,7 @@
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
 const { validationResult } = require('express-validator');
-const { calculateDistance, generateWhatsAppMessage } = require('../utils/order.utils');
+const { calculateDistance } = require('../utils/order.utils');
 
 // Default Store Location (Kovilpatti)
 const STORE_LOCATION = {
@@ -102,16 +102,11 @@ exports.placeOrder = async (req, res, next) => {
 
     await order.save();
 
-    // 4. Generate WhatsApp message
-    const whatsappMessage = generateWhatsAppMessage(order);
-
     res.status(201).json({
       success: true,
       message: 'Order placed successfully',
       data: {
-        order,
-        whatsappMessage,
-        whatsappNumber: process.env.WHATSAPP_NUMBER || '918870378977'
+        order
       }
     });
   } catch (error) {

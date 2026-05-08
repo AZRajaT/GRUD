@@ -12,6 +12,7 @@ interface Location {
 declare global {
   interface Window {
     google: any;
+    L: any;
     initMap: () => void;
   }
 }
@@ -126,17 +127,24 @@ declare global {
         }
 
         <!-- Map Instructions -->
-        @if (isMapLoaded && !selectedLocation) {
-          <div class="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-xs bg-white/95 backdrop-blur-sm rounded-xl p-3 shadow-lg border border-border">
-            <div class="flex items-start gap-2">
-              <i class="bi bi-info-circle-fill text-primary-500 mt-0.5"></i>
-              <p class="text-xs text-text-secondary">
-                Click on the map to set your delivery location, or use the search box to find your address.
-              </p>
+          @if (isMapLoaded && !selectedLocation) {
+            <div class="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-xs bg-white/95 backdrop-blur-sm rounded-xl p-3 shadow-lg border border-border z-[1000]">
+              <div class="flex items-start gap-2">
+                <i class="bi bi-info-circle-fill text-primary-500 mt-0.5"></i>
+                <p class="text-xs text-text-secondary">
+                  Click on the map to set your delivery location, or use the search box to find your address.
+                </p>
+              </div>
             </div>
-          </div>
-        }
-      </div>
+          }
+
+          <!-- Map Provider Badge -->
+          @if (isMapLoaded) {
+            <div class="absolute bottom-3 right-3 px-2 py-1 bg-white/80 backdrop-blur-sm rounded-md border border-border text-[8px] font-bold text-gray-400 uppercase tracking-widest z-[1000]">
+              {{ mapProvider === 'google' ? 'Google Maps' : 'OpenStreetMap' }}
+            </div>
+          }
+        </div>
 
       <!-- Address Details Form -->
       <div class="bg-gray-50 rounded-xl p-4 border border-border">
@@ -191,12 +199,15 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
   isDetecting = false;
   isMapLoaded = false;
   mapError: string | null = null;
+  mapProvider: 'google' | 'leaflet' = 'google';
 
   private map: any;
   private marker: any;
   private geocoder: any;
   private autocomplete: any;
   private apiKey: string;
+  private leafletMap: any;
+  private leafletMarker: any;
 
   constructor(private ngZone: NgZone) {
     this.apiKey = environment.googleMapsApiKey;
@@ -208,9 +219,12 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Cleanup map listeners if needed
-    if (this.map && this.marker) {
-      // Remove marker listeners
+    if (this.leafletMap) {
+      this.leafletMap.remove();
+    }
+    // Cleanup Google Maps listeners
+    if (this.marker) {
+      this.marker.setMap(null);
     }
   }
 
@@ -239,8 +253,9 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
   }
 
   private loadGoogleMapsScript(): void {
-    if (this.apiKey === 'YOUR_GOOGLE_MAPS_API_KEY') {
-      this.mapError = 'Please configure your Google Maps API key in environment.ts';
+    if (!this.apiKey || this.apiKey === 'YOUR_GOOGLE_MAPS_API_KEY') {
+      console.warn('Google Maps API Key is missing. Falling back to OpenStreetMap (Leaflet).');
+      this.loadLeafletScript();
       return;
     }
 
@@ -250,23 +265,127 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
     }
 
     // Define callback for Google Maps script
-    window.initMap = () => {
+    (window as any).initMap = () => {
       this.ngZone.run(() => {
         this.initializeMap();
       });
     };
 
+    // Check if script is already added
+    const existingScript = document.getElementById('google-maps-script');
+    if (existingScript) return;
+
     const script = document.createElement('script');
+    script.id = 'google-maps-script';
     script.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&libraries=places,geocoding&callback=initMap`;
     script.async = true;
     script.defer = true;
     script.onerror = () => {
       this.ngZone.run(() => {
-        this.mapError = 'Failed to load Google Maps. Please check your internet connection.';
+        console.warn('Failed to load Google Maps script. Falling back to Leaflet.');
+        this.loadLeafletScript();
       });
     };
     document.head.appendChild(script);
   }
+
+  private loadLeafletScript(): void {
+    if (window.L) {
+      this.initializeLeafletMap();
+      return;
+    }
+
+    // Load Leaflet CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(link);
+
+    // Load Leaflet JS
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.async = true;
+    script.onload = () => {
+      this.ngZone.run(() => {
+        this.initializeLeafletMap();
+      });
+    };
+    script.onerror = () => {
+      this.ngZone.run(() => {
+        this.mapError = 'Failed to load any map provider. Please check your internet connection.';
+      });
+    };
+    document.head.appendChild(script);
+  }
+
+  private initializeLeafletMap(): void {
+    this.mapProvider = 'leaflet';
+    try {
+      const defaultLocation = { lat: 9.1764, lng: 77.8687 }; // Kovilpatti
+      const initialLocation = this.selectedLocation || defaultLocation;
+
+      this.leafletMap = window.L.map(this.mapContainer.nativeElement).setView(
+        [initialLocation.lat, initialLocation.lng],
+        this.selectedLocation ? 16 : 13
+      );
+
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(this.leafletMap);
+
+      // Add click listener
+      this.leafletMap.on('click', (e: any) => {
+        this.ngZone.run(() => {
+          this.handleLeafletMapClick(e.latlng.lat, e.latlng.lng);
+        });
+      });
+
+      // Show marker if we have a location
+      if (this.selectedLocation) {
+        this.updateLeafletMarker(this.selectedLocation.lat, this.selectedLocation.lng);
+      }
+
+      this.isMapLoaded = true;
+    } catch (error) {
+      console.error('Error initializing Leaflet map:', error);
+      this.mapError = 'Error initializing map.';
+    }
+  }
+
+  private handleLeafletMapClick(lat: number, lng: number): void {
+    this.isDetecting = true;
+    // Nominatim Reverse Geocoding (Free)
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
+      .then(res => res.json())
+      .then(data => {
+        this.ngZone.run(() => {
+          this.isDetecting = false;
+          const address = data.display_name || `Location (${lat.toFixed(6)}, ${lng.toFixed(6)})`;
+          this.setLocation(lat, lng, address);
+        });
+      })
+      .catch(() => {
+        this.ngZone.run(() => {
+          this.isDetecting = false;
+          this.setLocation(lat, lng, `Location (${lat.toFixed(6)}, ${lng.toFixed(6)})`);
+        });
+      });
+  }
+
+  private updateLeafletMarker(lat: number, lng: number): void {
+    if (this.leafletMarker) {
+      this.leafletMarker.setLatLng([lat, lng]);
+    } else {
+      this.leafletMarker = window.L.marker([lat, lng], { draggable: true }).addTo(this.leafletMap);
+      this.leafletMarker.on('dragend', () => {
+        const pos = this.leafletMarker.getLatLng();
+        this.ngZone.run(() => {
+          this.handleLeafletMapClick(pos.lat, pos.lng);
+        });
+      });
+    }
+  }
+
 
   private initializeMap(): void {
     try {
@@ -369,12 +488,15 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
     };
     this.address = address;
 
-    // Update map
-    this.map.setCenter({ lat, lng });
-    this.map.setZoom(16);
-
-    // Add/update marker
-    this.addMarker({ lat, lng, address });
+    // Update map based on provider
+    if (this.mapProvider === 'google' && this.map) {
+      this.map.setCenter({ lat, lng });
+      this.map.setZoom(16);
+      this.addMarker({ lat, lng, address });
+    } else if (this.mapProvider === 'leaflet' && this.leafletMap) {
+      this.leafletMap.setView([lat, lng], 16);
+      this.updateLeafletMarker(lat, lng);
+    }
 
     // Emit location
     this.emitLocation();
@@ -510,12 +632,15 @@ export class LocationPickerComponent implements OnInit, OnDestroy {
   }
 
   resetMapView(): void {
-    if (this.selectedLocation) {
-      this.map.setCenter({ lat: this.selectedLocation.lat, lng: this.selectedLocation.lng });
-      this.map.setZoom(16);
-    } else {
-      this.map.setCenter({ lat: 20.5937, lng: 78.9629 });
-      this.map.setZoom(5);
+    const defaultLocation = { lat: 9.1764, lng: 77.8687 };
+    const target = this.selectedLocation || defaultLocation;
+    const zoom = this.selectedLocation ? 16 : 13;
+
+    if (this.mapProvider === 'google' && this.map) {
+      this.map.setCenter({ lat: target.lat, lng: target.lng });
+      this.map.setZoom(zoom);
+    } else if (this.mapProvider === 'leaflet' && this.leafletMap) {
+      this.leafletMap.setView([target.lat, target.lng], zoom);
     }
   }
 

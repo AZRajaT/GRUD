@@ -23,19 +23,4 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
-/**
- * Generate formatted WhatsApp message for an order
- * @param {Object} order Order object
- * @returns {string} Formatted message
- */
-exports.generateWhatsAppMessage = (order) => {
-  const items = order.items
-    .map(item => `• ${item.name} x ${item.quantity} = ₹${item.price * item.quantity}`)
-    .join('\n');
 
-  const locationInfo = order.deliveryLocation && order.deliveryLocation.lat 
-    ? `\n📍 *Location:* https://www.google.com/maps?q=${order.deliveryLocation.lat},${order.deliveryLocation.lng}`
-    : '';
-
-  return `🛒 *New Order from FreshCart*\n\n📋 *Order Items:*\n${items}\n\n💰 *Total Amount:* ₹${order.totalAmount}${locationInfo}\n\n👤 *Customer Details:*\nName: ${order.customerName}\nPhone: ${order.phone}\nAddress: ${order.address}\n\nThank you for shopping with us! 🛍️`;
-};

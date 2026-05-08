@@ -51,10 +51,7 @@ const orderSchema = new mongoose.Schema({
     enum: ['Pending', 'Processing', 'Out for Delivery', 'Delivered', 'Cancelled'],
     default: 'Pending'
   },
-  whatsappMessageSent: {
-    type: Boolean,
-    default: false
-  }
+
 }, {
   timestamps: true
 });

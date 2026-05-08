@@ -48,7 +48,7 @@ export class CheckoutComponent implements OnInit {
   deliveryLocation: any = null;
   isOrderPlaced = false;
   isProcessing = false;
-  private readonly PHONE_NUMBER = '918870378977';
+
 
   // Store order summary for success screen (cart gets cleared after order)
   orderSummary = {
@@ -209,12 +209,6 @@ export class CheckoutComponent implements OnInit {
           this.isOrderPlaced = true;
           this.toastService.show('Order placed successfully!', 'success');
           
-          // Generate WhatsApp message and open it
-          const message = this.generateWhatsAppMessage();
-          const encodedMessage = encodeURIComponent(message);
-          const whatsappUrl = `https://wa.me/${this.PHONE_NUMBER}?text=${encodedMessage}`;
-          window.open(whatsappUrl, '_blank');
-          
           // Clear cart
           this.cartService.clearCart();
         } else {
@@ -241,20 +235,7 @@ export class CheckoutComponent implements OnInit {
     }) && this.cartItems().length > 0;
   }
 
-  private generateWhatsAppMessage(): string {
-    const items = this.cartItems()
-      .map(item => `• ${item.product.name} x ${item.quantity} = ₹${item.product.price * item.quantity}`)
-      .join('\n');
 
-    let locationInfo = '';
-    if (this.deliveryLocation && this.deliveryLocation.lat && this.deliveryLocation.lng) {
-      locationInfo = `\n📍 *Location:* https://www.google.com/maps?q=${this.deliveryLocation.lat},${this.deliveryLocation.lng}`;
-    }
-
-    const landmark = this.deliveryLocation?.landmark ? `\n🏢 *Landmark:* ${this.deliveryLocation.landmark}` : '';
-
-    return `🛒 *New Order from AROW Mart*\n\n📋 *Order Items:*\n${items}\n\n💰 *Total Amount:* ₹${this.cartTotal()}${locationInfo}${landmark}\n\n👤 *Customer Details:*\nName: ${this.customer.name}\nPhone: ${this.customer.phone}\nAddress: ${this.customer.address}\nApartment: ${this.customer.apartmentName}\nFlat/House: ${this.customer.flatNumber}\n\nThank you for choosing AROW Mart! 🛍️`;
-  }
 
   onImageError(productId: string | undefined): void {
     if (productId) {

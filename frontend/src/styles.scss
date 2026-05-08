@@ -58,7 +58,7 @@
   --mm-info: #3B82F6;
   --mm-warning: #F59E0B;
   --mm-danger: #EF4444;
-  --mm-whatsapp: #25D366;
+
   --mm-dark: #1F2937;
   --mm-gray-900: #111827;
   --mm-gray-600: #4B5563;
@@ -232,29 +232,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-// WhatsApp Button
-.mm-btn-whatsapp {
-  background: linear-gradient(135deg, var(--mm-whatsapp) 0%, #128c7e 100%);
-  color: white;
-  border: none;
-  padding: 0.875rem 1.75rem;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px -1px rgba(37, 211, 102, 0.2);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  text-decoration: none;
 
-  &:hover {
-    background: linear-gradient(135deg, #128c7e 0%, #075e54 100%);
-    box-shadow: 0 10px 15px -3px rgba(37, 211, 102, 0.3);
-    transform: translateY(-2px);
-    color: white;
-  }
-}
 
 // Premium Card - Clean & Minimal
 .mm-card {
@@ -864,8 +842,7 @@ html {
     padding: 2rem 0;
   }
 
-  .mm-btn-primary,
-  .mm-btn-whatsapp {
+  .mm-btn-primary {
     width: 100%;
     justify-content: center;
   }

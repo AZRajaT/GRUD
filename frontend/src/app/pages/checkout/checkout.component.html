@@ -63,11 +63,11 @@
                   </div>
                 </div>
                 <div class="space-y-1.5 md:space-y-2">
-                  <label class="text-[9px] md:text-[10px] font-black text-text-secondary uppercase tracking-widest ml-1">WhatsApp Number</label>
+                  <label class="text-[9px] md:text-[10px] font-black text-text-secondary uppercase tracking-widest ml-1">Phone Number</label>
                   <div class="relative group">
-                    <i class="bi bi-whatsapp absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-green transition-colors"></i>
-                    <input type="tel" [(ngModel)]="customer.phone" placeholder="10-digit number" 
-                           class="w-full pl-11 pr-4 py-3 md:py-4 bg-gray-50 border-2 border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-brand-green transition-all outline-none font-bold text-sm md:text-base text-text-primary placeholder:text-gray-300">
+                    <i class="bi bi-telephone absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-orange transition-colors"></i>
+                    <input type="tel" [(ngModel)]="customer.phone" (input)="onPhoneInput($event)" placeholder="10-digit number" 
+                           class="w-full pl-11 pr-4 py-3 md:py-4 bg-gray-50 border-2 border-transparent rounded-xl md:rounded-2xl focus:bg-white focus:border-brand-orange transition-all outline-none font-bold text-sm md:text-base text-text-primary placeholder:text-gray-300">
                   </div>
                 </div>
               </div>
@@ -172,13 +172,13 @@
             <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-brand-green/20 rounded-full blur-3xl"></div>
             <div class="relative z-10 max-w-2xl mx-auto">
               <h3 class="text-5xl font-black text-white mb-4 tracking-tighter uppercase">Ready to Order?</h3>
-              <p class="text-gray-400 mb-10 text-lg font-medium">Review your details and place your order on WhatsApp.</p>
+              <p class="text-gray-400 mb-10 text-lg font-medium">Review your details and place your order securely.</p>
               <button (click)="placeOrder()" [disabled]="!isFormValid() || isProcessing"
                       class="w-full relative py-6 px-10 rounded-[2rem] font-black text-white transition-all duration-500 shadow-glow disabled:opacity-50"
                       [class]="isFormValid() ? 'bg-gradient-to-r from-brand-orange to-brand-yellow hover:scale-105 shadow-premium' : 'bg-gray-700'">
                 <div class="relative z-10 flex items-center justify-center gap-4">
-                  <i class="bi bi-whatsapp text-3xl"></i>
-                  <span class="text-xl tracking-widest uppercase">{{ isFormValid() ? 'PLACE ORDER ON WHATSAPP' : 'COMPLETE FORM' }}</span>
+                  <i class="bi bi-bag-check-fill text-3xl"></i>
+                  <span class="text-xl tracking-widest uppercase">{{ isFormValid() ? 'CONFIRM AND PLACE ORDER' : 'COMPLETE FORM' }}</span>
                 </div>
               </button>
             </div>
@@ -206,8 +206,8 @@
                 <i class="bi bi-arrow-repeat animate-spin"></i>
                 <span>PROCESSING...</span>
               } @else {
-                <i class="bi bi-whatsapp text-lg"></i>
-                <span>ORDER ON WHATSAPP</span>
+                <i class="bi bi-bag-check text-lg"></i>
+                <span>PLACE ORDER</span>
               }
             </button>
           </div>
@@ -224,16 +224,16 @@
           </div>
           
           <h2 class="text-4xl md:text-7xl font-black text-text-primary mb-4 md:mb-6 tracking-tighter uppercase">Success!</h2>
-          <p class="text-text-secondary text-sm md:text-2xl font-medium mb-10 md:mb-16 max-w-sm md:max-w-lg mx-auto">Your order has been transmitted. We'll be in touch on WhatsApp shortly!</p>
+          <p class="text-text-secondary text-sm md:text-2xl font-medium mb-10 md:mb-16 max-w-sm md:max-w-lg mx-auto">Your order has been received! Our team will process it immediately for delivery.</p>
           
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-xl mx-auto">
             <a routerLink="/products" class="flex items-center justify-center gap-3 py-4 md:py-6 bg-gray-50 text-text-primary rounded-xl md:rounded-[2rem] font-black hover:bg-text-primary hover:text-white transition-all shadow-soft text-sm md:text-base">
               <i class="bi bi-shop"></i> 
               <span class="tracking-widest uppercase">BACK TO SHOP</span>
             </a>
-            <a href="https://wa.me/918870378977" target="_blank" class="flex items-center justify-center gap-3 py-4 md:py-6 bg-brand-green text-white rounded-xl md:rounded-[2rem] font-black shadow-glow hover:-translate-y-1 transition-all text-sm md:text-base">
-              <i class="bi bi-whatsapp"></i> 
-              <span class="tracking-widest uppercase">GET SUPPORT</span>
+            <a routerLink="/" class="flex items-center justify-center gap-3 py-4 md:py-6 bg-brand-orange text-white rounded-xl md:rounded-[2rem] font-black shadow-glow hover:-translate-y-1 transition-all text-sm md:text-base">
+              <i class="bi bi-house-door"></i> 
+              <span class="tracking-widest uppercase">VIEW STATUS</span>
             </a>
           </div>
         </div>

@@ -40,12 +40,7 @@ module.exports = {
         'text-primary': '#2C3E50',
         'text-secondary': '#6C757D',
         border: '#E5E7EB',
-        // WhatsApp colors
-        whatsapp: {
-          DEFAULT: '#25D366',
-          dark: '#128C7E',
-          light: '#DCF8C6',
-        },
+
         // Status colors
         success: '#10B981',
         warning: '#F59E0B',

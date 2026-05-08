@@ -48,29 +48,7 @@ export class CartComponent {
     this.toastService.show('Cart cleared');
   }
 
-  getWhatsAppMessage(): string {
-    const items = this.cartItems()
-      .map(item => `${item.product.name} x ${item.quantity} = ₹${item.product.price * item.quantity}`)
-      .join('\n');
-    
-    const message = `🛒 *New Order from AROW Mart*
 
-📋 *Order Items:*
-${items}
-
-💰 *Total: ₹${this.cartTotal()}*
-
-👤 *Customer Details:*
-Please provide your:
-• Name:
-• Phone:
-• Delivery Address:
-• Apartment/Flat:
-
-Thank you for choosing AROW Mart! 🛍️`;
-    
-    return encodeURIComponent(message);
-  }
 
   onImageError(productId: string | undefined): void {
     if (productId) {

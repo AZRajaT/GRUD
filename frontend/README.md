@@ -1,62 +1,75 @@
-# FreshCart - Premium Grocery Delivery Website
+# AROW Mart - Premium Grocery Delivery Website
 
-A modern, premium grocery delivery website built with Angular 19 and Tailwind CSS. Features a stunning UI similar to professional startup products like Blinkit or Zepto, with WhatsApp integration for order placement.
+A modern, premium grocery delivery website built with Angular 19 and Tailwind CSS. Features a stunning UI similar to professional startup products like Blinkit or Zepto, with full Google Maps integration for accurate delivery location handling.
 
-![FreshCart](public/freshcart-preview.png)
+![AROW Mart](public/freshcart-preview.png)
 
 ## Features
 
 - **Modern UI/UX**: Premium design with smooth animations, gradient backgrounds, and a clean layout
+- **Google Maps Integration**: Interactive map for selecting delivery location with autocomplete and auto-detection
 - **Responsive Design**: Mobile-first approach with seamless experience across all devices
 - **Product Catalog**: Browse groceries by category with search functionality
 - **Cart Management**: Add items, update quantities, and manage your cart with ease
 - **Checkout Flow**: Modern form UI with customer details and order summary
-- **WhatsApp Integration**: Orders are sent directly via WhatsApp for instant communication
-- **Local Storage**: Cart persists across browser sessions
-- **Toast Notifications**: Beautiful feedback when adding items to cart
+- **Order Management**: Robust backend to store and manage customer orders
+- **Local Storage**: Cart and location details persist across browser sessions
+- **Toast Notifications**: Beautiful feedback for user actions
 
 ## Pages
 
-1. **Home Page**: Hero section with gradient, feature highlights, and grocery kit cards
+1. **Home Page**: Hero section with feature highlights and grocery kit cards
 2. **Products Page**: Grid-based product catalog with category filtering
 3. **Cart Page**: Cart management with item quantities and total calculation
-4. **Checkout Page**: Customer details form with WhatsApp order integration
+4. **Checkout Page**: Customer details form with Google Maps location picker
+5. **Admin Dashboard**: Manage orders, products, and categories
 
 ## Tech Stack
 
-- **Angular 19**: Latest version with standalone components and signals
-- **Tailwind CSS**: Modern utility-first styling
-- **Lucide Angular**: Beautiful, consistent icon library
-- **RxJS**: Reactive programming
+- **Frontend**: Angular 19 (Standalone components, Signals)
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Styling**: Tailwind CSS, Bootstrap Icons
+- **Maps**: Google Maps JavaScript API
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js (v18 or higher)
-- npm (v9 or higher)
+- MongoDB (local or Atlas)
 
 ### Installation
 
-1. **Install dependencies**:
+1. **Clone and Install Backend**:
    ```bash
+   cd backend
    npm install
    ```
 
-2. **Run the development server**:
+2. **Clone and Install Frontend**:
    ```bash
-   ng serve
+   cd frontend
+   npm install
    ```
 
-3. **Open your browser** and navigate to `http://localhost:4200`
+3. **Configure Environment Variables**:
+   - Update `backend/.env` with your MongoDB URI and JWT secret.
+   - Update `frontend/src/environments/environment.ts` with your Google Maps API Key.
 
-### Building for Production
+4. **Run the Application**:
+   - Backend: `npm start` (in backend folder)
+   - Frontend: `npm start` (in frontend folder)
 
-```bash
-ng build --configuration production
-```
+## Google Maps Configuration
 
-The build artifacts will be stored in the `dist/` directory.
+To use the map features:
+1. Get an API key from the [Google Cloud Console](https://console.cloud.google.com/google/maps-apis/credentials).
+2. Enable the following APIs:
+   - Maps JavaScript API
+   - Places API
+   - Geocoding API
+3. Paste the key in `src/environments/environment.ts`.
 
 ## Project Structure
 
@@ -64,6 +77,7 @@ The build artifacts will be stored in the `dist/` directory.
 src/
 ├── app/
 │   ├── components/
+│   │   ├── location-picker/
 │   │   ├── navbar/
 │   │   ├── footer/
 │   │   └── toast/
@@ -71,99 +85,20 @@ src/
 │   │   ├── home/
 │   │   ├── products/
 │   │   ├── cart/
-│   │   └── checkout/
+│   │   ├── checkout/
+│   │   └── admin/
 │   ├── services/
 │   │   ├── cart.service.ts
+│   │   ├── order.service.ts
 │   │   └── toast.service.ts
-│   ├── models/
-│   │   └── index.ts
 │   ├── app.component.ts
-│   ├── app.config.ts
 │   └── app.routes.ts
 ├── styles.scss
 └── index.html
 ```
 
-## Customization
-
-### WhatsApp Number
-
-Update the WhatsApp number in `src/app/pages/checkout/checkout.component.ts`:
-
-```typescript
-const phoneNumber = '918870378977'; // Replace with your WhatsApp number
-```
-
-### Products
-
-Add or modify products in `src/app/pages/products/products.component.ts`:
-
-```typescript
-products: Product[] = [
-  { 
-    id: 1, 
-    name: 'Product Name', 
-    price: 100, 
-    priceRange: '₹90–₹110', 
-    image: '📦', 
-    category: 'category-name', 
-    unit: '1kg',
-    description: 'Product description'
-  },
-  // ... more products
-];
-```
-
-### Colors & Styling
-
-Customize colors in `tailwind.config.js`:
-
-```javascript
-colors: {
-  primary: {
-    500: '#22c55e',
-    600: '#16a34a',
-    // ... more shades
-  },
-  whatsapp: {
-    DEFAULT: '#25D366',
-    dark: '#128C7E',
-  }
-}
-```
-
-## Features in Detail
-
-### Cart Service
-- Uses Angular Signals for reactive state management
-- Persists cart data to localStorage
-- Provides methods for adding, updating, and removing items
-
-### Toast Notifications
-- Auto-dismiss after 3 seconds
-- Three types: success, error, info
-- Smooth slide-up animation
-
-### WhatsApp Integration
-- Generates formatted order messages
-- Opens WhatsApp with pre-filled order details
-- Includes customer information and order summary
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
 ## License
 
-MIT License - feel free to use this project for personal or commercial purposes.
+MIT License
 
-## Support
-
-For issues or questions, please open an issue on the project repository.
-
----
-
-Built with ❤️ using Angular and Tailwind CSS
+Built with ❤️ using Angular and Node.js
