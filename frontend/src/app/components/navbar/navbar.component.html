@@ -2,7 +2,7 @@
 <nav class="navbar-wrapper sticky-top bg-white border-b border-gray-100 z-50">
   <div class="max-w-7xl mx-auto px-4">
     <div class="flex items-center justify-between h-16 md:h-20 gap-4">
-      
+
       <!-- Logo Section -->
       <div class="flex-shrink-0">
         <app-logo size="medium"></app-logo>
@@ -13,18 +13,16 @@
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
         <a routerLink="/products" routerLinkActive="active" class="nav-link">Products</a>
         <a routerLink="/kits" routerLinkActive="active" class="nav-link">Grocery Kits</a>
+        <a routerLink="/track-order" routerLinkActive="active" class="nav-link">Track Order</a>
         <a routerLink="/contact" routerLinkActive="active" class="nav-link">Contact</a>
       </div>
 
       <!-- Search Bar: Hidden on Small Mobile, shown on md+ -->
       <div class="hidden md:flex flex-1 max-w-md mx-4">
         <div class="relative w-full group">
-          <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-orange transition-colors"></i>
-          <input 
-            type="text" 
-            [(ngModel)]="searchQuery" 
-            (keyup.enter)="onSearch()"
-            placeholder="Search groceries..." 
+          <i
+            class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-orange transition-colors"></i>
+          <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Search groceries..."
             class="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-brand-orange pl-11 pr-4 py-2.5 rounded-xl outline-none text-sm transition-all font-medium">
         </div>
       </div>
@@ -32,28 +30,32 @@
       <!-- Actions Section -->
       <div class="flex items-center gap-1 md:gap-3">
         <!-- Mobile Search Toggle -->
-        <button (click)="toggleMobileSearch()" class="p-2.5 text-gray-500 hover:text-brand-orange md:hidden no-tap-highlight">
+        <button (click)="toggleMobileSearch()"
+          class="p-2.5 text-gray-500 hover:text-brand-orange md:hidden no-tap-highlight">
           <i class="bi bi-search text-xl"></i>
         </button>
 
         <!-- Admin Access: Icon only on mobile -->
-        <a routerLink="/admin/login" class="p-2.5 text-gray-500 hover:text-brand-orange no-tap-highlight" title="Admin Login">
+        <a routerLink="/admin/login" class="p-2.5 text-gray-500 hover:text-brand-orange no-tap-highlight"
+          title="Admin Login">
           <i class="bi bi-person-circle text-xl md:hidden"></i>
-          <span class="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-xs font-black uppercase tracking-widest text-text-primary transition-all">
+          <span
+            class="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-xs font-black uppercase tracking-widest text-text-primary transition-all">
             <i class="bi bi-shield-lock"></i> Admin
           </span>
         </a>
 
         <!-- Cart: Premium Badge -->
         @if (showCartIcon) {
-          <a routerLink="/cart" class="relative p-2.5 text-gray-500 hover:text-brand-orange no-tap-highlight group">
-            <i class="bi bi-bag-heart text-2xl group-hover:scale-110 transition-transform"></i>
-            @if (cartCount() > 0) {
-              <span class="absolute top-1.5 right-1 min-w-[18px] h-[18px] bg-brand-orange text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-sm">
-                {{ cartCount() }}
-              </span>
-            }
-          </a>
+        <a routerLink="/cart" class="relative p-2.5 text-gray-500 hover:text-brand-orange no-tap-highlight group">
+          <i class="bi bi-bag-heart text-2xl group-hover:scale-110 transition-transform"></i>
+          @if (cartCount() > 0) {
+          <span
+            class="absolute top-1.5 right-1 min-w-[18px] h-[18px] bg-brand-orange text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+            {{ cartCount() }}
+          </span>
+          }
+        </a>
         }
 
         <!-- Hamburger Toggle: Mobile Only -->
@@ -65,39 +67,31 @@
   </div>
 
   <!-- Mobile Search Drawer -->
-  <div class="mobile-search-drawer overflow-hidden transition-all duration-300" [class.h-0]="!isMobileSearchOpen" [class.h-20]="isMobileSearchOpen">
+  <div class="mobile-search-drawer overflow-hidden transition-all duration-300" [class.h-0]="!isMobileSearchOpen"
+    [class.h-20]="isMobileSearchOpen">
     <div class="px-4 py-3 bg-gray-50 border-t border-gray-100">
       <div class="relative w-full">
         <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-        <input 
-          type="text" 
-          [(ngModel)]="searchQuery" 
-          (keyup.enter)="onSearch()"
-          placeholder="Search groceries..." 
+        <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Search groceries..."
           class="w-full bg-white border border-gray-200 pl-11 pr-4 py-3 rounded-xl outline-none text-base font-medium shadow-sm">
       </div>
     </div>
   </div>
 
   <!-- Mobile Slide-out Menu (Drawer) -->
-  <div class="fixed inset-0 z-[9999] lg:hidden transition-all duration-500" 
-       [class.invisible]="!isMobileMenuOpen"
-       [class.opacity-0]="!isMobileMenuOpen"
-       [class.opacity-100]="isMobileMenuOpen"
-       [class.pointer-events-none]="!isMobileMenuOpen"
-       [class.pointer-events-auto]="isMobileMenuOpen"
-       [class.mobile-menu-active]="isMobileMenuOpen">
+  <div class="fixed inset-0 z-[9999] lg:hidden transition-all duration-500" [class.invisible]="!isMobileMenuOpen"
+    [class.opacity-0]="!isMobileMenuOpen" [class.opacity-100]="isMobileMenuOpen"
+    [class.pointer-events-none]="!isMobileMenuOpen" [class.pointer-events-auto]="isMobileMenuOpen"
+    [class.mobile-menu-active]="isMobileMenuOpen">
     <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/20 backdrop-blur-sm opacity-0 transition-opacity duration-500" 
-         (click)="closeMobileMenu()" 
-         [class.opacity-100]="isMobileMenuOpen"
-         [class.pointer-events-auto]="isMobileMenuOpen"
-         [class.pointer-events-none]="!isMobileMenuOpen"></div>
-    
+    <div class="absolute inset-0 bg-black/20 backdrop-blur-sm opacity-0 transition-opacity duration-500"
+      (click)="closeMobileMenu()" [class.opacity-100]="isMobileMenuOpen" [class.pointer-events-auto]="isMobileMenuOpen"
+      [class.pointer-events-none]="!isMobileMenuOpen"></div>
+
     <!-- Drawer Content -->
-    <div class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl transition-transform duration-500 pointer-events-auto flex flex-col drawer-content" 
-         [class.translate-x-0]="isMobileMenuOpen"
-         [class.translate-x-full]="!isMobileMenuOpen">
+    <div
+      class="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl transition-transform duration-500 pointer-events-auto flex flex-col drawer-content"
+      [class.translate-x-0]="isMobileMenuOpen" [class.translate-x-full]="!isMobileMenuOpen">
       <div class="p-6 border-b border-gray-50 flex items-center justify-between">
         <app-logo size="small"></app-logo>
         <button (click)="closeMobileMenu()" class="p-2 text-gray-400">
@@ -107,15 +101,22 @@
 
       <div class="flex-1 overflow-y-auto p-6">
         <nav class="space-y-1">
-          <a routerLink="/" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-house mr-3"></i> Home</a>
-          <a routerLink="/products" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-shop mr-3"></i> Products</a>
-          <a routerLink="/kits" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-box-seam mr-3"></i> Grocery Kits</a>
-          <a routerLink="/contact" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-chat-dots mr-3"></i> Contact</a>
+          <a routerLink="/" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-house mr-3"></i>
+            Home</a>
+          <a routerLink="/products" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-shop mr-3"></i>
+            Products</a>
+          <a routerLink="/kits" (click)="closeMobileMenu()" class="mobile-nav-link"><i class="bi bi-box-seam mr-3"></i>
+            Grocery Kits</a>
+          <a routerLink="/track-order" (click)="closeMobileMenu()" class="mobile-nav-link"><i
+              class="bi bi-truck mr-3"></i> Track Order</a>
+          <a routerLink="/contact" (click)="closeMobileMenu()" class="mobile-nav-link"><i
+              class="bi bi-chat-dots mr-3"></i> Contact</a>
         </nav>
 
         <div class="mt-10 pt-10 border-t border-gray-50">
           <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Quick Actions</p>
-          <a routerLink="/contact" (click)="closeMobileMenu()" class="w-full flex items-center justify-center gap-3 py-4 bg-brand-orange text-white rounded-xl font-black text-sm shadow-soft">
+          <a routerLink="/contact" (click)="closeMobileMenu()"
+            class="w-full flex items-center justify-center gap-3 py-4 bg-brand-orange text-white rounded-xl font-black text-sm shadow-soft">
             <i class="bi bi-headset"></i> CUSTOMER SUPPORT
           </a>
         </div>

@@ -231,8 +231,8 @@
               <i class="bi bi-shop"></i> 
               <span class="tracking-widest uppercase">BACK TO SHOP</span>
             </a>
-            <a routerLink="/" class="flex items-center justify-center gap-3 py-4 md:py-6 bg-brand-orange text-white rounded-xl md:rounded-[2rem] font-black shadow-glow hover:-translate-y-1 transition-all text-sm md:text-base">
-              <i class="bi bi-house-door"></i> 
+            <a [routerLink]="['/track-order']" [queryParams]="{ phone: customer.phone, orderId: placedOrderId }" class="flex items-center justify-center gap-3 py-4 md:py-6 bg-brand-orange text-white rounded-xl md:rounded-[2rem] font-black shadow-glow hover:-translate-y-1 transition-all text-sm md:text-base">
+              <i class="bi bi-truck"></i> 
               <span class="tracking-widest uppercase">VIEW STATUS</span>
             </a>
           </div>

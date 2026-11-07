@@ -7,7 +7,9 @@ const {
   updateProduct,
   deleteProduct,
   hardDeleteProduct,
-  getCategories
+  getCategories,
+  createCategory,
+  deleteCategoryByName
 } = require('../controllers/product.controller');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth.middleware');
 
@@ -68,6 +70,10 @@ const productValidation = [
 router.get('/', getAllProducts);
 router.get('/categories', getCategories);
 router.get('/:id', getProductById);
+
+// Category management routes (Admin)
+router.post('/categories', authMiddleware, adminMiddleware, createCategory);
+router.delete('/categories/:category', authMiddleware, adminMiddleware, deleteCategoryByName);
 
 // Protected routes (authentication required)
 router.post('/', authMiddleware, productValidation, createProduct);

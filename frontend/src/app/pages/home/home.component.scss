@@ -139,6 +139,13 @@
   @apply mt-4 w-full flex items-center justify-center gap-2 py-3 bg-gray-50 hover:bg-brand-orange hover:text-white text-text-primary rounded-xl font-black text-xs md:text-sm transition-all;
 }
 
+.product-whatsapp-btn {
+  @apply mt-2 w-full flex items-center justify-center gap-2 py-2.5 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-xl font-bold text-xs md:text-sm transition-all border border-emerald-200/70 shadow-sm no-underline;
+  
+  i { @apply text-base text-emerald-600 transition-colors; }
+  &:hover i { @apply text-white; }
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }

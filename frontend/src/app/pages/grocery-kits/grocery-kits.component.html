@@ -115,6 +115,16 @@
                 </button>
               </div>
 
+              <!-- WhatsApp Order Action -->
+              <a
+                class="btn-whatsapp-kit"
+                [href]="getWhatsAppUrl(kit)"
+                target="_blank"
+                rel="noopener noreferrer">
+                <i class="bi bi-whatsapp"></i>
+                Order Kit on WhatsApp
+              </a>
+
               <!-- Expanded Items List -->
               @if (expandedKitId() === kit._id) {
                 <div class="items-panel">
@@ -620,6 +630,39 @@
   .btn-add.added {
     background: #10b981;
     box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  }
+
+  .btn-whatsapp-kit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-whatsapp-kit:hover {
+    background: #10b981;
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .btn-whatsapp-kit i {
+    font-size: 1.1rem;
+    color: #059669;
+  }
+
+  .btn-whatsapp-kit:hover i {
+    color: white;
   }
   
   /* Items Panel */

@@ -51,4 +51,12 @@ export class ProductService {
   getCategories(): Observable<{ success: boolean; data: { categories: string[] } }> {
     return this.http.get<{ success: boolean; data: { categories: string[] } }>(`${this.apiUrl}/categories`);
   }
+
+  createCategory(name: string): Observable<{ success: boolean; message: string }> {
+    return this.http.post<{ success: boolean; message: string }>(`${this.apiUrl}/categories`, { name });
+  }
+
+  deleteCategory(categoryName: string): Observable<{ success: boolean; message: string }> {
+    return this.http.delete<{ success: boolean; message: string }>(`${this.apiUrl}/categories/${encodeURIComponent(categoryName)}`);
+  }
 }

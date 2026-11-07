@@ -1,7 +1,9 @@
+const mongoose = require('mongoose');
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
 const { validationResult } = require('express-validator');
-const { calculateDistance } = require('../utils/order.utils');
+const { calculateDistance, sendNotification } = require('../utils/order.utils');
+const { ORDER_STATUSES } = require('../models/order.model');
 
 // Default Store Location (Organic)
 const STORE_LOCATION = {
@@ -42,15 +44,34 @@ exports.placeOrder = async (req, res, next) => {
     const outOfStockItems = [];
 
     for (const item of items) {
+      if (!item.productId || !mongoose.Types.ObjectId.isValid(item.productId)) {
+        return res.status(400).json({ 
+          success: false, 
+          message: `Product with ID ${item.productId} not found`,
+          removedProductId: item.productId 
+        });
+      }
       const product = await Product.findById(item.productId);
       if (!product) {
-        return res.status(400).json({ success: false, message: `Product with ID ${item.productId} not found` });
+        return res.status(400).json({ 
+          success: false, 
+          message: `Product with ID ${item.productId} not found`,
+          removedProductId: item.productId 
+        });
       }
       if (!product.isActive) {
-        return res.status(400).json({ success: false, message: `Product ${product.name} is not active` });
+        return res.status(400).json({ 
+          success: false, 
+          message: `Product "${product.name}" is not active`,
+          removedProductId: item.productId 
+        });
       }
       if (product.isDeleted) {
-        return res.status(400).json({ success: false, message: `Product ${product.name} has been removed` });
+        return res.status(400).json({ 
+          success: false, 
+          message: `Product "${product.name}" has been removed`,
+          removedProductId: item.productId 
+        });
       }
       
       if (product.stock < item.quantity) {
@@ -87,7 +108,9 @@ exports.placeOrder = async (req, res, next) => {
       await product.save();
     }
 
-    // 3. Create order
+    // 3. Create order with estimated delivery (2-3 hours from now)
+    const estimatedDeliveryDate = new Date(Date.now() + 2.5 * 60 * 60 * 1000);
+    
     const order = new Order({
       customerName,
       phone,
@@ -97,16 +120,23 @@ exports.placeOrder = async (req, res, next) => {
       items: orderItems,
       totalAmount,
       deliveryLocation,
-      status: 'Pending'
+      currentStatus: ORDER_STATUSES.PENDING,
+      status: ORDER_STATUSES.PENDING,
+      estimatedDeliveryDate,
+      paymentStatus: 'Pending'
     });
 
     await order.save();
+
+    // Send notification
+    sendNotification(order, ORDER_STATUSES.PENDING, 'Your order has been placed successfully');
 
     res.status(201).json({
       success: true,
       message: 'Order placed successfully',
       data: {
-        order
+        order,
+        trackingId: order.trackingId
       }
     });
   } catch (error) {
@@ -117,9 +147,10 @@ exports.placeOrder = async (req, res, next) => {
 // Get all orders (Admin)
 exports.getAllOrders = async (req, res, next) => {
   try {
-    const { status, page = 1, limit = 20 } = req.query;
+    const { status, page = 1, limit = 20, phone } = req.query;
     const query = {};
-    if (status) query.status = status;
+    if (status) query.currentStatus = status;
+    if (phone) query.phone = phone;
 
     const orders = await Order.find(query)
       .sort({ createdAt: -1 })
@@ -158,19 +189,93 @@ exports.getOrderById = async (req, res, next) => {
   }
 };
 
-// Update order status
-exports.updateOrderStatus = async (req, res, next) => {
+// Get tracking details by Order ID or Tracking ID (Public - customer side)
+exports.getTrackingDetails = async (req, res, next) => {
   try {
-    const { status } = req.body;
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
-      { status },
-      { new: true, runValidators: true }
-    );
+    const { orderId, trackingId } = req.params;
+    let order;
+
+    if (orderId) {
+      order = await Order.findById(orderId).populate('items.product');
+    } else if (trackingId) {
+      order = await Order.findOne({ trackingId }).populate('items.product');
+    }
 
     if (!order) {
       return res.status(404).json({ success: false, message: 'Order not found' });
     }
+
+    res.json({ success: true, data: { order } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Track orders by phone number and optional order ID (Public - customer side)
+exports.trackOrderByPhone = async (req, res, next) => {
+  try {
+    const { phone, orderId } = req.query;
+
+    if (!phone || !/^\d{10}$/.test(phone.toString())) {
+      return res.status(400).json({ success: false, message: 'Valid 10-digit phone number is required' });
+    }
+
+    const query = { phone };
+    if (orderId) {
+      const mongoose = require('mongoose');
+      if (!mongoose.Types.ObjectId.isValid(orderId)) {
+        return res.status(400).json({ success: false, message: 'Invalid order ID' });
+      }
+      query._id = orderId;
+    }
+
+    const orders = await Order.find(query)
+      .sort({ createdAt: -1 })
+      .populate('items.product');
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ success: false, message: 'No orders found for this phone number' });
+    }
+
+    res.json({ success: true, data: { orders } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Update order status with tracking history
+exports.updateOrderStatus = async (req, res, next) => {
+  try {
+    const { status, note } = req.body;
+    
+    if (!Object.values(ORDER_STATUSES).includes(status)) {
+      return res.status(400).json({ success: false, message: 'Invalid status' });
+    }
+
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    // Update status and add to tracking history
+    order.currentStatus = status;
+    order.status = status;
+    order.trackingHistory.push({
+      status,
+      timestamp: new Date(),
+      note,
+      updatedBy: req.admin?.email || 'admin'
+    });
+
+    // Auto-update payment status when delivered
+    if (status === ORDER_STATUSES.DELIVERED) {
+      order.paymentStatus = 'Paid';
+    }
+
+    await order.save();
+
+    // Send notification
+    sendNotification(order, status, note || `Your order status updated to ${status}`);
 
     res.json({
       success: true,
@@ -181,3 +286,131 @@ exports.updateOrderStatus = async (req, res, next) => {
     next(error);
   }
 };
+
+// Upload delivery proof image
+exports.uploadDeliveryProof = async (req, res, next) => {
+  try {
+    const { orderId } = req.params;
+    const { imageUrl } = req.body;
+
+    if (!imageUrl) {
+      return res.status(400).json({ success: false, message: 'Image URL is required' });
+    }
+
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    // Only allow delivery proof upload when order is delivered
+    if (order.currentStatus !== ORDER_STATUSES.DELIVERED) {
+      return res.status(400).json({ success: false, message: 'Can only upload proof for delivered orders' });
+    }
+
+    order.deliveryProofImage = imageUrl;
+    await order.save();
+
+    res.json({
+      success: true,
+      message: 'Delivery proof uploaded successfully',
+      data: { order }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Cancel order with reason
+exports.cancelOrder = async (req, res, next) => {
+  try {
+    const { orderId } = req.params;
+    const { reason } = req.body;
+
+    if (!reason) {
+      return res.status(400).json({ success: false, message: 'Cancellation reason is required' });
+    }
+
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    // Can only cancel pending, confirmed, or processing orders
+    const cancellableStatuses = [ORDER_STATUSES.PENDING, ORDER_STATUSES.CONFIRMED, ORDER_STATUSES.PROCESSING];
+    if (!cancellableStatuses.includes(order.currentStatus)) {
+      return res.status(400).json({ success: false, message: `Cannot cancel order in ${order.currentStatus} status` });
+    }
+
+    order.currentStatus = ORDER_STATUSES.CANCELLED;
+    order.status = ORDER_STATUSES.CANCELLED;
+    order.cancelReason = reason;
+    order.trackingHistory.push({
+      status: ORDER_STATUSES.CANCELLED,
+      timestamp: new Date(),
+      note: `Order cancelled: ${reason}`,
+      updatedBy: 'customer'
+    });
+
+    await order.save();
+
+    // Restore product stock
+    for (const item of order.items) {
+      const product = await Product.findById(item.product);
+      if (product) {
+        product.stock += item.quantity;
+        await product.save();
+      }
+    }
+
+    sendNotification(order, ORDER_STATUSES.CANCELLED, `Order cancelled: ${reason}`);
+
+    res.json({
+      success: true,
+      message: 'Order cancelled successfully',
+      data: { order }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Validate cart items against database (Customer)
+exports.validateCart = async (req, res, next) => {
+  try {
+    const { items = [] } = req.body;
+    const validItems = [];
+    const removedItemIds = [];
+
+    for (const item of items) {
+      if (!item.productId || !mongoose.Types.ObjectId.isValid(item.productId)) {
+        removedItemIds.push(item.productId);
+        continue;
+      }
+      const product = await Product.findById(item.productId);
+      if (!product || !product.isActive || product.isDeleted) {
+        removedItemIds.push(item.productId);
+      } else {
+        validItems.push({
+          productId: product._id.toString(),
+          name: product.name,
+          price: product.price,
+          unit: product.unit,
+          imageUrl: product.imageUrl,
+          stock: product.stock,
+          requestedQuantity: item.quantity
+        });
+      }
+    }
+
+    res.json({
+      success: true,
+      data: {
+        validItems,
+        removedItemIds
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+

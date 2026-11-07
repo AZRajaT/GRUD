@@ -75,6 +75,13 @@ export class ProductsComponent implements OnInit {
     }
   }
 
+  getWhatsAppUrl(product: Product): string {
+    const phone = '918870378977';
+    const unitText = product.unit ? ` (${product.unit})` : '';
+    const message = `Hello AROW Organic! 👋\nI would like to order:\n\n📦 *${product.name}*${unitText}\n💰 Price: *₹${product.price}*\n\nPlease confirm availability and delivery. Thank you!`;
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  }
+
   setSearchQuery(value: string): void {
     this.searchQuery.set(value);
     this.loadProducts();

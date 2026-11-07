@@ -33,6 +33,8 @@ tmp/
 
 # Cache
 .cache/
+.angular/
+**/.angular/
 
 # System folders
 .Trash/

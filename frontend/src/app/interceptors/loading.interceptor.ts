@@ -16,10 +16,22 @@ export const LoadingInterceptor: HttpInterceptorFn = (
   const loadingService = inject(LoadingService);
   
   // Don't show global loader for some requests if needed
-  const skipLoader = request.params.get('skipLoader') === 'true';
+  const skipLoader = 
+    request.params.get('skipLoader') === 'true' || 
+    request.headers.get('X-Skip-Loader') === 'true';
   
   if (!skipLoader) {
-    loadingService.show();
+    let msg = 'Loading...';
+    if (request.url.includes('/auth/login')) {
+      msg = 'Signing in...';
+    } else if (request.method === 'POST') {
+      msg = 'Saving...';
+    } else if (request.method === 'PUT' || request.method === 'PATCH') {
+      msg = 'Updating...';
+    } else if (request.method === 'DELETE') {
+      msg = 'Deleting...';
+    }
+    loadingService.show(msg);
   }
 
   return next(request).pipe(

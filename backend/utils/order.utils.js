@@ -23,4 +23,23 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
+// Send notification (WhatsApp/SMS placeholder)
+exports.sendNotification = (order, status, message) => {
+  // TODO: Integrate with WhatsApp Business API, SMS gateway, or Firebase Cloud Messaging
+  console.log(`Notification to ${order.phone}: ${message} (Order #${order._id.toString().slice(-6)})`);
+
+  // WhatsApp message template
+  const whatsappMessage = `Hi ${order.customerName},\n${message}\n\nOrder ID: ${order._id.toString().slice(-6).toUpperCase()}\nTracking ID: ${order.trackingId}\n\nEstimated Delivery: ${new Date(order.estimatedDeliveryDate).toLocaleDateString()}\n\nThank you for choosing AROW Mart!`;
+  // Log for demonstration
+  return {
+    success: true,
+    notification: {
+      to: order.phone,
+      message: whatsappMessage,
+      type: 'whatsapp',
+      timestamp: new Date()
+    }
+  };
+};
+
 

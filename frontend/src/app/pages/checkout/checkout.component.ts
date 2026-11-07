@@ -48,6 +48,8 @@ export class CheckoutComponent implements OnInit {
   deliveryLocation: any = null;
   isOrderPlaced = false;
   isProcessing = false;
+  placedOrderId: string = '';
+  placedTrackingId: string = '';
 
 
   // Store order summary for success screen (cart gets cleared after order)
@@ -66,6 +68,41 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     // Load saved customer details from localStorage
     this.loadCustomerDetails();
+
+    // Automatically validate cart items against the database to prune deleted/stale products
+    this.validateCartItems();
+  }
+
+  private validateCartItems(): void {
+    const items = this.cartItems();
+    if (items.length === 0) return;
+
+    // Prune items without a valid product or product ID immediately
+    const corruptItems = items.filter(i => !i.product || !i.product._id);
+    if (corruptItems.length > 0) {
+      corruptItems.forEach(c => this.cartService.removeFromCart(c.product?._id));
+    }
+
+    const payload = items
+      .filter(i => i.product && i.product._id)
+      .map(i => ({ productId: i.product._id!, quantity: i.quantity }));
+
+    if (payload.length === 0) return;
+
+    this.orderService.validateCart(payload).subscribe({
+      next: (res) => {
+        if (res.success && res.data && res.data.removedItemIds && res.data.removedItemIds.length > 0) {
+          this.cartService.removeMultiple(res.data.removedItemIds);
+          this.toastService.show(
+            'Some unavailable items were removed from your cart.',
+            'info'
+          );
+        }
+      },
+      error: (err) => {
+        console.warn('Could not validate cart items:', err);
+      }
+    });
   }
 
   private loadCustomerDetails(): void {
@@ -206,6 +243,8 @@ export class CheckoutComponent implements OnInit {
       next: (response) => {
         this.isProcessing = false;
         if (response.success) {
+          this.placedOrderId = response.data?.order?._id || '';
+          this.placedTrackingId = response.data?.order?.trackingId || '';
           this.isOrderPlaced = true;
           this.toastService.show('Order placed successfully!', 'success');
           
@@ -218,8 +257,22 @@ export class CheckoutComponent implements OnInit {
       error: (error) => {
         this.isProcessing = false;
         console.error('Order placement error:', error);
-        const errorMessage = error.error?.message || 'Failed to connect to server';
-        this.toastService.show(errorMessage, 'error');
+        const errorMessage = error.error?.message || 'Failed to place order';
+        const removedProductId = error.error?.removedProductId;
+
+        // Check if error mentions a missing or inactive product ID
+        const match = errorMessage.match(/Product with ID ([a-f0-9]+) not found/i);
+        const badId = removedProductId || (match ? match[1] : null);
+
+        if (badId) {
+          this.cartService.removeFromCart(badId);
+          this.toastService.show(
+            'An unavailable item was removed from your cart. Please try placing your order again.',
+            'error'
+          );
+        } else {
+          this.toastService.show(errorMessage, 'error');
+        }
       }
     });
   }

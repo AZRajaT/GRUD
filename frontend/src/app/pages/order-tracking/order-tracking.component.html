@@ -1,0 +1,276 @@
+<section class="tracking-page bg-gradient-to-b from-slate-50 to-white min-h-screen py-8 md:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
+      <p class="text-sm uppercase tracking-[0.35em] text-primary-600 font-bold mb-3">Track & Manage</p>
+      <h1 class="text-4xl md:text-5xl font-black text-text-primary mb-4 leading-tight">Your Order Journey</h1>
+      <p class="max-w-2xl mx-auto text-text-secondary text-base md:text-lg">Monitor your order status in real-time. Get live updates on every step of your delivery.</p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8">
+      <!-- Search Form -->
+      <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8">
+        <div class="space-y-6">
+          <!-- Search Mode Tabs -->
+          <div class="flex gap-2 bg-gray-100 rounded-2xl p-1">
+            <button (click)="searchMode = 'phone'" [class.active]="searchMode === 'phone'"
+                    class="flex-1 rounded-xl py-2 px-4 font-bold text-sm uppercase tracking-wide transition-all"
+                    [class.bg-white]="searchMode === 'phone'" [class.text-primary-600]="searchMode === 'phone'">
+              <i class="bi bi-telephone mr-2"></i> Phone
+            </button>
+            <button (click)="searchMode = 'orderId'" [class.active]="searchMode === 'orderId'"
+                    class="flex-1 rounded-xl py-2 px-4 font-bold text-sm uppercase tracking-wide transition-all"
+                    [class.bg-white]="searchMode === 'orderId'" [class.text-primary-600]="searchMode === 'orderId'">
+              <i class="bi bi-box mr-2"></i> Order ID
+            </button>
+            <button (click)="searchMode = 'trackingId'" [class.active]="searchMode === 'trackingId'"
+                    class="flex-1 rounded-xl py-2 px-4 font-bold text-sm uppercase tracking-wide transition-all"
+                    [class.bg-white]="searchMode === 'trackingId'" [class.text-primary-600]="searchMode === 'trackingId'">
+              <i class="bi bi-hash mr-2"></i> Tracking ID
+            </button>
+          </div>
+
+          <!-- Input Fields -->
+          <div class="space-y-4">
+            <div *ngIf="searchMode === 'phone'">
+              <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">Mobile Number</label>
+              <input type="tel" [(ngModel)]="phone" maxlength="10" placeholder="Enter 10-digit number"
+                     (keyup.enter)="searchOrders()"
+                     class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 transition-all" />
+            </div>
+            <div *ngIf="searchMode === 'orderId'">
+              <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">Order ID</label>
+              <input type="text" [(ngModel)]="orderId" placeholder="Paste your order ID"
+                     (keyup.enter)="searchOrders()"
+                     class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 transition-all" />
+            </div>
+            <div *ngIf="searchMode === 'trackingId'">
+              <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">Tracking ID</label>
+              <input type="text" [(ngModel)]="trackingId" placeholder="Enter your tracking ID"
+                     (keyup.enter)="searchOrders()"
+                     class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 transition-all" />
+            </div>
+          </div>
+
+          <!-- Search Button -->
+          <button (click)="searchOrders()" [disabled]="isLoading"
+                  class="w-full flex items-center justify-center gap-2 rounded-2xl bg-primary-600 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white hover:bg-primary-700 disabled:bg-gray-400 transition-all shadow-md">
+            <span *ngIf="!isLoading"><i class="bi bi-search"></i> Search Orders</span>
+            <span *ngIf="isLoading"><i class="bi bi-hourglass animate-spin"></i> Searching...</span>
+          </button>
+
+          <!-- Error Message -->
+          <div *ngIf="error" class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <i class="bi bi-exclamation-circle mr-2"></i> {{ error }}
+          </div>
+
+          <!-- Success Message -->
+          <div *ngIf="successMessage" class="rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            <i class="bi bi-check-circle mr-2"></i> {{ successMessage }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Card -->
+      <div class="bg-gradient-to-br from-primary-600 via-blue-600 to-slate-900 rounded-3xl p-8 text-white shadow-2xl">
+        <div class="space-y-6">
+          <h3 class="text-2xl font-black">Amazon-Style Tracking</h3>
+          <p class="text-white/90 text-sm leading-relaxed">Real-time order status, detailed timeline, and instant notifications. Stay updated every step of the way.</p>
+          <div class="space-y-3">
+            <div class="flex items-start gap-3">
+              <i class="bi bi-check-circle flex-shrink-0 mt-1 text-green-400 text-lg"></i>
+              <span class="text-sm">Live status updates</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i class="bi bi-check-circle flex-shrink-0 mt-1 text-green-400 text-lg"></i>
+              <span class="text-sm">Delivery timeline</span>
+            </div>
+            <div class="flex items-start gap-3">
+              <i class="bi bi-check-circle flex-shrink-0 mt-1 text-green-400 text-lg"></i>
+              <span class="text-sm">Instant notifications</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders List -->
+    <div *ngIf="orders.length > 0 && !isLoading" class="space-y-6">
+      <!-- Quick Order Selection -->
+      <div *ngIf="orders.length > 1" class="flex gap-2 overflow-x-auto pb-2">
+        <button *ngFor="let order of orders" (click)="selectOrder(order)"
+                [class.active]="selectedOrder._id === order._id"
+                class="flex-shrink-0 rounded-xl border-2 px-4 py-2 font-bold text-sm uppercase tracking-wide transition-all"
+                [class.border-primary-600]="selectedOrder._id === order._id"
+                [class.bg-primary-600]="selectedOrder._id === order._id"
+                [class.text-white]="selectedOrder._id === order._id"
+                [class.border-gray-200]="selectedOrder._id !== order._id"
+                [class.bg-white]="selectedOrder._id !== order._id"
+                [class.text-text-primary]="selectedOrder._id !== order._id">
+          #{{ order._id.slice(-6).toUpperCase() }}
+        </button>
+      </div>
+
+      <!-- Main Tracking Card -->
+      <div *ngIf="selectedOrder" class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+        <!-- Header with Status Badge -->
+        <div class="bg-gradient-to-r from-blue-50 to-slate-50 border-b border-gray-100 px-6 sm:px-8 py-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Order Number</p>
+              <h3 class="text-2xl font-black text-text-primary">#{{ selectedOrder._id.slice(-6).toUpperCase() }}</h3>
+              <p class="text-xs text-gray-500 mt-1">Tracking ID: {{ selectedOrder.trackingId }}</p>
+            </div>
+            <div class="rounded-2xl px-4 py-3" [class]="selectedOrder.currentStatus === 'Delivered' ? 'bg-green-100' : selectedOrder.currentStatus === 'Cancelled' ? 'bg-red-100' : 'bg-blue-100'">
+              <p class="text-xs font-bold uppercase tracking-wider" [class]="selectedOrder.currentStatus === 'Delivered' ? 'text-green-700' : selectedOrder.currentStatus === 'Cancelled' ? 'text-red-700' : 'text-blue-700'">
+                Current Status
+              </p>
+              <p class="text-lg font-black mt-1" [class]="selectedOrder.currentStatus === 'Delivered' ? 'text-green-700' : selectedOrder.currentStatus === 'Cancelled' ? 'text-red-700' : 'text-blue-700'">
+                {{ selectedOrder.currentStatus }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="px-6 sm:px-8 py-10">
+          <h4 class="text-sm font-black uppercase tracking-wider text-gray-600 mb-8">Delivery Timeline</h4>
+          
+          <div class="space-y-0">
+            <div *ngFor="let status of displayStatuses; let index = index" class="relative">
+              <!-- Timeline Line -->
+              <div *ngIf="index < displayStatuses.length - 1" 
+                   class="absolute left-6 top-16 w-1 h-12 transition-all"
+                   [class.bg-green-500]="isStatusCompleted(status.name) && status.name !== 'Cancelled' && !isNextStatusCancelled(index)"
+                   [class.bg-red-500]="isNextStatusCancelled(index)"
+                   [class.bg-gray-300]="!isStatusCompleted(status.name) && !isNextStatusCancelled(index)"></div>
+
+              <!-- Status Item -->
+              <div class="flex gap-4 pb-8">
+                <!-- Status Indicator -->
+                <div class="flex-shrink-0 relative z-10">
+                  <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all"
+                       [class]="status.name === 'Cancelled' ? 'bg-red-500 text-white' : isStatusCompleted(status.name) ? 'bg-green-500 text-white' : isStatusActive(status.name) ? 'bg-primary-600 text-white border-4 border-primary-200' : 'bg-gray-200 text-gray-600'">
+                    <i [class]="'bi ' + status.icon"></i>
+                  </div>
+                </div>
+
+                <!-- Status Details -->
+                <div class="flex-1">
+                  <p class="font-bold text-text-primary" 
+                     [class.text-red-600]="status.name === 'Cancelled'"
+                     [class.text-green-600]="isStatusCompleted(status.name) && status.name !== 'Cancelled'" 
+                     [class.text-primary-600]="isStatusActive(status.name) && status.name !== 'Cancelled'">
+                    {{ status.name }}
+                  </p>
+                  <p class="text-sm text-text-secondary">
+                    {{ getStatusTimestamp(status.name) ? (getStatusTimestamp(status.name) | date:'MMM d, h:mm a') : (isStatusCompleted(status.name) && status.name !== 'Cancelled' ? 'Completed' : 'Pending') }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Details Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-6 sm:px-8 py-8 border-t border-gray-100">
+          <!-- Delivery Address -->
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-gray-600 mb-3">Delivery Address</p>
+            <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+              <p class="font-semibold text-text-primary text-sm mb-2">{{ selectedOrder.flatNumber }}, {{ selectedOrder.apartmentName }}</p>
+              <p class="text-sm text-text-secondary">{{ selectedOrder.address }}</p>
+              <p class="text-xs text-gray-500 mt-3" *ngIf="selectedOrder.estimatedDeliveryDate">
+                <i class="bi bi-calendar-event mr-1"></i> 
+                ETA: {{ selectedOrder.estimatedDeliveryDate | date:'EEEE, MMM d, h:mm a' }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Order Summary -->
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-gray-600 mb-3">Order Summary</p>
+            <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-text-secondary">Items ({{ selectedOrder.items.length }})</span>
+                <span class="font-semibold text-text-primary">₹{{ selectedOrder.totalAmount }}</span>
+              </div>
+              <div class="flex justify-between text-sm pt-3 border-t border-gray-200">
+                <span class="font-bold text-text-primary">Total Amount</span>
+                <span class="font-black text-primary-600 text-lg">₹{{ selectedOrder.totalAmount }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Items List -->
+        <div class="px-6 sm:px-8 py-8 border-t border-gray-100">
+          <p class="text-xs font-bold uppercase tracking-wider text-gray-600 mb-4">Order Items</p>
+          <div class="space-y-3">
+            <div *ngFor="let item of selectedOrder.items" class="flex items-center justify-between gap-4 rounded-2xl border border-gray-100 p-4 hover:border-gray-300 transition-all">
+              <div>
+                <p class="font-semibold text-text-primary">{{ item.name }}</p>
+                <p class="text-xs text-gray-500">Qty: {{ item.quantity }} × ₹{{ item.price }}</p>
+              </div>
+              <p class="font-bold text-text-primary text-right">₹{{ item.price * item.quantity }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 px-6 sm:px-8 py-6 border-t border-gray-100 bg-gray-50">
+          <button *ngIf="canCancelOrder(selectedOrder)" (click)="openCancelModal(selectedOrder._id)"
+                  class="flex-1 rounded-2xl border border-red-300 bg-white px-4 py-3 font-bold text-sm uppercase tracking-wide text-red-600 hover:bg-red-50 transition-all">
+            <i class="bi bi-x-circle mr-2"></i> Cancel Order
+          </button>
+          <button *ngIf="selectedOrder.currentStatus === 'Delivered'" (click)="refreshOrder()"
+                  class="flex-1 rounded-2xl border border-green-300 bg-white px-4 py-3 font-bold text-sm uppercase tracking-wide text-green-600 hover:bg-green-50 transition-all">
+            <i class="bi bi-check-circle mr-2"></i> Order Received
+          </button>
+          <button (click)="refreshOrder()" [disabled]="isLoading"
+                  class="flex-1 rounded-2xl bg-primary-600 px-4 py-3 font-bold text-sm uppercase tracking-wide text-white hover:bg-primary-700 disabled:bg-gray-400 transition-all">
+            <i class="bi bi-arrow-clockwise mr-2" [class.animate-spin]="isLoading"></i> Refresh
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="orders.length === 0 && !isLoading && !error" class="text-center py-20">
+      <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
+        <i class="bi bi-search text-4xl text-gray-400"></i>
+      </div>
+      <h3 class="text-2xl font-bold text-text-primary mb-2">No Orders Yet</h3>
+      <p class="text-text-secondary">Search for your orders using phone number, order ID, or tracking ID.</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center py-20">
+      <div class="w-16 h-16 mx-auto mb-4 animate-spin rounded-full border-4 border-primary-300 border-t-primary-600"></div>
+      <p class="text-text-secondary font-medium">Fetching your order details...</p>
+    </div>
+  </div>
+
+  <!-- Cancel Modal -->
+  <div *ngIf="cancelModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-8 animate-scale-in">
+      <h3 class="text-2xl font-bold text-text-primary mb-2">Cancel Order?</h3>
+      <p class="text-text-secondary mb-6">Please tell us why you want to cancel this order.</p>
+      
+      <textarea [(ngModel)]="cancelReason" placeholder="Enter cancellation reason..." rows="4"
+                class="w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100 resize-none mb-6"></textarea>
+
+      <div class="flex gap-3">
+        <button (click)="closeCancelModal()"
+                class="flex-1 rounded-2xl border border-gray-200 px-4 py-3 font-bold text-sm uppercase tracking-wide text-text-primary hover:bg-gray-50 transition-all">
+          Keep Order
+        </button>
+        <button (click)="submitCancelOrder()"
+                class="flex-1 rounded-2xl bg-red-600 px-4 py-3 font-bold text-sm uppercase tracking-wide text-white hover:bg-red-700 transition-all">
+          Yes, Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

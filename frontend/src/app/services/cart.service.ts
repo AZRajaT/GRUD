@@ -81,6 +81,13 @@ export class CartService {
     this.cartItems.set(currentItems.filter(item => item.product._id !== productId));
   }
 
+  removeMultiple(productIds: string[]): void {
+    if (!productIds || productIds.length === 0) return;
+    const idSet = new Set(productIds);
+    const currentItems = this.cartItems();
+    this.cartItems.set(currentItems.filter(item => !item.product._id || !idSet.has(item.product._id)));
+  }
+
   clearCart(): void {
     this.cartItems.set([]);
   }

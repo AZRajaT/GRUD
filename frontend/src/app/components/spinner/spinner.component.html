@@ -1,0 +1,48 @@
+@if (loadingService.isLoading()) {
+  <!-- Top Animated Progress Line -->
+  <div class="fixed top-0 left-0 right-0 h-[3px] z-[100000] overflow-hidden bg-emerald-100/60 pointer-events-none">
+    <div class="progress-bar-slider"></div>
+  </div>
+
+  <!-- Global Backdrop Overlay -->
+  <div 
+    class="fixed inset-0 z-[99999] flex items-center justify-center bg-slate-900/40 backdrop-blur-[2px] transition-all duration-200 select-none"
+    role="status" 
+    aria-live="polite"
+    aria-label="Loading content">
+    
+    <!-- Spinner Modal Card -->
+    <div class="bg-white/95 dark:bg-slate-900/95 rounded-2xl shadow-2xl px-8 py-6 border border-emerald-100/50 dark:border-slate-800 flex flex-col items-center gap-4 min-w-[220px] max-w-[300px] animate-fade-in">
+      
+      <!-- Multi-ring Spinner Graphic -->
+      <div class="relative flex items-center justify-center w-16 h-16">
+        <!-- Ambient Pulse Glow -->
+        <div class="absolute inset-0 rounded-full bg-emerald-500/15 animate-ping"></div>
+        
+        <!-- Rotating Outer Gradient Ring -->
+        <div class="w-14 h-14 rounded-full border-[3.5px] border-emerald-100 dark:border-slate-800 border-t-emerald-600 border-r-amber-500 animate-spin"></div>
+        
+        <!-- Center Shopping Cart / Bag Icon -->
+        <div class="absolute flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+          <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Status Message & Animated Dots -->
+      <div class="text-center">
+        <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 tracking-wide mb-1.5">
+          {{ loadingService.message() }}
+        </p>
+        <div class="flex items-center justify-center gap-1.5">
+          <span class="dot dot-1"></span>
+          <span class="dot dot-2"></span>
+          <span class="dot dot-3"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+}

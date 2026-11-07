@@ -54,6 +54,12 @@ export class GroceryKitsComponent implements OnInit {
     this.expandedKitId.set(this.expandedKitId() === kitId ? null : kitId);
   }
 
+  getWhatsAppUrl(kit: GroceryKit): string {
+    const phone = '918870378977';
+    const message = `Hello AROW Organic! 👋\nI would like to order the Combo Kit:\n\n📦 *${kit.name}*\n💰 Price: *₹${kit.price}*\n\nPlease confirm availability and delivery. Thank you!`;
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  }
+
   addKitToCart(kit: GroceryKit): void {
     this.addingToCart.set(kit._id || '');
 

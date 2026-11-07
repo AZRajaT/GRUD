@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://api.arowmart.shop/api',
-  imageBaseUrl: 'https://api.arowmart.shop/',
+  apiUrl: 'http://localhost:3000/api',
+  imageBaseUrl: 'http://localhost:3000/',
   // Google Maps API Key
   // 1. Get a key at: https://console.cloud.google.com/google/maps-apis/credentials
   // 2. Enable: Maps JavaScript API, Places API, Geocoding API

@@ -1,0 +1,71 @@
+// Top Progress Line Slider Animation
+.progress-bar-slider {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #FF6A00 0%, #FFC107 50%, #1B8F3A 100%);
+  transform-origin: left;
+  animation: indeterminate-progress 1.5s infinite linear;
+}
+
+@keyframes indeterminate-progress {
+  0% {
+    transform: translateX(-100%) scaleX(0.2);
+  }
+  50% {
+    transform: translateX(0%) scaleX(0.7);
+  }
+  100% {
+    transform: translateX(100%) scaleX(0.2);
+  }
+}
+
+// Modal Card Entry Animation
+.animate-fade-in {
+  animation: fadeInScale 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Pulsing Wave Dots
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #1B8F3A;
+  display: inline-block;
+  animation: dotPulse 1.2s infinite ease-in-out;
+}
+
+.dot-1 {
+  animation-delay: 0s;
+}
+
+.dot-2 {
+  animation-delay: 0.2s;
+  background-color: #FFC107;
+}
+
+.dot-3 {
+  animation-delay: 0.4s;
+  background-color: #FF6A00;
+}
+
+@keyframes dotPulse {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}

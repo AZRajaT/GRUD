@@ -1,5 +1,6 @@
-// Import Bootstrap first (must be before other rules)
+// @use rules MUST be first (SCSS requirement)
 @use 'bootstrap/scss/bootstrap';
+@use 'styles.mobile.scss';
 
 // Tailwind CSS directives
 /* stylelint-disable at-rule-no-unknown */
@@ -7,9 +8,6 @@
 @tailwind components;
 @tailwind utilities;
 /* stylelint-enable at-rule-no-unknown */
-
-// Mobile-first responsive utilities
-@import 'styles.mobile.scss';
 
 // Google Fonts - AROW Organic Typography
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
